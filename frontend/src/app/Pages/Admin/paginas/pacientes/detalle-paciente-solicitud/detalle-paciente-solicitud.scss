@@ -1,0 +1,180 @@
+.detalle-paciente {
+  background: #e7fafa;
+  min-height: 100vh;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #222;
+}
+
+/* ===== ENCABEZADO ===== */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .acciones {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: 600;
+  }
+
+  .aceptar {
+    background: #7cbc4b;
+    color: #fff;
+
+    &:hover {
+      background: #6aa03e;
+    }
+  }
+
+  .rechazar {
+    background: #d9534f;
+    color: #fff;
+
+    &:hover {
+      background: #c43b37;
+    }
+  }
+}
+
+/* ===== INFO GRID ===== */
+.info-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas:
+    "datos actividad"
+    "datos afecciones";
+  gap: 16px;
+
+  .datos {
+    grid-area: datos;
+  }
+
+  .actividad {
+    grid-area: actividad;
+  }
+
+  .afecciones {
+    grid-area: afecciones;
+  }
+}
+
+.datos,
+.actividad,
+.afecciones {
+  background: #fff;
+  border: 1.5px solid #a2d8d8;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.grid-datos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+
+  p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+  }
+}
+
+.afecciones .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.chip {
+  background: #dff6f0;
+  border: 1px solid #7bbfab;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ===== TRATAMIENTOS ===== */
+.tratamientos {
+  background: #fff;
+  border: 1.5px solid #a2d8d8;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    margin-bottom: 12px;
+  }
+}
+
+.tratamiento {
+  border: 1.2px solid #a2d8d8;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+
+  .cabecera h3 {
+    color: #1b5e20;
+    margin-bottom: 6px;
+  }
+
+  .contenido p {
+    margin: 2px 0;
+  }
+}
+
+/* ===== ADMIN ===== */
+.admin {
+  text-align: center;
+  background: #fff;
+  border: 1.5px solid #a2d8d8;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    margin-top: 6px;
+    font-weight: 500;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "datos"
+      "actividad"
+      "afecciones";
+  }
+
+  .grid-datos {
+    grid-template-columns: 1fr;
+  }
+}

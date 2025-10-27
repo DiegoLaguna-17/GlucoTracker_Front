@@ -1,0 +1,56 @@
+<div class="detalle-paciente">
+  <header class="encabezado">
+    <h1>{{ paciente.nombre }}</h1>
+
+    <div class="acciones">
+      <button class="btn aceptar">Aceptar</button>
+      <button class="btn rechazar">Rechazar</button>
+    </div>
+  </header>
+
+  <section class="info-grid">
+    <!-- Datos personales -->
+    <div class="datos">
+      <h2>Datos Personales</h2>
+      <div class="grid-datos">
+        <p><b>ID:</b> {{ paciente.id }}</p>
+        <p><b>Fecha de nacimiento:</b> {{ paciente.fechaNac }}</p>
+        <p><b>Género:</b> {{ paciente.genero }}</p>
+        <p><b>Peso:</b> {{ paciente.peso }}</p>
+        <p><b>Altura:</b> {{ paciente.altura }}</p>
+        <p><b>Teléfono:</b> {{ paciente.telefono }}</p>
+        <p><b>Correo:</b> {{ paciente.Correo }}</p>
+      </div>
+    </div>
+
+    <!-- Actividad física -->
+    <div class="actividad">
+      <h2>Actividad Física</h2>
+      <p><b>Moderado:</b> {{ paciente.actividadFisica }}</p>
+    </div>
+
+    <!-- Afecciones -->
+    <div class="afecciones">
+      <h2>Afecciones</h2>
+      <div class="chips">
+        <span *ngFor="let a of paciente.afecciones" class="chip">{{ a.afeccion }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tratamientos -->
+  <section class="tratamientos">
+    <h2>Tratamientos</h2>
+    <div class="tratamiento" *ngFor="let t of paciente.tratamientos">
+      <div class="cabecera">
+        <h3>{{ t.titulo }}</h3>
+      </div>
+      <div class="contenido">
+        <p><b>Descripción:</b> {{ t.desc }}</p>
+        <p><b>Dosis:</b> {{ t.dosis }}</p>
+      </div>
+    </div>
+  </section>
+
+  
+</div>

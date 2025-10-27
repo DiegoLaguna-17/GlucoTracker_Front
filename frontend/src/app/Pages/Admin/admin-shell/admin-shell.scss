@@ -1,0 +1,15 @@
+.layout {
+  display: block; /* ya no hace falta el grid */
+  min-height: 100dvh;
+}
+
+.content {
+  margin-left: 240px;
+  padding: 16px;
+}
+
+@media (max-width: 960px) {
+  .content {
+    margin-left: 200px;
+  }
+}

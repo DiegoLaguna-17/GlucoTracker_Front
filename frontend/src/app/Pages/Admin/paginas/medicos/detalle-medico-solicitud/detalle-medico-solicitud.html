@@ -1,0 +1,42 @@
+<div class="detalle-paciente">
+  <header class="header">
+    <h1>{{ medico.nombre }}</h1>
+    <div class="acciones">
+      <button class="btn aceptar">Aceptar</button>
+      <button class="btn rechazar">Rechazar</button>
+    </div>
+  </header>
+
+  <div class="seccion">
+    <h3>Datos Personales</h3>
+    <div class="info">
+      <div><strong>ID:</strong> {{ medico.id }}</div>
+      <div><strong>Fecha de nacimiento:</strong> {{ medico.fechaNac }}</div>
+      <div><strong>Teléfono:</strong> {{ medico.telefono }}</div>
+      <div><strong>Correo:</strong> {{ medico.correo }}</div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <h3>Matrícula</h3>
+    <div class="imagen">
+      <a [href]="medico.matricula" target="_blank"><h1>matricula</h1></a>
+    </div>
+  </div>
+
+  <div class="doble">
+    <div class="seccion">
+      <h3>Departamento</h3>
+      <p>{{ medico.departamento }}</p>
+    </div>
+    <div class="seccion">
+      <h3>Carnet Profesional</h3>
+      <img [src]="medico.carnet" alt="Carnet profesional" />
+    </div>
+  </div>
+
+  <div class="seccion">
+    <h3>Admitido por</h3>
+    <p>{{ medico.admitidoPor }}</p>
+  </div>
+</div>

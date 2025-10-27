@@ -1,0 +1,48 @@
+<section class="perfil">
+  <h1 class="nombre">{{ medico.nombre }}</h1>
+
+  <div class="grid">
+    <!-- Datos personales -->
+    <article class="card datos">
+      <h3>Datos Personales</h3>
+      <div class="cols">
+        <ul>
+          <li><b>ID:</b> {{ medico.id }}</li>
+          <li><b>Teléfono:</b> {{ medico.telefono }}</li>
+        </ul>
+        <ul>
+          <li><b>Fecha de nacimiento:</b> {{ medico.fechaNac }}</li>
+          <li><b>Correo:</b> {{ medico.correo }}</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Matrícula -->
+    <article class="card matricula">
+      <h3>Matrícula</h3>
+      <div class="img-wrap">
+        <img [src]="medico.matricula" alt="Matrícula profesional" />
+      </div>
+    </article>
+
+    <!-- Departamento -->
+    <article class="card depto">
+      <h3>Departamento</h3>
+      <div class="center-big">{{ medico.departamento }}</div>
+    </article>
+
+    <!-- Carnet profesional -->
+    <article class="card carnet">
+      <h3>Carnet Profesional</h3>
+      <div class="img-wrap">
+        <h1>{{medico.carnet}}</h1>
+      </div>
+    </article>
+
+    <!-- Admitido por -->
+    <article class="card admitido">
+      <h3>Admitido por</h3>
+      <div class="center-big">{{ medico.admin }}</div>
+    </article>
+  </div>
+</section>

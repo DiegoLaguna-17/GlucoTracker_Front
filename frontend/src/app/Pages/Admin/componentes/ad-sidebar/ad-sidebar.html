@@ -1,0 +1,57 @@
+ <aside class="sidebar">
+    <div class="top">
+      <div class="avatar">Icono</div>
+      <h2 class="name">Admin</h2>
+     <!-- med-sidebar.html -->
+        <button
+        class="btn pill"
+        >
+        Mi perfil
+        </button>
+
+    </div>
+
+    <nav class="menu">
+      <button type="button"
+              class="item item-btn"
+              (click)="togglePacientes()"
+              [attr.aria-expanded]="openPacientes()"
+              aria-controls="submenu-pacientes">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M7 11V9a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v6H4v-6a2 2 0 0 1 2-2Zm3-9h4v2h-4Zm8.07 2.93 1.41 1.41-1.41 1.41-1.41-1.41ZM3.93 4.93 5.34 6.34 3.93 7.76 2.51 6.34ZM11 22h2v-2h-2Z"/></svg>
+        </span>
+        <span class="grow">Pacientes</span>
+        <span class="chev" [class.open]="openPacientes()">▾</span>
+      </button>
+
+      <div id="submenu-pacientes" class="submenu" *ngIf="openPacientes()">
+        <a class="subitem" routerLink="./pacientes/activos" routerLinkActive="active">Activos</a>
+        <a class="subitem" routerLink="./pacientes/solicitudes" routerLinkActive="active">Solicitudes</a>
+      </div>
+
+      <!-- ALERTAS con submenu -->
+      <button type="button"
+              class="item item-btn"
+              (click)="toggleMedicos()"
+              [attr.aria-expanded]="openMedicos()"
+              aria-controls="submenu-medicos">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M7 11V9a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v6H4v-6a2 2 0 0 1 2-2Zm3-9h4v2h-4Zm8.07 2.93 1.41 1.41-1.41 1.41-1.41-1.41ZM3.93 4.93 5.34 6.34 3.93 7.76 2.51 6.34ZM11 22h2v-2h-2Z"/></svg>
+        </span>
+        <span class="grow">Medicos</span>
+        <span class="chev" [class.open]="openMedicos()">▾</span>
+      </button>
+
+      <div id="submenu-medicos" class="submenu" *ngIf="openMedicos()">
+        <a class="subitem" routerLink="./medicos/activos" routerLinkActive="active">Activos</a>
+        <a class="subitem" routerLink="./medicos/solicitudes" routerLinkActive="active">Solicitudes</a>
+      </div>
+    </nav>
+
+    <button class="logout" type="button" (click)="logout.emit()">
+      <span class="logout-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 3h7a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-7v-2h6V5h-6ZM4 12l4-4v3h7v2H8v3Z"/></svg>
+      </span>
+      Cerrar Sesión
+    </button>
+  </aside>

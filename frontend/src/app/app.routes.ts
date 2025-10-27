@@ -1,0 +1,68 @@
+import { Routes } from '@angular/router';
+import { MedicoShell } from './Pages/Medico/medico-shell/medico-shell';
+export const routes: Routes = [
+    {
+        path: '', redirectTo: 'administrador', pathMatch: 'full' ,
+    },
+    {
+        path:'login',
+        loadComponent:()=>import('./LogIn/pagina/login/login').then(m=>m.Login),
+    },
+    {
+        path:'administrador',
+        loadComponent:()=>import('./Pages/Admin/admin-shell/admin-shell').then(m=>m.AdminShell),
+        children:[
+            {
+                path:'',pathMatch:'full',redirectTo:'pacientes/activos'
+            },
+            {
+                path:'pacientes/activos', loadComponent:()=>import('./Pages/Admin/paginas/pacientes-activos/pacientes-activos').then(m=>m.PacientesActivos),
+            },
+            {
+                path:'pacientes/solicitudes', loadComponent:()=>import('./Pages/Admin/paginas/pacientes-solicitudes/pacientes-solicitudes').then(m=>m.PacientesSolicitudes),
+            },
+            {
+                path:'pacientes/activo/detalle',loadComponent:()=>import('./Pages/Admin/paginas/pacientes/detalle-paciente-activo/detalle-paciente-activo').then(m=>m.DetallePacienteActivo),
+            },
+            {
+                path:'pacientes/solicitud/detalle',loadComponent:()=>import('./Pages/Admin/paginas/pacientes/detalle-paciente-solicitud/detalle-paciente-solicitud').then(m=>m.DetallePacienteSolicitud),
+            },
+            {
+                path:'medicos/activos',loadComponent:()=>import('./Pages/Admin/paginas/medicos/medicos-activos/medicos-activos').then(m=>m.MedicosActivos),
+            },
+            {
+                path:'medicos/solicitudes',loadComponent:()=>import('./Pages/Admin/paginas/medicos/medicos-solicitudes/medicos-solicitudes').then(m=>m.MedicosSolicitudes),
+            },
+            {
+                path:'medicos/activo/detalle',loadComponent:()=>import('./Pages/Admin/paginas/medicos/detalle-medico-activo/detalle-medico-activo').then(m=>m.DetalleMedicoActivo),
+            },
+            {
+                path:'medicos/solicitud/detalle',loadComponent:()=>import('./Pages/Admin/paginas/medicos/detalle-medico-solicitud/detalle-medico-solicitud').then(m=>m.DetalleMedicoSolicitud),
+            }
+        ]
+    },
+    {
+        path:'medico',
+        loadComponent:()=>import('./Pages/Medico/medico-shell/medico-shell').then(m=>m.MedicoShell),
+        children:[
+             { path: '', pathMatch: 'full', redirectTo: 'pacientes' }, // default
+            
+             { path: 'pacientes', loadComponent: () =>import('./Pages/Medico/paginas/pacientes/pacientes').then(m => m.Pacientes)},
+             
+             { path: 'detalle-paciente', loadComponent: () =>
+                import('./Pages/Medico/paginas/detalle-paciente/detalle-paciente').then(m => m.DetallePaciente) },
+
+             { path: 'activas', loadComponent: () =>
+                import('./Pages/Medico/paginas/alertas-activas/alertas-activas').then(m => m.AlertasActivas)},
+
+             { path: 'resueltas', loadComponent: () =>
+                import('./Pages/Medico/paginas/alertas-resueltas/alertas-resueltas').then(m => m.AlertasResueltas)},
+
+            {path: 'perfil', loadComponent:()=>
+                import('./Pages/Medico/paginas/perfil/perfil').then(m=>m.Perfil),
+            }
+            
+        ]
+    }
+
+];

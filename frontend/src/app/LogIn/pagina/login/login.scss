@@ -1,0 +1,102 @@
+/* Colores inspirados en tu imagen */
+$teal-left: #2e88a0;   /* lado izquierdo */
+$right-bg:  #e6f3f3;   /* lado derecho */
+$card-bg:   #f4f6f8;   /* tarjeta */
+$mint-btn:  #64f6d1;   /* botón */
+$text:      #1b2a38;
+$line:      #d8e2ee;
+
+:host { display:block; }
+
+.login-layout {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  &--left {
+    background: $teal-left;
+  }
+  &--right {
+    background: $right-bg;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+}
+
+.card {
+  background: $card-bg;
+  width: clamp(300px, 38vw, 520px);
+  border-radius: 12px;
+  padding: 32px 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid $line;
+  color: $text;
+}
+
+.brand {
+  text-align: center;
+  font-size: 18px;
+  margin: 0 0 22px 0;
+  font-weight: 600;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+
+  .label-text {
+    font-size: 13px;
+  }
+
+  input {
+    height: 40px;
+    border: 1px solid $line;
+    border-radius: 6px;
+    padding: 0 10px;
+    background: #fff;
+    color: $text;
+    outline: none;
+
+    &:focus {
+      border-color: #b8d5ff;
+      box-shadow: 0 0 0 3px rgba(10,128,251,0.15);
+    }
+    &.invalid {
+      border-color: #e86a6a;
+    }
+  }
+
+  small {
+    color: #b24646;
+    font-size: 12px;
+  }
+}
+
+.btn {
+  margin-top: 6px;
+  height: 44px;
+  border: none;
+  border-radius: 22px;
+  background: $mint-btn;
+  color: #0b3b37;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, filter .2s ease;
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+  &:not(:disabled):active { transform: translateY(1px); }
+}

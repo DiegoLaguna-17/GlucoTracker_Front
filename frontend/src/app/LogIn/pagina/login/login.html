@@ -1,0 +1,38 @@
+<section class="login-layout">
+  <div class="panel panel--left"></div>
+
+  <div class="panel panel--right">
+    <div class="card">
+      <h1 class="brand">GlucoTracker</h1>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" aria-label="Formulario de inicio de sesión">
+        <label class="field">
+          <span class="label-text">Usuario</span>
+          <input
+            type="text"
+            formControlName="usuario"
+            placeholder="Usuario"
+            [class.invalid]="f.usuario.touched && f.usuario.invalid"
+            autocomplete="username" />
+          <small *ngIf="f.usuario.touched && f.usuario.hasError('required')">Requerido</small>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Contraseña</span>
+          <input
+            type="password"
+            formControlName="contrasenia"
+            placeholder="Contrasenia"
+            [class.invalid]="f.contrasenia.touched && f.contrasenia.invalid"
+            autocomplete="current-password" />
+          <small *ngIf="f.contrasenia.touched && f.contrasenia.hasError('required')">Requerida</small>
+        </label>
+
+        <button class="btn" type="submit" [disabled]="!canSubmit()">
+  {{ loading() ? 'Ingresando…' : 'Iniciar Sesión' }}
+</button>
+
+      </form>
+    </div>
+  </div>
+</section>
