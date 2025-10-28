@@ -12,6 +12,7 @@ export interface PacienteResumen {
   actividadFisica:string;
   telefono:String;
   Correo:String;
+  medico:String;
   afecciones:Afecciones[];
   tratamientos:Tratamientos[];
   admitidoPor:string|null;

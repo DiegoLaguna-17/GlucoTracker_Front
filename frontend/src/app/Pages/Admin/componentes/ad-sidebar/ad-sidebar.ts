@@ -13,4 +13,7 @@ export class AdSidebar {
   togglePacientes(){ this.openPacientes.update(v => !v); }
   openMedicos = signal(false);
   toggleMedicos(){ this.openMedicos.update(v => !v); }
+
+  openAdmin = signal(false);
+  toggleAdmin(){ this.openAdmin.update(v => !v); }
 }

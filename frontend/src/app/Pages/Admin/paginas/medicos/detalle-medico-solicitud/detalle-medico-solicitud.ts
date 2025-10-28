@@ -13,4 +13,6 @@ export class DetalleMedicoSolicitud {
       this.medico = history.state.medico as PerfilModelo;
       console.log('Paciente completo:', this.medico);
     }
+
+    
 }

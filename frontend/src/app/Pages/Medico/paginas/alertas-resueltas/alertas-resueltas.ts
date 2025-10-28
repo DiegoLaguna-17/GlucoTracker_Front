@@ -13,9 +13,9 @@ export class AlertasResueltas {
    q = '';
     // demo data
       alertas: AlertaResumenR[] = [
-    { id: 1, nivel: 'Crítico', paciente: 'Juan Perez',  fecha: '11/10/2025', hora: '21:00', glucosa: 50,  momento: 'Antes de dormir' ,respuesta:'Interesante'},
-    { id: 2, nivel: 'Alerta Alta', paciente: 'María López', fecha: '10/10/2025', hora: '08:20', glucosa: 190, momento: 'Ayunas' ,respuesta:'Interesante'},
-    { id: 3, nivel: 'Moderada',   paciente: 'Carlos Díaz', fecha: '09/10/2025', hora: '14:45', glucosa: 70,  momento: 'Después de comer',respuesta:'Interesante' },
+    { id: 1, nivel: 'Crítico', idPaciente:'10',paciente: 'Juan Perez',  fecha: '11/10/2025', hora: '21:00', glucosa: 50,  momento: 'Antes de dormir' ,respuesta:'Interesante'},
+    { id: 2, nivel: 'Alerta Alta', idPaciente:'11',paciente: 'María López', fecha: '10/10/2025', hora: '08:20', glucosa: 190, momento: 'Ayunas' ,respuesta:'Interesante'},
+    { id: 3, nivel: 'Moderada',  idPaciente:'12', paciente: 'Carlos Díaz', fecha: '09/10/2025', hora: '14:45', glucosa: 70,  momento: 'Después de comer',respuesta:'Interesante' },
   ];
   // Lista visible según búsqueda
   get visibles(): AlertaResumenR[] {

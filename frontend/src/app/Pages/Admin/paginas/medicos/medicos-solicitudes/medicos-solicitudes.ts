@@ -23,7 +23,7 @@ export class MedicosSolicitudes {
   matricula: 'A12345',
   departamento: 'Informática',
   carnet: '1234567LP',
-  admitidoPor: 'No'
+  admitidoPor: null
   }
   
     ];
