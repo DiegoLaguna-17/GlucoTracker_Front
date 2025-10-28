@@ -1,5 +1,4 @@
-// login.ts
-import { Component, signal } from '@angular/core';  // <-- quita computed
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,7 +24,7 @@ export class Login {
 
   form = this.fb.group({
     usuario: ['', [Validators.required, Validators.minLength(3)]],
-    // OJO: minLength(3) para que acepte '123'
+
     contrasenia: ['', [Validators.required, Validators.minLength(3)]],
   });
 
@@ -46,12 +45,24 @@ export class Login {
 
     setTimeout(() => {
       this.loading.set(false);
-      if (!encontrado) return;
+      if (!encontrado) {
+        alert('Usuario o contraseña incorrectos');
+        return;
+      }
 
       if (encontrado.rol === 'medico') this.router.navigateByUrl('/medico/pacientes');
-      else if (encontrado.rol === 'administrador') this.router.navigateByUrl('/admin-shell');
-      else this.router.navigateByUrl('/paciente-home');
+      else if (encontrado.rol === 'administrador') this.router.navigateByUrl('/administrador/pacientes/activos');
+      else this.router.navigateByUrl('/paciente/mis-registros');
     }, 400);
+  }
+
+  // NUEVOS MÉTODOS para redirección a registros
+  irARegistroPaciente() {
+    this.router.navigate(['/solicitar-paciente']);
+  }
+
+  irARegistroMedico() {
+    this.router.navigate(['/solicitar-medico']);
   }
 
   get f() { return this.form.controls; }

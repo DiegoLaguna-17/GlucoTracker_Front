@@ -1,9 +1,25 @@
 <section class="login-layout">
-  <div class="panel panel--left"></div>
+  <!-- Panel izquierdo con botones de registro -->
+  <div class="panel panel--left">
+    <div class="left-content">
+      <h1 class="brand">GlucoTracker</h1>
+      
+      <div class="registration-buttons">
+        <button class="btn-register btn-register--paciente" (click)="irARegistroPaciente()">
+          Registrate como PACIENTE
+        </button>
+        
+        <button class="btn-register btn-register--medico" (click)="irARegistroMedico()">
+          Registrate como MÉDICO
+        </button>
+      </div>
+    </div>
+  </div>
 
+  <!-- Panel derecho con formulario de login -->
   <div class="panel panel--right">
     <div class="card">
-      <h1 class="brand">GlucoTracker</h1>
+      <h2 class="login-title">Inicia Sesión</h2>
 
       <form [formGroup]="form" (ngSubmit)="submit()" aria-label="Formulario de inicio de sesión">
         <label class="field">
@@ -11,10 +27,10 @@
           <input
             type="text"
             formControlName="usuario"
-            placeholder="Usuario"
+            placeholder="Ingresa tu usuario"
             [class.invalid]="f.usuario.touched && f.usuario.invalid"
             autocomplete="username" />
-          <small *ngIf="f.usuario.touched && f.usuario.hasError('required')">Requerido</small>
+          <small *ngIf="f.usuario.touched && f.usuario.hasError('required')">Usuario requerido</small>
         </label>
 
         <label class="field">
@@ -22,16 +38,15 @@
           <input
             type="password"
             formControlName="contrasenia"
-            placeholder="Contrasenia"
+            placeholder="Ingresa tu contraseña"
             [class.invalid]="f.contrasenia.touched && f.contrasenia.invalid"
             autocomplete="current-password" />
-          <small *ngIf="f.contrasenia.touched && f.contrasenia.hasError('required')">Requerida</small>
+          <small *ngIf="f.contrasenia.touched && f.contrasenia.hasError('required')">Contraseña requerida</small>
         </label>
 
-        <button class="btn" type="submit" [disabled]="!canSubmit()">
-  {{ loading() ? 'Ingresando…' : 'Iniciar Sesión' }}
-</button>
-
+        <button class="btn-login" type="submit" [disabled]="!canSubmit()">
+          {{ loading() ? 'Ingresando…' : 'Ingresar' }}
+        </button>
       </form>
     </div>
   </div>
