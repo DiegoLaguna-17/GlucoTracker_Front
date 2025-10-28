@@ -5,6 +5,10 @@
      <!-- med-sidebar.html -->
         <button
         class="btn pill"
+        [routerLink]="['/administrador/perfil']"
+        [state]="{ administrador: admin }"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         >
         Mi perfil
         </button>

@@ -1,45 +1,26 @@
-import { Component,computed,signal ,inject } from '@angular/core';
+import { Component,computed,signal ,inject ,OnInit} from '@angular/core';
 import { CardPacienteA,PacienteResumen } from '../../componentes/card-paciente-a/card-paciente-a';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-pacientes-solicitudes',
-  imports: [CardPacienteA,CommonModule],
+  imports: [CardPacienteA,CommonModule,HttpClientModule],
   templateUrl: './pacientes-solicitudes.html',
   styleUrl: './pacientes-solicitudes.scss',
 })
-export class PacientesSolicitudes {
+export class PacientesSolicitudes implements OnInit{
   private router = inject(Router); // solo para tipado, Angular lo inyecta en runtime si decides usarlo
-  
-    // Datos demo (cámbialos por tu fetch al backend)
-    pacientes: PacienteResumen[] = [
-      {
-    id: 1,
-    nombre: "Carlos Gomez",
-    ci: "carlos.gomez@gmail.com",
-    fechaNac: "15/07/2000",
-    genero: "Masculino",
-    peso: '75.5',
-    altura: '1.78',
-    actividadFisica:'2 veces por semana',
-    telefono: "79876543",
-    Correo: "carlos.gomez@gmail.com",
-    medico:'Dr John Doe',
-    afecciones: [
-      { afeccion: "Diabetes tipo 2" },
-      { afeccion: "Hipotiroidismo" }
-    ],
-    tratamientos: [
-      { titulo: "Metformina", desc: "Tratamiento para diabetes tipo 2", dosis:' 500.00' },
-      { titulo: "Levotiroxina", desc: "Tratamiento para hipotiroidismo", dosis: '75.00' }
-    ],
-    admitidoPor:null
+   private http = inject(HttpClient);
 
-    
-  }
+  loading = false;
+  error = '';
+    // Datos demo (cámbialos por tu fetch al backend)
+    pacientes= signal<PacienteResumen[]> ([]);
+      
   
-    ];
+   
     // query de búsqueda
     q = signal<string>('');
   
@@ -47,13 +28,34 @@ export class PacientesSolicitudes {
      // Computed para la lista filtrada
     pacientesFiltrados = computed(() => {
       const query = this.q().toLowerCase();
-      return this.pacientes.filter(p => 
+      return this.pacientes().filter(p => 
         p.nombre.toLowerCase().includes(query) ||
-        p.ci.includes(query)
+        p.id.toString().includes(query)
       );
     });
     verPaciente(p: PacienteResumen){
               this.router.navigate(['administrador/pacientes/solicitud/detalle'], { state: { paciente: p } });
 
+    }
+    
+    cargarPacientes(){
+      const pacientesUrl = 'http://localhost:3000/pacientes_solicitantes'; // <-- corregido typo
+          this.loading = true;
+          this.http.get<PacienteResumen[]>(pacientesUrl).subscribe({
+            next: (data) => {
+              this.pacientes.set(Array.isArray(data) ? data : []);
+              console.log('Pacientes cargados:', this.pacientes());
+              this.loading = false;
+      
+            },
+            error: (err) => {
+              console.error('Error al cargar médicos:', err);
+              this.error = 'No se pudieron cargar los médicos.';
+              this.loading = false;
+            },
+          });
+    }
+    ngOnInit(){
+      this.cargarPacientes();
     }
 }
