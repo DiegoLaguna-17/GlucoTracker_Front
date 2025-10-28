@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { MedicoShell } from './Pages/Medico/medico-shell/medico-shell';
+import { SolicitarMedicoComponent } from './solicitar/solicitar-medico/solicitar-medico';
+import { SolicitarPacienteComponent } from './solicitar/solicitar-paciente/solicitar-paciente';
 export const routes: Routes = [
     {
         path: '', redirectTo: 'login', pathMatch: 'full' ,
@@ -7,6 +8,14 @@ export const routes: Routes = [
     {
         path:'login',
         loadComponent:()=>import('./LogIn/pagina/login/login').then(m=>m.Login),
+    },
+    { 
+        path: 'solicitar-medico', 
+        component: SolicitarMedicoComponent
+    },
+    { 
+        path: 'solicitar-paciente', 
+        component: SolicitarPacienteComponent
     },
     {
         path:'administrador',
@@ -71,6 +80,7 @@ export const routes: Routes = [
             }
             
         ]
-    }
+    },
+    
 
 ];
