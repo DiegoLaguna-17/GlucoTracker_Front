@@ -1,15 +1,14 @@
 import { Component,computed,signal ,inject } from '@angular/core';
-import { CardPacienteA,PacienteResumen } from '../componentes/card-paciente-a/card-paciente-a';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { CardPacienteA,PacienteResumen } from '../../componentes/card-paciente-a/card-paciente-a';
 @Component({
-  selector: 'app-pacientes-solicitudes',
+  selector: 'app-pacientes-activos',
   imports: [CardPacienteA,CommonModule],
-  templateUrl: './pacientes-solicitudes.html',
-  styleUrl: './pacientes-solicitudes.scss',
+  templateUrl: './pacientes-activos.html',
+  styleUrl: './pacientes-activos.scss',
 })
-export class PacientesSolicitudes {
+export class PacientesActivos {
   private router = inject(Router); // solo para tipado, Angular lo inyecta en runtime si decides usarlo
   
     // Datos demo (cámbialos por tu fetch al backend)
@@ -25,6 +24,7 @@ export class PacientesSolicitudes {
     actividadFisica:'2 veces por semana',
     telefono: "79876543",
     Correo: "carlos.gomez@gmail.com",
+    medico:'Dr John Doe',
     afecciones: [
       { afeccion: "Diabetes tipo 2" },
       { afeccion: "Hipotiroidismo" }
@@ -33,8 +33,7 @@ export class PacientesSolicitudes {
       { titulo: "Metformina", desc: "Tratamiento para diabetes tipo 2", dosis:' 500.00' },
       { titulo: "Levotiroxina", desc: "Tratamiento para hipotiroidismo", dosis: '75.00' }
     ],
-    admitidoPor:null
-
+    admitidoPor:'Admin 1'
     
   }
   
@@ -52,7 +51,8 @@ export class PacientesSolicitudes {
       );
     });
     verPaciente(p: PacienteResumen){
-              this.router.navigate(['administrador/pacientes/solicitud/detalle'], { state: { paciente: p } });
-
+        this.router.navigate(['administrador/pacientes/activo/detalle'], { state: { paciente: p } });
     }
+  
+    
 }

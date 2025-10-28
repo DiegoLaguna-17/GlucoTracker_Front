@@ -14,13 +14,13 @@ private router = inject(Router); // solo para tipado, Angular lo inyecta en runt
     // Datos demo (cámbialos por tu fetch al backend)
     medicos: PerfilModelo[] = [
       {
-    
+
      id: '1',
   nombre: 'Carlos Gomez',
   fechaNac: '2000-07-15',
   telefono: '79876543',
   correo: 'carlos.gomez@gmail.com',
-  matricula: 'https://www.oas.org/dil/esp/constitucion_bolivia.pdf',
+  matricula: 'https://drive.google.com/file/d/1l3BJQmPDVQ1Kg-IiEMzOcEJCOZlA2x9n/preview',
   departamento: 'Informática',
   carnet: '1234567LP',
   admitidoPor: 'No'

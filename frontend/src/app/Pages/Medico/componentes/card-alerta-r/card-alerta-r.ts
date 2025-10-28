@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 export interface AlertaResumenR {
   id: number | string;
   nivel: String;
+  idPaciente:String;
   paciente: string;
   fecha: string; // dd/MM/yyyy
   hora: string;  // HH:mm

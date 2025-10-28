@@ -14,7 +14,7 @@ export interface PacienteResumen {
   Correo:String;
   afecciones:Afecciones[];
   tratamientos:Tratamientos[];
-  historial:Historial[];
+  historial:Historial[]|null;
   
   
 }

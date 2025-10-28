@@ -46,6 +46,25 @@
         <a class="subitem" routerLink="./medicos/activos" routerLinkActive="active">Activos</a>
         <a class="subitem" routerLink="./medicos/solicitudes" routerLinkActive="active">Solicitudes</a>
       </div>
+
+
+
+      <button type="button"
+              class="item item-btn"
+              (click)="toggleAdmin()"
+              [attr.aria-expanded]="openAdmin()"
+              aria-controls="submenu-admin">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M7 11V9a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v6H4v-6a2 2 0 0 1 2-2Zm3-9h4v2h-4Zm8.07 2.93 1.41 1.41-1.41 1.41-1.41-1.41ZM3.93 4.93 5.34 6.34 3.93 7.76 2.51 6.34ZM11 22h2v-2h-2Z"/></svg>
+        </span>
+        <span class="grow">Administradores</span>
+        <span class="chev" [class.open]="openAdmin()">▾</span>
+      </button>
+
+      <div id="submenu-medicos" class="submenu" *ngIf="openAdmin()">
+        <a class="subitem"  routerLink="./administradores/activos" routerLinkActive="active">Activos</a>
+        <a class="subitem" routerLink="./administrador/agregar" routerLinkActive="active" >Agregar</a>
+      </div>
     </nav>
 
     <button class="logout" type="button" (click)="logout.emit()">

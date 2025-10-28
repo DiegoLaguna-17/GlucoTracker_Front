@@ -16,9 +16,9 @@ export class AlertasActivas {
 
   // ===== demo data =====
   alertas: AlertaResumen[] = [
-    { id: 1, nivel: 'critico', paciente: 'Juan Perez',  fecha: '11/10/2025', hora: '21:00', glucosa: 50,  momento: 'Antes de dormir' },
-    { id: 2, nivel: 'alta',    paciente: 'María López', fecha: '10/10/2025', hora: '08:20', glucosa: 190, momento: 'Ayunas' },
-    { id: 3, nivel: 'media',   paciente: 'Carlos Díaz', fecha: '09/10/2025', hora: '14:45', glucosa: 70,  momento: 'Después de comer' },
+    { id: 1, nivel: 'Hipoglucemia', idpaciente:'10',paciente: 'Juan Perez',  fecha: '11/10/2025', hora: '21:00', glucosa: 50,  momento: 'Antes de dormir' },
+    { id: 2, nivel: 'alta',   idpaciente:'10', paciente: 'María López', fecha: '10/10/2025', hora: '08:20', glucosa: 190, momento: 'Ayunas' },
+    { id: 3, nivel: 'media',   idpaciente:'10',paciente: 'Carlos Díaz', fecha: '09/10/2025', hora: '14:45', glucosa: 70,  momento: 'Después de comer' },
   ];
 
   // Lista visible según búsqueda

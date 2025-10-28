@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { MedicoShell } from './Pages/Medico/medico-shell/medico-shell';
 export const routes: Routes = [
     {
-        path: '', redirectTo: 'administrador', pathMatch: 'full' ,
+        path: '', redirectTo: 'login', pathMatch: 'full' ,
     },
     {
         path:'login',
@@ -16,10 +16,10 @@ export const routes: Routes = [
                 path:'',pathMatch:'full',redirectTo:'pacientes/activos'
             },
             {
-                path:'pacientes/activos', loadComponent:()=>import('./Pages/Admin/paginas/pacientes-activos/pacientes-activos').then(m=>m.PacientesActivos),
+                path:'pacientes/activos', loadComponent:()=>import('./Pages/Admin/paginas/pacientes/pacientes-activos/pacientes-activos').then(m=>m.PacientesActivos),
             },
             {
-                path:'pacientes/solicitudes', loadComponent:()=>import('./Pages/Admin/paginas/pacientes-solicitudes/pacientes-solicitudes').then(m=>m.PacientesSolicitudes),
+                path:'pacientes/solicitudes', loadComponent:()=>import('./Pages/Admin/paginas/pacientes/pacientes-solicitudes/pacientes-solicitudes').then(m=>m.PacientesSolicitudes),
             },
             {
                 path:'pacientes/activo/detalle',loadComponent:()=>import('./Pages/Admin/paginas/pacientes/detalle-paciente-activo/detalle-paciente-activo').then(m=>m.DetallePacienteActivo),
@@ -38,6 +38,14 @@ export const routes: Routes = [
             },
             {
                 path:'medicos/solicitud/detalle',loadComponent:()=>import('./Pages/Admin/paginas/medicos/detalle-medico-solicitud/detalle-medico-solicitud').then(m=>m.DetalleMedicoSolicitud),
+            },
+            {
+                            path:'administradores/activos', loadComponent:()=>import('./Pages/Admin/paginas/admins/admins-activos/admins-activos').then(m=>m.AdminsActivos)
+
+            },
+            
+            {
+                path:'administrador/agregar', loadComponent:()=>import('./Pages/Admin/paginas/admins/agregar/agregar').then(m=>m.Agregar),
             }
         ]
     },

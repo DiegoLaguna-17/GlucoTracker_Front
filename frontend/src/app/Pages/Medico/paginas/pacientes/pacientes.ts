@@ -13,10 +13,10 @@ export class Pacientes {
 
   // Datos demo (cámbialos por tu fetch al backend)
   pacientes: PacienteResumen[] = [
-    {
+  {
   id: 1,
   nombre: "Carlos Gomez",
-  ci: "carlos.gomez@gmail.com",
+  ci: "8852351",
   fechaNac: "15/07/2000",
   genero: "Masculino",
   peso: '75.5',
