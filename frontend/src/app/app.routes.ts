@@ -52,9 +52,11 @@ export const routes: Routes = [
                             path:'administradores/activos', loadComponent:()=>import('./Pages/Admin/paginas/admins/admins-activos/admins-activos').then(m=>m.AdminsActivos)
 
             },
-            
             {
                 path:'administrador/agregar', loadComponent:()=>import('./Pages/Admin/paginas/admins/agregar/agregar').then(m=>m.Agregar),
+            },
+            {
+                            path:'perfil',loadComponent:()=>import('./Pages/Admin/paginas/perfil/perfil').then(m=>m.Perfil)
             }
         ]
     },

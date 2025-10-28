@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
   templateUrl: './solicitar-paciente.html',
   styleUrl: './solicitar-paciente.scss'
 })
-export class SolicitarPacienteComponent {
+export class SolicitarPacienteComponent implements OnInit{
   pacienteForm: FormGroup;
-
+  medicos:any[]=[];
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -98,5 +98,20 @@ export class SolicitarPacienteComponent {
 
   volverAlLogin() {
     this.router.navigate(['/login']);
+  }
+
+  ngOnInit(){
+    const urlMedicos = 'http://localhost:3000/ver_medicos';
+
+    this.http.get<any[]>(urlMedicos).subscribe({
+      next: (data) => {
+        this.medicos = data;
+        console.log('Médicos recibidos:', data);
+      },
+      error: (err) => {
+        console.error('Error al obtener médicos:', err);
+      }
+    });
+    console.log(this.medicos)
   }
 }

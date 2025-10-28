@@ -3,7 +3,7 @@
     <h1>{{ paciente.nombre }}</h1>
 
     <div class="acciones">
-      <button class="btn aceptar">Aceptar</button>
+      <button class="btn aceptar" (click)="activarPaciente()">Aceptar</button>
       <button class="btn rechazar">Rechazar</button>
     </div>
   </header>
@@ -19,7 +19,7 @@
         <p><b>Peso:</b> {{ paciente.peso }}</p>
         <p><b>Altura:</b> {{ paciente.altura }}</p>
         <p><b>Teléfono:</b> {{ paciente.telefono }}</p>
-        <p><b>Correo:</b> {{ paciente.Correo }}</p>
+        <p><b>Correo:</b> {{ paciente.ci }}</p>
       </div>
     </div>
 
