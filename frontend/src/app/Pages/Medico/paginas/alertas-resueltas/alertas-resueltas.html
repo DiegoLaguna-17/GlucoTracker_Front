@@ -8,7 +8,7 @@
      />
     <div class="grid">
          <app-card-alerta-r
-    *ngFor="let a of alertas"
+    *ngFor="let a of alertas()"
       [alerta]="a"
       (ver)="openDetalle(a)"
       >>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -6,12 +6,14 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-solicitar-medico',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './solicitar-medico.html',
-  styleUrl: './solicitar-medico.scss'
+  styleUrls: ['./solicitar-medico.scss']
 })
-export class SolicitarMedicoComponent {
+export class SolicitarMedicoComponent implements OnInit {
   medicoForm: FormGroup;
+  especialidades: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -19,85 +21,105 @@ export class SolicitarMedicoComponent {
     private router: Router
   ) {
     this.medicoForm = this.fb.group({
-      nombreCompleto: ['', Validators.required],
-      fechaNacimiento: ['', Validators.required],
+      nombre_completo: ['', Validators.required],
+      fecha_nac: ['', Validators.required],
       telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
       departamento: ['', Validators.required],
-      matriculaProfesional: [null, Validators.required],
-      carnetProfesional: [null, Validators.required],
-      especialidad: ['', Validators.required]
+      id_especialidad: ['', Validators.required],
+      contrasena: ['', [Validators.required, Validators.minLength(6)]],
+      correo: ['', [Validators.required, Validators.email]],
     });
   }
 
-  // Manejar selección de archivos
-  onFileSelected(event: any, tipo: string) {
-    const file = event.target.files[0];
-    if (file) {
-      if (tipo === 'matricula' && file.type !== 'application/pdf') {
-        alert('Por favor, seleccione un archivo PDF para la matrícula profesional');
-        return;
-      }
-      
-      if (tipo === 'carnet' && !file.type.match(/image\/(jpg|jpeg|png)/)) {
-        alert('Por favor, seleccione una imagen JPG o PNG para el carnet profesional');
-        return;
-      }
-
-      this.medicoForm.patchValue({
-        [tipo === 'matricula' ? 'matriculaProfesional' : 'carnetProfesional']: file
-      });
-    }
+  ngOnInit(): void {
+    this.cargarEspecialidades();
   }
 
-  // Obtener nombre del archivo para mostrar
+  // Maneja selección de archivos (PDF o imagen)
+matriculaProfesionalFile: File | null = null;
+carnetProfesionalFile: File | null = null;
+
+onFileSelected(event: any, tipo: string) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (tipo === 'matricula' && file.type !== 'application/pdf') {
+    alert('Seleccione un archivo PDF válido.');
+    return;
+  }
+  if (tipo === 'carnet' && !file.type.match(/image\/(jpg|jpeg|png)/)) {
+    alert('Seleccione una imagen JPG o PNG válida.');
+    return;
+  }
+
+  if (tipo === 'matricula') this.matriculaProfesionalFile = file;
+  else this.carnetProfesionalFile = file;
+}
+
+  // Mostrar nombre del archivo seleccionado
   getFileName(file: File): string {
     return file ? file.name : '';
   }
 
+  // Enviar formulario
   enviarSolicitud() {
     if (this.medicoForm.valid) {
-      // Crear FormData para enviar archivos
       const formData = new FormData();
-      
-      // Agregar todos los campos del formulario
+
+      // Agregar campos normales
       Object.keys(this.medicoForm.value).forEach(key => {
-        if (this.medicoForm.value[key]) {
-          formData.append(key, this.medicoForm.value[key]);
+        const value = this.medicoForm.value[key];
+        if (value !== null && value !== undefined) {
+          formData.append(key, value);
         }
       });
-
-      // Agregar campos automáticos
-      formData.append('administrador_id_admin', '1');
-      formData.append('fecha_solicitud', new Date().toISOString().split('T')[0]);
+      if (this.matriculaProfesionalFile)
+        formData.append('matriculaProfesional', this.matriculaProfesionalFile);
+      if (this.carnetProfesionalFile)
+        formData.append('carnetProfesional', this.carnetProfesionalFile);
+      // Campos automáticos
       formData.append('estado', 'pendiente');
+      formData.append('fecha_solicitud', new Date().toISOString().split('T')[0]);
 
-      console.log('Datos a enviar:', Object.fromEntries(formData));
-      
-      // Enviar al backend
+      console.log('Datos listos para enviar:', [...formData.entries()]);
       this.enviarAlBackend(formData);
-      
     } else {
       alert('Por favor, complete todos los campos correctamente.');
     }
   }
 
+  // Consumir endpoint del backend
   enviarAlBackend(formData: FormData) {
-    // URL de tu endpoint - CAMBIA ESTA URL
-    const url = 'https://tu-backend.com/api/solicitudes-medico';
-    
+    const url = 'https://gt-prueba-1.onrender.com/registrar_medicos'; // 🔹 Tu endpoint backend real
+
     this.http.post(url, formData).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend:', response);
+        console.log('✅ Respuesta del backend:', response);
         alert('Solicitud enviada exitosamente');
         this.medicoForm.reset();
       },
       error: (error) => {
-        console.error('Error al enviar solicitud:', error);
+        console.error('❌ Error al enviar solicitud:', error);
         alert('Error al enviar solicitud. Por favor, intente nuevamente.');
       }
     });
   }
 
+  // Cargar especialidades desde el backend
+  cargarEspecialidades() {
+    this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_especialidades').subscribe({
+      next: (data) => {
+        this.especialidades = data.map(item => ({
+          id_especialidad: item.id_especialidad,
+          nombre: item.nombre
+        }));
+        console.log('Especialidades cargadas:', this.especialidades);
+      },
+      error: (err) => console.error('Error al obtener especialidades:', err)
+    });
+  }
+
+  // Volver al login
   volverAlLogin() {
     this.router.navigate(['/login']);
   }

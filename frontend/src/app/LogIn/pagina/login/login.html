@@ -37,11 +37,11 @@
           <span class="label-text">Contraseña</span>
           <input
             type="password"
-            formControlName="contrasenia"
+            formControlName="contrasena"
             placeholder="Ingresa tu contraseña"
-            [class.invalid]="f.contrasenia.touched && f.contrasenia.invalid"
+            [class.invalid]="f.contrasena.touched && f.contrasena.invalid"
             autocomplete="current-password" />
-          <small *ngIf="f.contrasenia.touched && f.contrasenia.hasError('required')">Contraseña requerida</small>
+          <small *ngIf="f.contrasena.touched && f.contrasena.hasError('required')">Contraseña requerida</small>
         </label>
 
         <button class="btn-login" type="submit" [disabled]="!canSubmit()">

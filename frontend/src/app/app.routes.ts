@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { SolicitarMedicoComponent } from './solicitar/solicitar-medico/solicitar-medico';
-import { SolicitarPacienteComponent } from './solicitar/solicitar-paciente/solicitar-paciente';
+import { SolicitarPaciente } from './solicitar/solicitar-paciente/solicitar-paciente';
 export const routes: Routes = [
     {
         path: '', redirectTo: 'login', pathMatch: 'full' ,
@@ -15,7 +15,7 @@ export const routes: Routes = [
     },
     { 
         path: 'solicitar-paciente', 
-        component: SolicitarPacienteComponent
+        component: SolicitarPaciente
     },
     {
         path:'administrador',
@@ -57,6 +57,9 @@ export const routes: Routes = [
             },
             {
                             path:'perfil',loadComponent:()=>import('./Pages/Admin/paginas/perfil/perfil').then(m=>m.Perfil)
+            },
+            {
+                path:'administradores/activos/detalle', loadComponent:()=>import('./Pages/Admin/paginas/admins/admin-detalle/admin-detalle').then(m=>m.AdminDetalle)
             }
         ]
     },
@@ -96,6 +99,9 @@ export const routes: Routes = [
              {
                 path:'registros',loadComponent:()=>import('./Pages/Paciente/paginas/mis-registros/mis-registros').then(m=>m.MisRegistros)
             },
+            {
+                path:'perfil',loadComponent:()=>import('./Pages/Paciente/paginas/perfil/perfil').then(m=>m.Perfil)
+            }
         ]
     }
 

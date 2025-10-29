@@ -11,18 +11,18 @@
         <!-- Nombre Completo -->
         <div class="input-box full-width">
           <label>Nombre Completo</label>
-          <input type="text" formControlName="nombreCompleto" placeholder="Ingrese nombre completo" />
+          <input type="text" formControlName="nombre_completo" placeholder="Ingrese nombre completo" />
         </div>
 
         <!-- Fecha Nacimiento y Teléfono -->
         <div class="row">
           <div class="input-box">
             <label>Fecha de Nacimiento</label>
-            <input type="date" formControlName="fechaNacimiento" />
+            <input type="date" formControlName="fecha_nac" />
           </div>
           <div class="input-box">
             <label>Teléfono</label>
-            <input type="tel" formControlName="telefono" placeholder="Ingrese teléfono" />
+            <input type="tel" formControlName="teléfono" placeholder="Ingrese teléfono" />
           </div>
         </div>
       </div>
@@ -37,8 +37,8 @@
             <label>Género</label>
             <select formControlName="genero" (change)="onGeneroChange()">
               <option value="">Seleccione género</option>
-              <option value="hombre">Hombre</option>
-              <option value="mujer">Mujer</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
             </select>
           </div>
 
@@ -58,12 +58,42 @@
             <input type="number" formControlName="peso" placeholder="Ingrese peso" min="0" step="0.1" />
           </div>
           <div class="input-box">
-            <label>Altura (cm)</label>
+            <label>Altura (m)</label>
             <input type="number" formControlName="altura" placeholder="Ingrese altura" min="0" step="0.1" />
           </div>
         </div>
       </div>
-
+      <div class="section">
+        <h3 class="section-title">Medico</h3>
+        
+        <div class="row">
+          <div class="input-box">
+            <label>Medico</label>
+            <select formControlName="id_medico">
+              <option value="">Seleccione  su medico</option>
+              <option *ngFor="let medico of medicos" [value]="medico.id_medico">
+                {{ medico.nombre_completo }}
+              </option>
+            </select>
+          </div>
+          
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="section-title">Actividad física</h3>
+        
+        <div class="row">
+          <div class="input-box">
+            <select formControlName="id_actividad">
+              <option value="">Seleccione  su nivel de actividad fisica</option>
+              <option *ngFor="let a of actividades" [value]="a.id_actividad">
+                {{ a.nivel }}
+              </option>
+            </select>
+          </div>
+          
+        </div>
+      </div>
       <!-- Sección: Enfermedad de Base -->
       <div class="section">
         <h3 class="section-title">Enfermedad de Base</h3>
@@ -71,46 +101,37 @@
         <!-- Primera enfermedad -->
         <div class="row">
           <div class="input-box">
-            <label>Enfermedad</label>
-            <input type="text" formControlName="enfermedad1" placeholder="Nombre de la enfermedad" />
+            <label>Afeccion</label>
+            <select formControlName="enfermedad_id">
+              <option value="">Seleccione su afeccion</option>
+               <option *ngFor="let a of enfermedades" [value]="a.id_enfermedad">
+                {{ a.nombre_enfermedad }}
+              </option>
+            </select>
           </div>
           <div class="input-box">
             <label>Tratamiento</label>
-            <input type="text" formControlName="tratamiento1" placeholder="Tratamiento actual" />
+            <select formControlName="tratamiento_id" (change)="onTratamientoChange($event)">
+              <option value="">Seleccione su tratamiento</option>
+               <option *ngFor="let a of tratamientos" [value]="a.id_tratamiento">
+                {{ a.nombre_tratamiento }}
+              </option>
+            </select>
           </div>
           <div class="input-box">
             <label>Dosis</label>
-            <input type="text" formControlName="dosis1" placeholder="Dosis del tratamiento" />
+            <input type="text" formControlName="dosis_" placeholder="Dosis del tratamiento"  />
           </div>
         </div>
 
         <!-- Descripción primera enfermedad -->
         <div class="input-box full-width">
           <label>Descripción</label>
-          <textarea formControlName="descripcion1" placeholder="Descripción de la enfermedad y tratamiento" rows="3"></textarea>
+          <textarea [value]="descripcionTratamiento" placeholder="Descripción del tratamiento" rows="3" readonly></textarea>
         </div>
 
         <!-- Segunda enfermedad -->
-        <div class="row">
-          <div class="input-box">
-            <label>Enfermedad</label>
-            <input type="text" formControlName="enfermedad2" placeholder="Nombre de la enfermedad" />
-          </div>
-          <div class="input-box">
-            <label>Tratamiento</label>
-            <input type="text" formControlName="tratamiento2" placeholder="Tratamiento actual" />
-          </div>
-          <div class="input-box">
-            <label>Dosis</label>
-            <input type="text" formControlName="dosis2" placeholder="Dosis del tratamiento" />
-          </div>
-        </div>
-
-        <!-- Descripción segunda enfermedad -->
-        <div class="input-box full-width">
-          <label>Descripción</label>
-          <textarea formControlName="descripcion2" placeholder="Descripción de la enfermedad y tratamiento" rows="3"></textarea>
-        </div>
+       
       </div>
 
       <!-- Sección: Credenciales -->

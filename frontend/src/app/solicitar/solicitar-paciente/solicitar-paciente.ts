@@ -11,9 +11,12 @@ import { Router } from '@angular/router';
   templateUrl: './solicitar-paciente.html',
   styleUrl: './solicitar-paciente.scss'
 })
-export class SolicitarPacienteComponent implements OnInit{
+export class SolicitarPaciente implements OnInit{
   pacienteForm: FormGroup;
   medicos:any[]=[];
+  actividades:any[]=[];
+  enfermedades:any[]=[];
+  tratamientos:any[]=[];
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -21,33 +24,36 @@ export class SolicitarPacienteComponent implements OnInit{
   ) {
     this.pacienteForm = this.fb.group({
       // Datos personales
-      nombreCompleto: ['', Validators.required],
-      fechaNacimiento: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-
-      // Datos médicos
+      nombre_completo: ['', Validators.required],
+      fecha_nac: ['', Validators.required],
+      teléfono: ['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
+      id_medico: ['', Validators.required],
+      id_actividad:['', Validators.required],
       genero: ['', Validators.required],
       embarazada: [''],
       peso: ['', [Validators.required, Validators.min(0)]],
       altura: ['', [Validators.required, Validators.min(0)]],
-
-      // Primera enfermedad
-      enfermedad1: [''],
-      tratamiento1: [''],
-      dosis1: [''],
-      descripcion1: [''],
-
-      // Segunda enfermedad
-      enfermedad2: [''],
-      tratamiento2: [''],
-      dosis2: [''],
-      descripcion2: [''],
-
-      // Credenciales
+      enfermedad_id: [''],
+      tratamiento_id: ['', [Validators.required, Validators.min(1)]],
+      dosis_: [''],
       correo: ['', [Validators.required, Validators.email]],
       contrasena: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+  descripcionTratamiento: string = '';
+
+onTratamientoChange(event: any) {
+  const idSeleccionado = event.target.value;
+  const tratamientoSeleccionado = this.tratamientos.find(
+    (t: any) => t.id_tratamiento == idSeleccionado
+  );
+
+  if (tratamientoSeleccionado) {
+    this.descripcionTratamiento = tratamientoSeleccionado.descripcion;
+  } else {
+    this.descripcionTratamiento = '';
+  }
+}
 
   // Método para manejar cambio de género
   onGeneroChange() {
@@ -60,19 +66,32 @@ export class SolicitarPacienteComponent implements OnInit{
   }
 
   enviarSolicitud() {
+
     if (this.pacienteForm.valid) {
       // Preparar datos para enviar
+      const form = this.pacienteForm.value;
+
       const datosParaBackend = {
-        ...this.pacienteForm.value,
+      nombre_completo: form.nombre_completo,
+      correo: form.correo,
+      contrasena: form.contrasena,
+      rol: 'paciente', // valor fijo
+      fecha_nac: form.fecha_nac,
+      teléfono: form.teléfono,
+      id_medico: Number(form.id_medico),
+      id_actividad: Number(form.id_actividad),
+      genero:form.genero,
+      peso: form.peso,
+      altura: form.altura,
+      enfermedad_id: Number(form.enfermedad_id),
+      tratamiento_id: Number(form.tratamiento_id),
+      dosis_: form.dosis_,
         administrador_id_admin: 1,
-        fecha_registro: new Date().toISOString().split('T')[0],
-        estado: 'pendiente'
       };
 
       console.log('Datos a enviar al backend:', datosParaBackend);
-      
-      // Enviar al backend
       this.enviarAlBackend(datosParaBackend);
+      // Enviar al backend
       
     } else {
       alert('Por favor, complete todos los campos obligatorios correctamente.');
@@ -81,7 +100,7 @@ export class SolicitarPacienteComponent implements OnInit{
 
   enviarAlBackend(datos: any) {
     // URL de tu endpoint - CAMBIA ESTA URL
-    const url = 'https://tu-backend.com/api/solicitudes-paciente';
+    const url = 'https://gt-prueba-1.onrender.com/registrar_paciente';
     
     this.http.post(url, datos).subscribe({
       next: (response) => {
@@ -100,18 +119,69 @@ export class SolicitarPacienteComponent implements OnInit{
     this.router.navigate(['/login']);
   }
 
-  ngOnInit(){
-    const urlMedicos = 'http://localhost:3000/ver_medicos';
-
-    this.http.get<any[]>(urlMedicos).subscribe({
-      next: (data) => {
-        this.medicos = data;
-        console.log('Médicos recibidos:', data);
+   obtenerMedicos() {
+    this.http.get<any[]>('https://gt-prueba-1.onrender.com/ver_medicos').subscribe({
+       next: (data) => {
+      // Asegura que tengas un array con id_medico y nombre_completo
+      this.medicos = data.map(item => ({
+        id_medico: item.id_medico,
+        nombre_completo: item.usuario?.nombre_completo || 'Desconocido'
+      }));
+      console.log('Médicos cargados:', this.medicos);
       },
-      error: (err) => {
-        console.error('Error al obtener médicos:', err);
-      }
+      error: (err) => console.error('Error al obtener médicos:', err)
     });
-    console.log(this.medicos)
+  }
+
+
+  cargarFisico(){
+     this.http.get<any[]>('https://gt-prueba-1.onrender.com/niveles_actividad').subscribe({
+       next: (data) => {
+      // Asegura que tengas un array con id_medico y nombre_completo
+      this.actividades = data.map(item => ({
+        id_actividad:item.id_nivel_actividad,
+        nivel: item.descripcion || 'Desconocido'
+      }));
+      console.log('actividades cargados:', this.actividades);
+      },
+      error: (err) => console.error('Error al obtener actividades:', err)
+    });
+  }
+  obtenerenfermedades() {
+    this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_enfermedades').subscribe({
+       next: (data) => {
+      // Asegura que tengas un array con id_medico y nombre_completo
+      this.enfermedades = data.map(item => ({
+        id_enfermedad: item.id_enfermedad,
+        nombre_enfermedad: item.nombre_enfermedad || 'Desconocido'
+      }));
+      console.log('Enfermedades cargados:', this.enfermedades);
+      },
+      error: (err) => console.error('Error al obtener médicos:', err)
+    });
+  }
+
+
+  cargarTratamientos(){
+      this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_tratamientos').subscribe({
+       next: (data) => {
+      // Asegura que tengas un array con id_medico y nombre_completo
+      this.tratamientos = data.map(item => ({
+        id_tratamiento: item.id_tratamiento,
+        nombre_tratamiento: item.nombre_tratamiento,
+        descripcion: item.descripcion
+      }));
+      console.log('tratamientos:', this.tratamientos);
+      },
+      error: (err) => console.error('Error al obtener tratamientos:', err)
+    });
+  }
+
+
+  ngOnInit(){
+    this.obtenerMedicos();
+    this.cargarFisico();
+    this.obtenerenfermedades();
+    this.cargarTratamientos();
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,signal } from '@angular/core';
 import { MedSidebar } from '../componentes/med-sidebar/med-sidebar';
 import { RouterOutlet } from '@angular/router';
 @Component({
@@ -12,4 +12,14 @@ export class MedicoShell {
     // Cuando tengas auth real, llama a tu servicio y navega a /login
     location.href = '';
   }
+   sidebarOpen = signal(false);
+
+  toggleSidebar() {
+    this.sidebarOpen.update(open => !open);
+    console.log('Sidebar open:', this.sidebarOpen()); // Para debug
+  }
+  idUsuario = localStorage.getItem('id_usuario'); // devuelve string | null
+  rol = localStorage.getItem('rol');
+  idRol=localStorage.getItem('id_rol')
+
 }

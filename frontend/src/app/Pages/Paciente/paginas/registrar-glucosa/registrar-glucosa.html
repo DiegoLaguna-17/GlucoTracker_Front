@@ -1,1 +1,61 @@
-<p>registrar-glucosa works!</p>
+<div class="general">
+  <div class="form-container">
+    <h2>Registra tu glucosa del momento</h2>
+
+    <form [formGroup]="glucosaForm" (ngSubmit)="registrarGlucosa()">
+      
+      <!-- Quien toma la muestra -->
+      <div class="input-box full-width">
+        <label>Quien toma la muestra</label>
+        <select formControlName="id_medico">
+          <option value="">Seleccione quien toma la muestra</option>
+          <option *ngFor="let medico of medicos" [value]="medico.id_medico">
+            {{ medico.nombre_completo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="row">
+        <!-- Nivel de glucosa -->
+        <div class="input-box">
+          <label>Nivel de glucosa (mg/dL)</label>
+          <input
+            type="number"
+            formControlName="nivel_glucosa"
+            placeholder="Ingrese nivel de glucosa"
+            min="0"
+            step="0.1"
+          />
+        </div>
+
+        <!-- Momento del día -->
+        <div class="input-box">
+          <label>Momento del día</label>
+          <select formControlName="id_momento">
+            <option value="">Seleccione momento</option>
+            <option *ngFor="let m of momentos" [ngValue]="m.id_momento">
+              {{ m.momento }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Observaciones -->
+      <div class="input-box full-width">
+        <label>Observaciones</label>
+        <textarea
+          formControlName="observaciones"
+          placeholder="Ingrese observaciones adicionales"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Botones -->
+      <div class="button-container">
+        <button type="submit" class="btn" [disabled]="!glucosaForm.valid">
+          Registrar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

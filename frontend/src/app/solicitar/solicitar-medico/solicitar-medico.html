@@ -11,14 +11,14 @@
         <!-- Nombre Completo -->
         <div class="input-box full-width">
           <label>Nombre Completo</label>
-          <input type="text" formControlName="nombreCompleto" placeholder="Ingrese nombre completo" />
+          <input type="text" formControlName="nombre_completo" placeholder="Ingrese nombre completo" />
         </div>
 
         <!-- Fecha Nacimiento, Teléfono y Departamento -->
         <div class="row">
           <div class="input-box">
             <label>Fecha de Nacimiento</label>
-            <input type="date" formControlName="fechaNacimiento" />
+            <input type="date" formControlName="fecha_nac" />
           </div>
           <div class="input-box">
             <label>Teléfono</label>
@@ -29,6 +29,15 @@
             <input type="text" formControlName="departamento" placeholder="Ingrese departamento" />
           </div>
         </div>
+         <div class="input-box full-width">
+          <label>Correo</label>
+          <input type="text"formControlName="correo" placeholder="Ingrese correo electronico" />
+        </div>
+         <div class="input-box full-width">
+          <label>Contraseña</label>
+            <input type="password" formControlName="contrasena" placeholder="Ingrese contraseña" />
+        </div>
+        
       </div>
 
       <!-- Sección: Datos Profesionales -->
@@ -39,14 +48,14 @@
           <!-- Matrícula Profesional (PDF) -->
           <div class="input-box">
             <label>Matrícula Profesional (PDF)</label>
-            <input type="file" formControlName="matriculaProfesional" (change)="onFileSelected($event, 'matricula')" accept=".pdf" />
+            <input type="file"  (change)="onFileSelected($event, 'matricula')" accept=".pdf" />
             <small *ngIf="medicoForm.get('matriculaProfesional')?.value">Archivo seleccionado: {{ getFileName(medicoForm.get('matriculaProfesional')?.value) }}</small>
           </div>
 
           <!-- Carnet Profesional (Imagen) -->
           <div class="input-box">
             <label>Carnet Profesional (Imagen)</label>
-            <input type="file" formControlName="carnetProfesional" (change)="onFileSelected($event, 'carnet')" accept=".jpg,.jpeg,.png" />
+            <input type="file" (change)="onFileSelected($event, 'carnet')" accept=".jpg,.jpeg,.png" />
             <small *ngIf="medicoForm.get('carnetProfesional')?.value">Archivo seleccionado: {{ getFileName(medicoForm.get('carnetProfesional')?.value) }}</small>
           </div>
         </div>
@@ -54,7 +63,12 @@
         <!-- Especialidad -->
         <div class="input-box full-width">
           <label>Especialidad</label>
-          <input type="text" formControlName="especialidad" placeholder="Ingrese especialidad médica" />
+          <select formControlName="id_especialidad">
+            <option value="">Seleccione su especialidad</option>
+             <option *ngFor="let a of especialidades" [value]="a.id_especialidad">
+                {{ a.nombre }}
+              </option>
+          </select>
         </div>
       </div>
 

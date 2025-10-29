@@ -1,33 +1,36 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener,signal,inject,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardAlertaR } from '../../componentes/card-alerta-r/card-alerta-r';
 import { AlertaResumenR } from '../../componentes/card-alerta-r/card-alerta-r';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-alertas-resueltas',
-  imports: [CardAlertaR, CommonModule],
+  imports: [CardAlertaR, CommonModule,HttpClientModule],
   templateUrl: './alertas-resueltas.html',
   styleUrl: './alertas-resueltas.scss',
 })
-export class AlertasResueltas {
-   q = '';
+export class AlertasResueltas implements OnInit{
+  private http = inject(HttpClient);
+  // ===== demo data =====
+    q = '';
+
+  alertas = signal<AlertaResumenR[]>([]);
+  loading = signal(false);
+  error = signal('');
     // demo data
-      alertas: AlertaResumenR[] = [
-    { id: 1, nivel: 'Crítico', idPaciente:'10',paciente: 'Juan Perez',  fecha: '11/10/2025', hora: '21:00', glucosa: 50,  momento: 'Antes de dormir' ,respuesta:'Interesante'},
-    { id: 2, nivel: 'Alerta Alta', idPaciente:'11',paciente: 'María López', fecha: '10/10/2025', hora: '08:20', glucosa: 190, momento: 'Ayunas' ,respuesta:'Interesante'},
-    { id: 3, nivel: 'Moderada',  idPaciente:'12', paciente: 'Carlos Díaz', fecha: '09/10/2025', hora: '14:45', glucosa: 70,  momento: 'Después de comer',respuesta:'Interesante' },
-  ];
   // Lista visible según búsqueda
-  get visibles(): AlertaResumenR[] {
-    const t = this.q.trim().toLowerCase();
-    if (!t) return this.alertas;
-    return this.alertas.filter(a =>
-      a.paciente.toLowerCase().includes(t) ||
-      a.nivel.toLowerCase().includes(t) ||
-      a.fecha.includes(t) ||
-      a.hora.includes(t)
-    );
-  }
+get visibles(): AlertaResumenR[] {
+  const t = this.q.trim().toLowerCase();
+  if (!t) return this.alertas();
+  
+  return this.alertas().filter(a =>
+    a.paciente.toLowerCase().includes(t) ||
+    a.nivel.toLowerCase().includes(t) ||
+    a.fecha.includes(t) ||
+    a.hora.includes(t)
+  );
+}
 
   trackById = (_: number, a: AlertaResumenR) => a.id;
 
@@ -57,4 +60,39 @@ export class AlertasResueltas {
   onEsc() {
     if (this.isModalOpen) this.closeModal();
   }
+
+
+  cargarAlertasResueltas() {
+  this.loading.set(true);
+    const idMedico=localStorage.getItem('id_rol')
+  this.http
+    .get<AlertaResumenR[]>(`https://gt-prueba-1.onrender.com/alertas_resueltas_medico/${idMedico}`)
+    .subscribe({
+      next: (data) => {
+        const alertasMapeadas: AlertaResumenR[] = data.map((a) => ({
+          id: a.id,
+          nivel: a.nivel,
+          idPaciente: a.idPaciente?.toString() || '', // por seguridad
+          paciente: a.paciente || '',
+          fecha: new Date(a.fecha).toLocaleDateString('es-BO'), // dd/MM/yyyy
+          hora: a.hora ? a.hora.slice(0, 5) : '', // HH:mm
+          glucosa: Number(a.glucosa) || 0,
+          momento: a.momento || '',
+          respuesta: a.respuesta || ''
+        }));
+
+        this.alertas.set(alertasMapeadas);
+        console.log('Alertas resueltas cargadas:', this.alertas());
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error al cargar alertas resueltas:', err);
+        this.error.set('No se pudieron cargar las alertas resueltas.');
+        this.loading.set(false);
+      },
+    });
+}
+ngOnInit(): void {
+  this.cargarAlertasResueltas();
+}
 }

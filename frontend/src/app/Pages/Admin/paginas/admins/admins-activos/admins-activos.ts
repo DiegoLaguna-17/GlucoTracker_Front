@@ -34,6 +34,11 @@ export class AdminsActivos {
         );
       });
       verAdmin(m: PerfilAdmin){
-        console.log(m)
+        this.router.navigate(['administrador/administradores/activos/detalle'], { state: { admin: m } });
+
       }
+   
+  
+  
+      
 }
