@@ -76,7 +76,7 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   enviarAlBackend(datos: any) {
-    const url = 'http://localhost:3000/registrar_glucosa'; // cambia la URL real
+    const url = 'https://gt-prueba-1.onrender.com/registrar_glucosa'; // cambia la URL real
 
     this.http.post(url, datos).subscribe({
       next: (response) => {

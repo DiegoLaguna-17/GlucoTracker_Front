@@ -70,7 +70,7 @@ export class AlertasActivas implements OnInit {
   cargarAlertas(idMedico: string|null) {
     this.loading.set(true);
     this.http
-      .get<AlertaResumen[]>(`http://localhost:3000/alertas_activas_medico/${idMedico}`)
+      .get<AlertaResumen[]>(`https://gt-prueba-1.onrender.com/alertas_activas_medico/${idMedico}`)
       .subscribe({
         next: (data) => {
           // mapear los tipos si es necesario

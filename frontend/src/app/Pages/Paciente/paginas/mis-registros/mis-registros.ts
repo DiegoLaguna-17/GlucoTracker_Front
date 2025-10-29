@@ -141,7 +141,7 @@ export class MisRegistros  implements OnInit {
 
   cargarRegistros(){
     const idPaciente=localStorage.getItem('id_rol')
-      this.http.get<any[]>('http://localhost:3000/registros_paciente/'+idPaciente).subscribe({
+      this.http.get<any[]>('https://gt-prueba-1.onrender.com/registros_paciente/'+idPaciente).subscribe({
       next: (data) => {
         this.registros = data;
         console.log('Momentos cargados:', this.registros);

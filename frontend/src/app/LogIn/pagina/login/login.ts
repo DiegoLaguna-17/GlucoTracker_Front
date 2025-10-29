@@ -42,7 +42,7 @@ export class Login implements OnInit {
       contrasena:this.form.value.contrasena
      }
 
-    this.http.post<any>('http://localhost:3000/login', datos)
+    this.http.post<any>('https://gt-prueba-1.onrender.com/login', datos)
       .subscribe({
         next: (res) => {
           console.log('Login exitoso:', res);

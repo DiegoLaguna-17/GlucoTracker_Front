@@ -42,7 +42,7 @@ export class Perfil implements OnInit{
   }
   cargarPaciente() {
     const idPaciente=localStorage.getItem('id_rol')
-    const url = `http://localhost:3000/perfil_paciente/${idPaciente}`;
+    const url = `https://gt-prueba-1.onrender.com/perfil_paciente/${idPaciente}`;
     this.http.get<Patient>(url).subscribe({
       next: (data) => {
         this.patient = data;

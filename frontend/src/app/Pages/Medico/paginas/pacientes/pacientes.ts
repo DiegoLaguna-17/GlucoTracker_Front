@@ -30,7 +30,7 @@ export class Pacientes implements OnInit{
  cargarPacientes() {
     
     const idMedico=localStorage.getItem('id_rol')
-    const pacientesUrl = `http://localhost:3000/ver_pacientes/${idMedico}`;
+    const pacientesUrl = `https://gt-prueba-1.onrender.com/ver_pacientes/${idMedico}`;
 
     this.loading = true;
    this.http.get<PacienteResumen[]>(pacientesUrl).subscribe({

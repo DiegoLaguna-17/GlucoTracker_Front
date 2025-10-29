@@ -90,7 +90,7 @@ onFileSelected(event: any, tipo: string) {
 
   // Consumir endpoint del backend
   enviarAlBackend(formData: FormData) {
-    const url = 'http://localhost:3000/registrar_medicos'; // 🔹 Tu endpoint backend real
+    const url = 'https://gt-prueba-1.onrender.com/registrar_medicos'; // 🔹 Tu endpoint backend real
 
     this.http.post(url, formData).subscribe({
       next: (response) => {
@@ -107,7 +107,7 @@ onFileSelected(event: any, tipo: string) {
 
   // Cargar especialidades desde el backend
   cargarEspecialidades() {
-    this.http.get<any[]>('http://localhost:3000/obtener_especialidades').subscribe({
+    this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_especialidades').subscribe({
       next: (data) => {
         this.especialidades = data.map(item => ({
           id_especialidad: item.id_especialidad,

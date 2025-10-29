@@ -66,7 +66,7 @@ get visibles(): AlertaResumenR[] {
   this.loading.set(true);
     const idMedico=localStorage.getItem('id_rol')
   this.http
-    .get<AlertaResumenR[]>(`http://localhost:3000/alertas_resueltas_medico/${idMedico}`)
+    .get<AlertaResumenR[]>(`https://gt-prueba-1.onrender.com/alertas_resueltas_medico/${idMedico}`)
     .subscribe({
       next: (data) => {
         const alertasMapeadas: AlertaResumenR[] = data.map((a) => ({

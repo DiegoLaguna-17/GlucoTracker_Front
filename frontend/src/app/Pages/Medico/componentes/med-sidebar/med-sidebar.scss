@@ -1,7 +1,7 @@
-/* ad-sidebar.component.css */
 :host {
   display: block;
   height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .sidebar {
@@ -32,12 +32,20 @@
 
 .avatar {
   width: 160px;
-  height: 80px;
+  height: 160px;
   background: var(--panel);
   border-radius: 6px;
   display: grid;
   place-items: center;
   font-weight: 600;
+  overflow: hidden; /* Contiene la imagen */
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene proporción sin recortar */
+  object-position: center;
 }
 
 .name {
@@ -172,6 +180,7 @@
   
   .avatar {
     width: 140px;
+    height: 70px;
   }
   
   .logout {

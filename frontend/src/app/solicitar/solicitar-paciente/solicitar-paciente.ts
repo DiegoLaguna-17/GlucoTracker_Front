@@ -100,7 +100,7 @@ onTratamientoChange(event: any) {
 
   enviarAlBackend(datos: any) {
     // URL de tu endpoint - CAMBIA ESTA URL
-    const url = 'http://localhost:3000/registrar_paciente';
+    const url = 'https://gt-prueba-1.onrender.com/registrar_paciente';
     
     this.http.post(url, datos).subscribe({
       next: (response) => {
@@ -135,7 +135,7 @@ onTratamientoChange(event: any) {
 
 
   cargarFisico(){
-     this.http.get<any[]>('http://localhost:3000/niveles_actividad').subscribe({
+     this.http.get<any[]>('https://gt-prueba-1.onrender.com/niveles_actividad').subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.actividades = data.map(item => ({
@@ -148,7 +148,7 @@ onTratamientoChange(event: any) {
     });
   }
   obtenerenfermedades() {
-    this.http.get<any[]>('http://localhost:3000/obtener_enfermedades').subscribe({
+    this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_enfermedades').subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.enfermedades = data.map(item => ({
@@ -163,7 +163,7 @@ onTratamientoChange(event: any) {
 
 
   cargarTratamientos(){
-      this.http.get<any[]>('http://localhost:3000/obtener_tratamientos').subscribe({
+      this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_tratamientos').subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.tratamientos = data.map(item => ({
