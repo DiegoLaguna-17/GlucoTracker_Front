@@ -10,9 +10,14 @@ import { RouterLink,RouterLinkActive, RouterModule } from '@angular/router';
 })
 export class PacienteSidebar {
   @Output() logout = new EventEmitter<void>();
-  openAlertas = signal(false);
-  toggleAlertas(){ this.openAlertas.update(v => !v); }
+  
   perfil(){
     console.log('yendo a perfil')
+  }
+  sidebarOpen = signal(false);
+
+  toggleSidebar() {
+    this.sidebarOpen.update(open => !open);
+    console.log('Sidebar open:', this.sidebarOpen()); // Para debug
   }
 }

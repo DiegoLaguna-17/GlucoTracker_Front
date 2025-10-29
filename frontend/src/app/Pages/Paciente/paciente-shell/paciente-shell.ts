@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , signal} from '@angular/core';
 import { PacienteSidebar } from '../componentes/paciente-sidebar/paciente-sidebar';
 import { RouterOutlet } from '@angular/router';
 @Component({
@@ -12,4 +12,11 @@ export class PacienteShell {
     // Cuando tengas auth real, llama a tu servicio y navega a /login
     location.href = '';
   }
+  sidebarOpen = signal(false);
+
+  toggleSidebar() {
+    this.sidebarOpen.update(open => !open);
+    console.log('Sidebar open:', this.sidebarOpen()); // Para debug
+  }
+
 }

@@ -1,20 +1,19 @@
- <aside class="sidebar">
-    <div class="top">
-      <div class="avatar">Icono</div>
-      <h2 class="name">Dr. John Doe</h2>
-     <!-- med-sidebar.html -->
-        <button
+
+  <!-- ad-sidebar.component.html -->
+<div class="sidebar">
+  <div class="top">
+    <div class="avatar">Icono</div>
+    <h2 class="name">Admin</h2>
+
+    <button
         class="btn pill"
         [routerLink]="['/medico/perfil']"
-        [state]="{ medico: medic }"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">
         Mi perfil
         </button>
-
-    </div>
-
-    <nav class="menu">
+  </div>
+  <nav class="menu">
       <a class="item" routerLink="./pacientes" routerLinkActive="active">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
@@ -41,10 +40,8 @@
       </div>
     </nav>
 
-    <button class="logout" type="button" (click)="logout.emit()">
-      <span class="logout-icon">
-        <svg viewBox="0 0 24 24"><path d="M10 3h7a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-7v-2h6V5h-6ZM4 12l4-4v3h7v2H8v3Z"/></svg>
-      </span>
-      Cerrar Sesión
-    </button>
-  </aside>
+  <button class="logout" type="button" (click)="logout.emit()">
+    <span class="logout-icon">...</span>
+    Cerrar Sesión
+  </button>
+</div>

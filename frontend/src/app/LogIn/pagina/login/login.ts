@@ -1,31 +1,27 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,HttpClientModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
-  usuarios = [
-    { usuario: 'drjd', contrasenia: '123', rol: 'medico' },
-    { usuario: 'admin', contrasenia: '321', rol: 'administrador' },
-    { usuario: 'usuario', contrasenia: '456', rol: 'paciente' }
-  ];
+export class Login implements OnInit {
+ 
 
   private fb = new FormBuilder();
   loading = signal(false);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private http: HttpClient) {}
 
   form = this.fb.group({
     usuario: ['', [Validators.required, Validators.minLength(3)]],
 
-    contrasenia: ['', [Validators.required, Validators.minLength(3)]],
+    contrasena: ['', [Validators.required, Validators.minLength(3)]],
   });
 
   // Método (no signal) que consulta el estado actual del form
@@ -40,20 +36,40 @@ export class Login {
     }
     this.loading.set(true);
 
-    const { usuario, contrasenia } = this.form.value;
-    const encontrado = this.usuarios.find(u => u.usuario === usuario && u.contrasenia === contrasenia);
+    const { usuario, contrasena } = this.form.value;
+     const datos = {
+      correo:this.form.value.usuario,
+      contrasena:this.form.value.contrasena
+     }
 
-    setTimeout(() => {
-      this.loading.set(false);
-      if (!encontrado) {
-        alert('Usuario o contraseña incorrectos');
-        return;
-      }
+    this.http.post<any>('http://localhost:3000/login', datos)
+      .subscribe({
+        next: (res) => {
+          console.log('Login exitoso:', res);
 
-      if (encontrado.rol === 'medico') this.router.navigateByUrl('/medico/pacientes');
-      else if (encontrado.rol === 'administrador') this.router.navigateByUrl('/administrador/pacientes/activos');
-      else this.router.navigateByUrl('/paciente/mis-registros');
-    }, 400);
+          // Guardar datos en localStorage (opcional)
+          localStorage.setItem('id_usuario', res.id_usuario);
+          localStorage.setItem('id_rol', res.id_rol);
+          localStorage.setItem('rol', res.rol);
+
+          // Redirigir según rol
+          if (res.rol === 'administrador') {
+            this.router.navigate(['/administrador']);
+          } else if (res.rol === 'medico') {
+            this.router.navigate(['/medico']);
+          } else {
+            this.router.navigate(['/paciente']);
+          }
+          
+        },
+        error: (err) => {
+          console.error('Error de login:', err);
+          alert(err.error?.error || 'Error al iniciar sesión');
+        }
+      });
+
+
+    
   }
 
   // NUEVOS MÉTODOS para redirección a registros
@@ -65,5 +81,14 @@ export class Login {
     this.router.navigate(['/solicitar-medico']);
   }
 
+  ejecutarLogin(){
+    
+  }
+
   get f() { return this.form.controls; }
+
+
+  ngOnInit(): void {
+    localStorage.clear();
+  }
 }

@@ -1,11 +1,16 @@
+h1,h2{
+      font-family: Arial, Helvetica, sans-serif;
+
+}
 .perfil {
+
   background: #eefafa;
   min-height: 100dvh;
-  padding: 24px;
   box-sizing: border-box;
 }
 
 .nombre {
+
   margin: 0 0 12px 0;
   font-size: 1.8rem;
   font-weight: 800;
@@ -13,6 +18,8 @@
 }
 
 .grid {
+      font-family: Arial, Helvetica, sans-serif;
+
   display: grid;
   gap: 14px;
   /* 3 filas principales:
@@ -39,6 +46,33 @@
     color: #1b2f40;
   }
 }
+.page {
+  padding: 24px;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  background: #eefafa;
+  animation: fadeIn 0.8s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 
 /* Datos personales */
 .datos .cols {

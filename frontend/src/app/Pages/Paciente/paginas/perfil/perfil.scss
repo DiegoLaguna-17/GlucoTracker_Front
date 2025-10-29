@@ -1,0 +1,178 @@
+/* Paleta */
+$bg: #eaf6f7;
+$ink: #172b3a;
+$muted: #5d6b7a;
+$border: #9dd7db;
+$primary: #0a80fb;
+$chip-bg: #e6f7ff;
+
+.perfil {
+  font-family: Arial, Helvetica, sans-serif;
+  background: $bg;
+  min-height: 100dvh;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.nombre {
+    font-family: Arial, Helvetica, sans-serif;
+
+  margin: 0 0 16px 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: $ink;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+
+  /* Dos tarjetas verticales (actividad + afecciones) a la derecha */
+  > .card:nth-child(2),
+  > .card:nth-child(3) {
+    height: fit-content;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: #fff;
+  border: 2px solid $border;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.06);
+
+  h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.05rem;
+    color: $ink;
+  }
+}
+
+.card--block { /* Datos personales estilizado */
+  .datos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dato {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+
+    .label {
+      color: $muted;
+      font-weight: 600;
+    }
+    .value {
+      color: $ink;
+    }
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1.5px solid $primary;
+  background: $chip-bg;
+  font-size: .85rem;
+  white-space: nowrap;
+}
+
+.card--full {
+  margin-top: 16px;
+}
+
+.treatments {
+  display: grid;
+  gap: 12px;
+}
+
+.t-card {
+  border: 2px solid $border;
+  border-radius: 12px;
+  padding: 12px;
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    color: $ink;
+  }
+
+  .t-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+    gap: 16px;
+
+    @media (max-width: 700px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .t-label {
+    display: block;
+    font-weight: 700;
+    font-size: .9rem;
+    color: $muted;
+    margin-bottom: 6px;
+  }
+
+  .t-text {
+    margin: 0;
+    line-height: 1.35rem;
+    color: $ink;
+  }
+}
+
+.actividad {
+  margin: 0;
+  strong { color: $ink; }
+}
+
+.admitido {
+  .admin {
+    margin: 8px 0 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: $ink;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

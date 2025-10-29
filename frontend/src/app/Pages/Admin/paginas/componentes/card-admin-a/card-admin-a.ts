@@ -7,8 +7,8 @@ export interface PerfilAdmin{
   fechaNac:string;
   telefono:string;
   cargo:string;
-  fechaIn:string|null;
-  admitidoPor:string|null
+  fechaIn:string;
+  admitidoPor:string
 }
 @Component({
   selector: 'app-card-admin-a',

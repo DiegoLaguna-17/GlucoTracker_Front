@@ -1,0 +1,85 @@
+<div class="perfil" *ngIf="data">
+  <h1 class="nombre">{{ data.nombre }}</h1>
+
+  <section class="grid">
+    <!-- Datos personales -->
+    <article class="card card--block">
+      <h2>Datos Personales</h2>
+      <div class="datos">
+        <div class="dato">
+          <span class="label">ID:</span>
+          <span class="value">{{ data.id }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Fecha de nacimiento:</span>
+          <span class="value">{{ data.fechaNac }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Género:</span>
+          <span class="value">{{ data.genero }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Peso:</span>
+          <span class="value">{{ data.peso }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Altura:</span>
+          <span class="value">{{ data.altura }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Correo:</span>
+          <span class="value">{{ data.correo }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Teléfono:</span>
+          <span class="value">{{ data.telefono }}</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Actividad Física -->
+    <article class="card">
+      <h2>Actividad Física</h2>
+      <p class="actividad">
+        <strong>{{ data.actividadFisica.nivel }}:</strong>
+        {{ data.actividadFisica.descripcion }}
+      </p>
+    </article>
+
+    <!-- Afecciones -->
+    <article class="card">
+      <h2>Afecciones</h2>
+      <div class="chips">
+        <span class="chip" *ngFor="let a of data.afecciones">{{ a }}</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- Tratamientos -->
+  <section class="card card--full">
+    <h2>Tratamientos</h2>
+
+    <div class="treatments">
+      <article class="t-card" *ngFor="let t of data.tratamientos">
+        <h3>{{ t.titulo }}</h3>
+
+        <div class="t-grid">
+          <div class="t-col">
+            <span class="t-label">Descripción:</span>
+            <p class="t-text">{{ t.descripcion }}</p>
+          </div>
+          <div class="t-col">
+            <span class="t-label">Dosis:</span>
+            <p class="t-text">{{ t.dosis }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Admitido por -->
+  <section class="card card--full admitido">
+    <h2>Admitido por</h2>
+    <p class="admin">{{ data.admitidoPor }}</p>
+  </section>
+</div>
