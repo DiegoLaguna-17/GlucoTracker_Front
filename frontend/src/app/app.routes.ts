@@ -81,6 +81,24 @@ export const routes: Routes = [
             
         ]
     },
+<<<<<<< Updated upstream
     
+=======
+    {
+        path:'paciente',loadComponent:()=>import('./Pages/Paciente/paciente-shell/paciente-shell').then(m=>m.PacienteShell),
+        children:[
+            {
+                path:'',pathMatch:'full',redirectTo:'registrar'
+            },
+           
+            {
+                path:'registrar',loadComponent:()=>import('./Pages/Paciente/paginas/registrar-glucosa/registrar-glucosa').then(m=>m.RegistrarGlucosa)
+            },
+            {
+                path: 'registros', loadComponent:()=>import('./Pages/Paciente/paginas/mis-registros/mis-registros').then(m=>m.MisRegistrosComponent)
+            },
+        ]
+    }
+>>>>>>> Stashed changes
 
 ];

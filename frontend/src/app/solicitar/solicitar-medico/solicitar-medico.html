@@ -54,7 +54,11 @@
         <!-- Especialidad -->
         <div class="input-box full-width">
           <label>Especialidad</label>
-          <input type="text" formControlName="especialidad" placeholder="Ingrese especialidad médica" />
+          <select formControlName="especialidad">
+            <option value="">Seleccione especialidad</option>
+            <option value="cardiologia">Cardiología</option>
+            <option value="endocrinologia">Endocrinología</option>
+          </select>
         </div>
       </div>
 

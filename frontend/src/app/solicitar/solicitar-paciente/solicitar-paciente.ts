@@ -23,7 +23,7 @@ export class SolicitarPacienteComponent {
       // Datos personales
       nombreCompleto: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
 
       // Datos médicos
       genero: ['', Validators.required],
@@ -80,8 +80,8 @@ export class SolicitarPacienteComponent {
   }
 
   enviarAlBackend(datos: any) {
-    // URL de tu endpoint - CAMBIA ESTA URL
-    const url = 'https://tu-backend.com/api/solicitudes-paciente';
+    // Se lo mando al back con esta url
+    const url = 'http://localhost:3000/registrar_paciente';
     
     this.http.post(url, datos).subscribe({
       next: (response) => {
