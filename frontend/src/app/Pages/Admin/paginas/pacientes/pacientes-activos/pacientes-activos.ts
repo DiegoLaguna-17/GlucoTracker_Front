@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardPacienteA,PacienteResumen } from '../../componentes/card-paciente-a/card-paciente-a';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'app-pacientes-activos',
   imports: [CardPacienteA,CommonModule,HttpClientModule],
@@ -35,7 +36,7 @@ export class PacientesActivos implements OnInit{
     }
 
     cargarPacientes(){
-      const pacientesUrl = 'http://localhost:3000/pacientes_activos'; // <-- corregido typo
+      const pacientesUrl = `${environment.apiUrl}/administradores/pacientes/activos`; // <-- corregido typo
           this.loading = true;
           this.http.get<PacienteResumen[]>(pacientesUrl).subscribe({
             next: (data) => {

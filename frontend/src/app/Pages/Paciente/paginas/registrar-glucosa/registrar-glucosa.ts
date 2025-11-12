@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-registrar-glucosa',
   standalone: true, // 👈 importante si usas componentes standalone
@@ -31,7 +31,7 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   obtenerMedicos() {
-    this.http.get<any[]>('https://gt-prueba-1.onrender.com/ver_medicos').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/medicos/ver`).subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.medicos = data.map(item => ({
@@ -45,7 +45,7 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   obtenerMomentos() {
-    this.http.get<any[]>('https://gt-prueba-1.onrender.com/ver_momentos').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/general/momentos`).subscribe({
       next: (data) => {
         this.momentos = data;
         console.log('Momentos cargados:', this.momentos);
@@ -76,7 +76,7 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   enviarAlBackend(datos: any) {
-    const url = 'https://gt-prueba-1.onrender.com/registrar_glucosa'; // cambia la URL real
+    const url =`${environment.apiUrl}/pacientes/registrarGlucosa`; // cambia la URL real
 
     this.http.post(url, datos).subscribe({
       next: (response) => {

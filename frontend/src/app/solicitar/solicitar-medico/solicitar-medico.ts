@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-solicitar-medico',
   standalone: true,
@@ -90,7 +90,7 @@ onFileSelected(event: any, tipo: string) {
 
   // Consumir endpoint del backend
   enviarAlBackend(formData: FormData) {
-    const url = 'https://gt-prueba-1.onrender.com/registrar_medicos'; // 🔹 Tu endpoint backend real
+    const url =`${environment.apiUrl}/medicos/registrar`; // 🔹 Tu endpoint backend real
 
     this.http.post(url, formData).subscribe({
       next: (response) => {
@@ -107,7 +107,7 @@ onFileSelected(event: any, tipo: string) {
 
   // Cargar especialidades desde el backend
   cargarEspecialidades() {
-    this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_especialidades').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/general/especialidades`).subscribe({
       next: (data) => {
         this.especialidades = data.map(item => ({
           id_especialidad: item.id_especialidad,

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardMedicoA, PerfilModelo } from '../../componentes/card-medico-a/card-medico-a';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'app-medicos-activos',
   standalone: true, // asegurate de ponerlo si es standalone
@@ -41,7 +41,8 @@ export class MedicosActivos implements OnInit {
   }
 
   cargarMedicos() {
-    const medicosUrl = 'http://localhost:3000/medicos_activos'; // <-- corregido typo
+    const medicosUrl = `${environment.apiUrl}/administradores/medicos/activos`;
+     // <-- corregido typo
     this.loading = true;
     this.http.get<PerfilModelo[]>(medicosUrl).subscribe({
       next: (data) => {

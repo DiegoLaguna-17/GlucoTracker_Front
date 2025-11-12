@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from '../../../../../environments/environment';
 export interface PerfilModelo{
   id:string;
   nombre:string;
@@ -39,7 +40,8 @@ export class Perfil {
    
   }
   cargarPerfil(){
-    this.http.get<PerfilModelo>(`https://gt-prueba-1.onrender.com/perfil_medico/${this.idUsuario}`)
+    console.log(this.idUsuario)
+    this.http.get<PerfilModelo>(`${environment.apiUrl}/medicos/perfil/${this.idUsuario}`)
       .subscribe({
         next: (data) => {
           this.medico = data;

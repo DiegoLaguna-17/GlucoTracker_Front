@@ -2,6 +2,7 @@ import { Component, Input,OnInit,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgFor, NgIf } from '@angular/common';  
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 export interface Treatment {
   titulo: string;
   descripcion: string;
@@ -42,7 +43,7 @@ export class Perfil implements OnInit{
   }
   cargarPaciente() {
     const idPaciente=localStorage.getItem('id_rol')
-    const url = `https://gt-prueba-1.onrender.com/perfil_paciente/${idPaciente}`;
+    const url = `${environment.apiUrl}/pacientes/perfil/${idPaciente}`;
     this.http.get<Patient>(url).subscribe({
       next: (data) => {
         this.patient = data;

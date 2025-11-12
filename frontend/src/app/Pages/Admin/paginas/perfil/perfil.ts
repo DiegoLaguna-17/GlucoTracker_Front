@@ -3,6 +3,7 @@ import { CardAdminA } from '../componentes/card-admin-a/card-admin-a';
 import { PerfilAdmin } from '../componentes/card-admin-a/card-admin-a';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-perfil',
   imports: [HttpClientModule,CommonModule],
@@ -18,7 +19,7 @@ export class Perfil implements OnInit{
       // fallback básico si entraron directo (sin state)
     }
     cargarPerfil(){
-      this.http.get<any>(`http://localhost:3000/perfil_admin/${this.idUsuario}`)
+      this.http.get<any>(`${environment.apiUrl}/administradores/perfilAdmin/${this.idUsuario}`)
   .subscribe({
     next: (data) => {
       this.administrador = {

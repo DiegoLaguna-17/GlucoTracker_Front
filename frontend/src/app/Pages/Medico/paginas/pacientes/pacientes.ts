@@ -3,6 +3,7 @@ import { PacienteCard ,PacienteResumen} from '../../componentes/paciente-card/pa
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-pacientes',
   imports: [PacienteCard,CommonModule,HttpClientModule],
@@ -30,7 +31,7 @@ export class Pacientes implements OnInit{
  cargarPacientes() {
     
     const idMedico=localStorage.getItem('id_rol')
-    const pacientesUrl = `https://gt-prueba-1.onrender.com/ver_pacientes/${idMedico}`;
+    const pacientesUrl = `${environment.apiUrl}/medicos/misPacientes/${idMedico}`;
 
     this.loading = true;
    this.http.get<PacienteResumen[]>(pacientesUrl).subscribe({

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CardPromedio } from '../../componentes/card-promedio/card-promedio';
 import { CardGlucosa } from '../../componentes/card-glucosa/card-glucosa';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-mis-registros',
   imports: [CommonModule, FormsModule, CardPromedio, CardGlucosa,HttpClientModule],
@@ -141,7 +142,7 @@ export class MisRegistros  implements OnInit {
 
   cargarRegistros(){
     const idPaciente=localStorage.getItem('id_rol')
-      this.http.get<any[]>('https://gt-prueba-1.onrender.com/registros_paciente/'+idPaciente).subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/pacientes/registros/${idPaciente}`).subscribe({
       next: (data) => {
         this.registros = data;
         console.log('Momentos cargados:', this.registros);

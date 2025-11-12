@@ -3,7 +3,7 @@ import { PerfilModelo } from '../../componentes/card-medico-a/card-medico-a';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
+import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'app-detalle-medico-solicitud',
   imports: [HttpClientModule],
@@ -36,7 +36,7 @@ export class DetalleMedicoSolicitud {
 
     }
     activarEndpoint(){
-      const activarUrl='http://localhost:3000/activar-medico/'+this.medico.id;
+      const activarUrl=`${environment.apiUrl}/administradores/medico/activar/${this.medico.id}`;
        this.http.put(activarUrl, {}).subscribe({
       next: (res) => {
         console.log('Usuario activado:', res);

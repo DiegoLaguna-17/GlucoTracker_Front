@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-solicitar-paciente',
@@ -100,7 +100,7 @@ onTratamientoChange(event: any) {
 
   enviarAlBackend(datos: any) {
     // URL de tu endpoint - CAMBIA ESTA URL
-    const url = 'https://gt-prueba-1.onrender.com/registrar_paciente';
+    const url = `${environment.apiUrl}/pacientes/registrarPaciente`;
     
     this.http.post(url, datos).subscribe({
       next: (response) => {
@@ -120,7 +120,7 @@ onTratamientoChange(event: any) {
   }
 
    obtenerMedicos() {
-    this.http.get<any[]>('https://gt-prueba-1.onrender.com/ver_medicos').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/medicos/ver`).subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.medicos = data.map(item => ({
@@ -135,7 +135,7 @@ onTratamientoChange(event: any) {
 
 
   cargarFisico(){
-     this.http.get<any[]>('https://gt-prueba-1.onrender.com/niveles_actividad').subscribe({
+     this.http.get<any[]>(`${environment.apiUrl}/general/niveles`).subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.actividades = data.map(item => ({
@@ -148,7 +148,7 @@ onTratamientoChange(event: any) {
     });
   }
   obtenerenfermedades() {
-    this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_enfermedades').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/general/enfermedades`).subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.enfermedades = data.map(item => ({
@@ -163,7 +163,7 @@ onTratamientoChange(event: any) {
 
 
   cargarTratamientos(){
-      this.http.get<any[]>('https://gt-prueba-1.onrender.com/obtener_tratamientos').subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/general/tratamientos`).subscribe({
        next: (data) => {
       // Asegura que tengas un array con id_medico y nombre_completo
       this.tratamientos = data.map(item => ({

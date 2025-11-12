@@ -3,7 +3,7 @@ import { CardPacienteA,PacienteResumen } from '../../componentes/card-paciente-a
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
-
+import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'app-pacientes-solicitudes',
   imports: [CardPacienteA,CommonModule,HttpClientModule],
@@ -39,7 +39,7 @@ export class PacientesSolicitudes implements OnInit{
     }
     
     cargarPacientes(){
-      const pacientesUrl = 'http://localhost:3000/pacientes_solicitantes'; // <-- corregido typo
+      const pacientesUrl = `${environment.apiUrl}/administradores/pacientes/solicitantes`; // <-- corregido typo
           this.loading = true;
           this.http.get<PacienteResumen[]>(pacientesUrl).subscribe({
             next: (data) => {

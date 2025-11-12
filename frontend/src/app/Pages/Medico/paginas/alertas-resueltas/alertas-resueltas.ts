@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CardAlertaR } from '../../componentes/card-alerta-r/card-alerta-r';
 import { AlertaResumenR } from '../../componentes/card-alerta-r/card-alerta-r';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-alertas-resueltas',
   imports: [CardAlertaR, CommonModule,HttpClientModule],
@@ -66,7 +67,7 @@ get visibles(): AlertaResumenR[] {
   this.loading.set(true);
     const idMedico=localStorage.getItem('id_rol')
   this.http
-    .get<AlertaResumenR[]>(`https://gt-prueba-1.onrender.com/alertas_resueltas_medico/${idMedico}`)
+    .get<AlertaResumenR[]>(`${environment.apiUrl}/medicos/alertasResueltas/${idMedico}`)
     .subscribe({
       next: (data) => {
         const alertasMapeadas: AlertaResumenR[] = data.map((a) => ({

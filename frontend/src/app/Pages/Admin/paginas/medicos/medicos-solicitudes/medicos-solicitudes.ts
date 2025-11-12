@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardMedicoA,PerfilModelo } from '../../componentes/card-medico-a/card-medico-a';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'app-medicos-solicitudes',
   imports: [CommonModule,CardMedicoA,HttpClientModule],
@@ -44,7 +45,7 @@ export class MedicosSolicitudes {
   }
   
   cargarMedicos() {
-    const medicosUrl = 'http://localhost:3000/medicos_solicitantes'; // <-- corregido typo
+    const medicosUrl = `${environment.apiUrl}/administradores/solicitantes`; // <-- corregido typo
     this.loading = true;
     this.http.get<PerfilModelo[]>(medicosUrl).subscribe({
       next: (data) => {
