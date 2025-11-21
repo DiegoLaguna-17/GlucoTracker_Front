@@ -73,13 +73,14 @@ get visibles(): AlertaResumenR[] {
         const alertasMapeadas: AlertaResumenR[] = data.map((a) => ({
           id: a.id,
           nivel: a.nivel,
-          idPaciente: a.idPaciente?.toString() || '', // por seguridad
+          idpaciente: a.idpaciente?.toString() || '', // por seguridad
           paciente: a.paciente || '',
           fecha: new Date(a.fecha).toLocaleDateString('es-BO'), // dd/MM/yyyy
           hora: a.hora ? a.hora.slice(0, 5) : '', // HH:mm
           glucosa: Number(a.glucosa) || 0,
           momento: a.momento || '',
-          respuesta: a.respuesta || ''
+          observaciones:a.observaciones,
+          mensaje:a.mensaje
         }));
 
         this.alertas.set(alertasMapeadas);

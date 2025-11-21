@@ -59,3 +59,27 @@
     </form>
   </div>
 </div>
+
+
+<!-- =============== MODAL DE ÉXITO ================= -->
+<div class="modal-overlay" *ngIf="modalExito">
+  <div class="modal">
+    <h3>Parametros normales</h3>
+    <p>Tu nivel de glucosa está dentro del rango adecuado. Continúa con tus hábitos actuales. La medición fue revisada por el médico de turno.</p>
+
+    <button class="btn" (click)="modalExito = false">Aceptar</button>
+  </div>
+</div>
+
+
+<!-- =============== MODAL DE ALERTA ================= -->
+<div class="modal-overlay" *ngIf="modalAlerta">
+  <div class="modal modal-alerta">
+    <h3>{{respuesta}}</h3>
+    <p>{{ mensajeAlerta }}</p>
+
+    <button class="btn btn-alerta" (click)="modalAlerta = false">
+      Entendido
+    </button>
+  </div>
+</div>

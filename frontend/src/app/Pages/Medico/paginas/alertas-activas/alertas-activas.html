@@ -32,6 +32,8 @@
     <div><b>Nivel de glucosa:</b> {{ selected?.glucosa }}</div>
     <div><b>Hora:</b> {{ selected?.hora }}</div>
     <div><b>Momento:</b> {{ selected?.momento }}</div>
+    <div><b>Observacion durante la muesta:</b></div>
+    <div>{{selected?.observaciones}}</div>
   </div>
 
   <label class="lbl">Respuesta:</label>
@@ -39,6 +41,48 @@
 
   <button class="btn-resolver" (click)="resolver()">Resolver</button>
 </div>
+
+
+
+<!-- BACKDROP -->
+<div class="success-backdrop" *ngIf="isSuccessOpen" (click)="isSuccessOpen=false"></div>
+
+<!-- MODAL DE ÉXITO -->
+<div class="success-modal" 
+     *ngIf="isSuccessOpen" 
+     (click)="$event.stopPropagation()"
+     role="alert"
+     aria-live="assertive">
+
+  <div class="icon">✔</div>
+
+  <h3>¡Alerta Resuelta!</h3>
+
+  <p>La respuesta fue registrada correctamente.</p>
+
+  <button class="ok-btn" (click)="isSuccessOpen=false">Aceptar</button>
+</div>
+
+
+<!-- BACKDROP - ERROR -->
+<div class="error-backdrop" *ngIf="isErrorOpen" (click)="isErrorOpen=false"></div>
+
+<!-- MODAL DE ERROR -->
+<div class="error-modal"
+     *ngIf="isErrorOpen"
+     (click)="$event.stopPropagation()"
+     role="alert"
+     aria-live="assertive">
+
+  <div class="error-icon">✖</div>
+
+  <h3>Ocurrió un error</h3>
+
+  <p>{{ errorMessage || 'No se pudo registrar la respuesta. Intenta nuevamente.' }}</p>
+
+  <button class="error-ok" (click)="isErrorOpen=false">Cerrar</button>
+</div>
+
 </section>
 
 

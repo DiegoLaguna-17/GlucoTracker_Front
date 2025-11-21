@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -42,7 +43,7 @@ export class Login implements OnInit {
       contrasena:this.form.value.contrasena
      }
 
-    this.http.post<any>('https://gt-prueba-1.onrender.com/login', datos)
+    this.http.post<any>(environment.apiUrl+'/login', datos)
       .subscribe({
         next: (res) => {
           console.log('Login exitoso:', res);

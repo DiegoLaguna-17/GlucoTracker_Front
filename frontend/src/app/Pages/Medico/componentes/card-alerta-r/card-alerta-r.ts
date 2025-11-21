@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 export interface AlertaResumenR {
   id: number | string;
   nivel: String;
-  idPaciente:String;
+  idpaciente:String;
   paciente: string;
   fecha: string; // dd/MM/yyyy
   hora: string;  // HH:mm
   glucosa: number; // mg/dL
   momento: string;
-  respuesta:string
+  observaciones:string;
+  mensaje:string;
   // Puedes añadir más campos si quieres
 }
 @Component({

@@ -9,6 +9,7 @@ export interface AlertaResumen {
   hora: string;  // HH:mm
    glucosa: number; // mg/dL
   momento: string;
+  observaciones:string;
   // Puedes añadir más campos si quieres
 }
 @Component({

@@ -20,7 +20,7 @@ export class AlertasActivas implements OnInit {
   loading = signal(false);
   error = signal('');
 
-
+  isSuccessOpen = false;
   // Lista visible según búsqueda
  get visibles(): AlertaResumen[] {
   const t = this.q.trim().toLowerCase();
@@ -42,6 +42,8 @@ export class AlertasActivas implements OnInit {
   selected: AlertaResumen | null = null;
   respuesta = '';
 
+  isErrorOpen = false;
+  errorMessage: string | null = null;
   openDetalle(a: AlertaResumen) {
     this.selected = a;
     this.respuesta = '';
@@ -57,8 +59,30 @@ export class AlertasActivas implements OnInit {
   }
 
   resolver() {
+    const fechaActual = new Date();
     // Aquí iría tu llamada a la API para resolver la alerta
-    console.log('Resolver alerta', { id: this.selected?.id, respuesta: this.respuesta });
+    
+    const datos={
+      id_medico:localStorage.getItem('id_rol'),
+      fecha_registro:fechaActual.toISOString().split('T')[0],
+      mensaje: this.respuesta,
+      alertas_id_alerta:this.selected?.id
+    }
+    console.log('Resolver alerta',{datos});
+
+    const url=`${environment.apiUrl}/medicos/responder/alerta`;
+    this.http.post(url,datos).subscribe({
+      next:(res)=>{
+        this.isSuccessOpen=true
+        this.alertas.set([]);
+        this.cargarAlertas(localStorage.getItem('id_rol'));
+      },
+      error:(err)=>{
+        this.errorMessage = err;
+        this.isErrorOpen = true;
+      }
+    })
+    
     this.closeModal();
   }
 
@@ -84,6 +108,7 @@ export class AlertasActivas implements OnInit {
             hora: a.hora.slice(0, 5), // HH:mm
             glucosa: Number(a.glucosa),
             momento: a.momento || '',
+            observaciones:a.observaciones
           }));
 
           this.alertas.set(alertasMapeadas);

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
+import { GlucosaService } from './glucosa.service';
 @Component({
   selector: 'app-registrar-glucosa',
   standalone: true, // 👈 importante si usas componentes standalone
@@ -15,8 +16,16 @@ export class RegistrarGlucosa implements OnInit {
   glucosaForm: FormGroup;
   medicos: any[] = [];
   momentos: any[] = [];
-
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  datosPaciente:any;
+  datosEnviar:any={};
+  respuesta:any
+  datosAlert:any={};
+  idRegistroGlucosa:number |null=null;
+  modalAlerta:boolean=false;
+  modalExito:boolean=false;
+  mensajeAlerta:any
+  tituloAlerta:any
+  constructor(private fb: FormBuilder, private http: HttpClient,private glucosaService:GlucosaService) {
     this.glucosaForm = this.fb.group({
       id_medico: ['', Validators.required],
       nivel_glucosa: ['', [Validators.required, Validators.min(0)]],
@@ -28,6 +37,7 @@ export class RegistrarGlucosa implements OnInit {
   ngOnInit(): void {
     this.obtenerMedicos();
     this.obtenerMomentos();
+    this.obtenerDatosPaciente();
   }
 
   obtenerMedicos() {
@@ -54,6 +64,33 @@ export class RegistrarGlucosa implements OnInit {
     });
   }
 
+  obtenerDatosPaciente(){
+    this.http.get<any>(`${environment.apiUrl}/registro/datosGlucosa/`+localStorage.getItem('id_usuario')).subscribe({
+      next:(data)=>{
+        this.datosPaciente=data;
+        console.log(this.datosPaciente);
+        if(this.datosPaciente){
+          this.datosEnviar.id_medico=this.datosPaciente.id_medico;
+      this.datosEnviar.edad=this.datosPaciente.edad;
+      if(this.datosPaciente.embarazo!=false){
+          if(this.datosPaciente.enfermedades.includes('Diabetes Gestacional')){
+            this.datosEnviar.tipo='Diabetes Gestacional';
+            
+          }else{
+            this.datosEnviar.tipo='Embarazada';
+          }
+      }else{
+        this.datosEnviar.tipo=this.datosPaciente.enfermedades[0];
+      }
+    }
+      }, error:(err)=>{
+        alert('Error al obtener pacientes'+err)
+      }
+    });
+    
+
+  }
+
   registrarGlucosa() {
     if (this.glucosaForm.valid) {
       const fechaActual = new Date();
@@ -68,7 +105,21 @@ export class RegistrarGlucosa implements OnInit {
       };
 
       console.log('Datos a enviar al backend:', datosParaBackend);
+      if(datosParaBackend.id_momento==1){
+        this.datosEnviar.momento='ayunas'
+      }else if(datosParaBackend.id_momento==2){
+        this.datosEnviar.momento='despues'
+
+      }else{
+        this.datosEnviar.momento='dormir'
+
+      }
+      this.datosEnviar.valor=datosParaBackend.nivel_glucosa;
+      console.log(this.datosEnviar)
+      this.respuesta=(this.glucosaService.evaluarGlucosa(this.datosEnviar.edad,this.datosEnviar.tipo,this.datosEnviar.momento,this.datosEnviar.valor));
+      console.log(datosParaBackend)
       this.enviarAlBackend(datosParaBackend)
+      
     } else {
       alert('Por favor complete todos los campos correctamente.');
       this.glucosaForm.markAllAsTouched();
@@ -76,18 +127,70 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   enviarAlBackend(datos: any) {
-    const url =`${environment.apiUrl}/pacientes/registrarGlucosa`; // cambia la URL real
+  const url = `${environment.apiUrl}/pacientes/registrarGlucosa`;
 
-    this.http.post(url, datos).subscribe({
-      next: (response) => {
-        console.log('Respuesta del backend:', response);
-        alert('Glucosa registrada exitosamente ✅');
-        this.glucosaForm.reset();
-      },
-      error: (error) => {
-        console.error('Error al registrar glucosa:', error);
-        alert('Error al registrar glucosa ❌');
+  this.http.post<{ message: string; registro_glucosa: { id_registro: number } }>(url, datos).subscribe({
+    next: (response) => {
+      // Ahora TypeScript sabe que response tiene id_registro
+      this.idRegistroGlucosa = response.registro_glucosa.id_registro;
+
+      console.log('ID del registro guardado:', this.idRegistroGlucosa);
+
+      this.glucosaForm.reset();
+      
+      if(this.respuesta!='NORMAL'){
+        this.generarAlerta()
       }
+      else{
+        this.modalExito = true;
+
+      setTimeout(() => {
+        this.modalExito = false;
+      }, 3000);
+      }
+      
+    },
+    error: (error) => {
+      console.error('Error al registrar glucosa:', error);
+      alert('Error al registrar glucosa ❌');
+    }
+  });
+  
+}
+
+
+  generarAlerta() {
+  const fechaActual = new Date();
+  if(this.respuesta != 'NORMAL') {
+    this.datosAlert.id_tipo_alerta = this.respuesta == 'HIPOGLUCEMIA' ? 1 : 2;
+    this.datosAlert.id_registro = this.idRegistroGlucosa!;
+    this.datosAlert.id_medico = this.datosEnviar.id_medico;
+    this.datosAlert.fecha_alerta = fechaActual.toISOString().split('T')[0];
+    if(this.datosAlert.id_tipo_alerta==1){
+      this.tituloAlerta="Hipoglucemia";
+      this.mensajeAlerta="Tu glucosa está baja. Toma una fuente de azúcar de acción rápida"+
+       "y vuelve a medir en unos minutos. El médico de turno ya está al tanto de la medición y se envió un "
+       +"correo a tu médico asignado para su seguimiento."
+    }else{
+      this.tituloAlerta="Hiperglucemia";
+      this.mensajeAlerta="Tu glucosa está elevada. Hidrátate y vuelve a medir más adelante. El médico de turno "
+      +"está acompañando la evaluación y se envió un correo a tu médico asignado para que pueda hacer el seguimiento"+
+      " correspondiente."
+
+    }
+    console.log('datos de la alerta', this.datosAlert);
+    this.http.post(`${environment.apiUrl}/registro/registrarAlerta`, this.datosAlert).subscribe({
+      next: (res) => {
+        console.log('Alerta registrada', res)
+        this.modalAlerta = true;
+
+        setTimeout(() => {
+          this.modalAlerta = false;
+        }, 3000);
+      },
+      error: (err) => console.error('Error al registrar alerta', err)
     });
   }
+}
+
 }
