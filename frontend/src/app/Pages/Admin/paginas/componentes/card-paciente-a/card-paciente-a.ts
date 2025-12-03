@@ -16,6 +16,9 @@ export interface PacienteResumen {
   afecciones:Afecciones[];
   tratamientos:Tratamientos[];
   admitidoPor:string|null;
+  nombre_emergencia:string;
+  numero_emergencia:string;
+  foto_perfil:string;
 }
 export interface Afecciones{
   afeccion:string;

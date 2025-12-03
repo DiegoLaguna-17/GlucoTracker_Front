@@ -1,8 +1,18 @@
 <section class="detalle-paciente" *ngIf="paciente as p">
   <!-- Título + botón -->
   <header class="header">
-    <h1>{{ p.nombre }}</h1>
-    <button class="btn-reporte">Generar Reporte</button>
+     <div class="perfil-header">
+  <div class="foto-wrapper">
+    <img 
+      [src]="p.foto_perfil || 'assets/img/default-user.png'" 
+      alt="Foto de perfil" 
+      class="foto-perfil"
+    />
+  </div>
+
+  <h1 class="nombre">{{ p.nombre }}</h1>
+</div>
+    <button class="btn-reporte" (click)="downloadPdf(paciente)">Generar Reporte</button>
   </header>
 
   <!-- Grid 2 columnas -->
@@ -24,6 +34,17 @@
             <li><b>Correo:</b> {{ p.Correo }}</li>
             </ul>
         </div>
+        </div>
+        <br>
+        <div class="card">
+            <h3>Contacto de emergencia</h3>
+            <div class="cols">
+                <ul>
+                    <li><b>Nombre:</b> {{p.nombre_emergencia}}</li>
+                    <li><b>Número:</b> {{p.numero_emergencia}}</li>
+                </ul>
+            </div>
+
         </div>
         <br>
         <div class="card">

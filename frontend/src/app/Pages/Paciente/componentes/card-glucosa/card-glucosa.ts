@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,7 +10,10 @@ import { CommonModule } from '@angular/common';
 export class CardGlucosa {
    @Input() registro: any;
   @Output() verDetalle = new EventEmitter<any>();
-
+  
+  ngOnInit(){
+    console.log(this.registro)
+  }
   formatearFecha(fecha: string): string {
     return new Date(fecha).toLocaleDateString('es-ES');
   }

@@ -23,8 +23,11 @@ export class RegistrarGlucosa implements OnInit {
   idRegistroGlucosa:number |null=null;
   modalAlerta:boolean=false;
   modalExito:boolean=false;
+  modalConfirmacion1:boolean=false;
+  modalConfirmacion2:boolean=false;
   mensajeAlerta:any
   tituloAlerta:any
+  modalError:boolean=false;
   constructor(private fb: FormBuilder, private http: HttpClient,private glucosaService:GlucosaService) {
     this.glucosaForm = this.fb.group({
       id_medico: ['', Validators.required],
@@ -90,7 +93,28 @@ export class RegistrarGlucosa implements OnInit {
     
 
   }
+  confirmar(){
+    this.modalConfirmacion1=true;
+  }
+  
+  confirmacion1(){
+    this.modalConfirmacion1=false;
+    this.modalConfirmacion2=true;
+    console.log(this.modalConfirmacion2)
+  }
 
+  cancelar1(){
+    this.modalConfirmacion1=false;
+  }
+
+  confirmacion2(){
+    this.modalConfirmacion2=false;
+    this.registrarGlucosa();
+  }
+
+  cancelar2(){
+    this.modalConfirmacion2=false;
+  }
   registrarGlucosa() {
     if (this.glucosaForm.valid) {
       const fechaActual = new Date();
@@ -146,13 +170,13 @@ export class RegistrarGlucosa implements OnInit {
 
       setTimeout(() => {
         this.modalExito = false;
-      }, 3000);
+      }, 5000);
       }
       
     },
     error: (error) => {
       console.error('Error al registrar glucosa:', error);
-      alert('Error al registrar glucosa ❌');
+      this.modalError=true;
     }
   });
   
@@ -186,7 +210,7 @@ export class RegistrarGlucosa implements OnInit {
 
         setTimeout(() => {
           this.modalAlerta = false;
-        }, 3000);
+        }, 7000);
       },
       error: (err) => console.error('Error al registrar alerta', err)
     });

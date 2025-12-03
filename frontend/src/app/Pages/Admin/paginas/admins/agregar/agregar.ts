@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { environment } from '../../../../../../environments/environment';
 @Component({
   selector: 'app-agregar',
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
@@ -50,7 +50,7 @@ export class Agregar {
 
   enviarAlBackend(datos: any) {
     // AQUI VA LA URL DEL ENPOINT DEL KAWI
-    const url = 'https://tu-backend.com/api/administradores';
+    const url = `${environment.apiUrl}/administradores/agregar`;
     
     this.http.post(url, datos).subscribe({
       next: (response) => {

@@ -40,6 +40,7 @@ export interface Registro{
 export interface Alerta{
   nivel:string;
   observacion:string;
+  mensaje:string;
 }
 @Component({
   selector: 'app-paciente-card',

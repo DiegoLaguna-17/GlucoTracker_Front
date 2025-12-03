@@ -75,3 +75,27 @@
 }
 
 
+
+
+.card-glucosa.alerta {
+  background: hsl(0, 100%, 92%) !important;  // Durazno suave
+  border-color: #ff724f !important; // Naranja calmado
+
+  .fecha,
+  .nivel-glucosa,
+  .momento-dia {
+    color: #C55A11 !important; // Naranja oscuro suave
+  }
+  .card-content {
+    .btn-detalle {
+      background: #FFD7B1;
+      color: #C55A11;
+      border-color: #E67E22;
+
+      &:hover {
+        background: #E67E22;
+        color: white;
+      }
+    }
+  }
+}

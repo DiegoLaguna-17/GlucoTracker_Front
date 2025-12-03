@@ -25,6 +25,10 @@ export interface Patient {
   afecciones: string[];
   tratamientos: Treatment[];
   admitidoPor: string;
+  embarazo:boolean,
+  nombre_emergencia:string,
+  numero_emergencia:string
+  foto_perfil:string;
 }
 
 @Component({

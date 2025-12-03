@@ -1,6 +1,5 @@
 <section class="perfil" *ngIf="medico">
   <h1 class="nombre">{{ medico.nombre }}</h1>
-
   <div class="grid">
     <!-- Datos personales -->
     <article class="card datos">
@@ -15,6 +14,7 @@
           <li><b>Correo:</b> {{ medico.correo }}</li>
         </ul>
       </div>
+      <button>Editar Perfil</button>
     </article>
 
     <!-- Matrícula -->
@@ -50,4 +50,5 @@
       <div class="center-big">{{ medico.admin }}</div>
     </article>
   </div>
+
 </section>

@@ -38,6 +38,7 @@ export class Pacientes implements OnInit{
   next: (data) => {
     this.pacientes.set(Array.isArray(data) ? data : []);
     console.log('Pacientes cargados:', this.pacientes());
+    console.log(data)
     this.loading = false;
   },
   error: (err) => {

@@ -69,7 +69,7 @@ export class Login implements OnInit {
         }
       });
 
-
+      this.loading.set(false);
     
   }
 

@@ -212,3 +212,29 @@
 .ng-valid.ng-touched {
   border-color: #28a745 !important;
 }
+
+
+.preview {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 320px;
+    height: 320px;
+    max-width: 100%;      /* Responsive */
+    max-height: 100%;
+    border-radius: 35px;  /* acorde a tu estilo */
+    border: solid 3px #0a3d62;
+    object-fit: cover;
+    box-shadow: 0 2px 10px #0a3d62;
+    animation: fadeIn 0.8s ease-out;
+    background: white;
+
+    @media (max-width: 600px) {
+      width: 160px;
+      height: 160px;
+      border-radius: 25px;
+    }
+  }
+}

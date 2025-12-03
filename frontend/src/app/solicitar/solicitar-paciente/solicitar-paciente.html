@@ -27,6 +27,43 @@
         </div>
       </div>
 
+      <div class="section">
+        <h3 class="section-title">Foto de perfil</h3>
+
+        <div class="input-box full-width">
+          <label for="foto_perfil">Subir imagen de perfil</label>
+
+          <input
+            type="file"
+            id="foto_perfil"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          >
+
+          <!-- Vista previa -->
+          <div *ngIf="imagenVistaPrevia" class="preview">
+            <img [src]="imagenVistaPrevia" alt="Vista previa">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="section">
+        <h3 class="section-title">Contacto de Emergencia</h3>
+        
+        <!-- Nombre Completo -->
+        <div class="input-box full-width">
+          <label>Nombre </label>
+          <input type="text" formControlName="nombre_emergencia" placeholder="Ingrese nombre completo" />
+        </div>
+
+        <!-- Fecha Nacimiento y Teléfono -->
+       
+          <div class="input-box full-width">
+            <label>Teléfono</label>
+            <input type="tel" formControlName="numero_emergencia" placeholder="Ingrese teléfono" />
+          </div>
+      </div>
       <!-- Sección: Datos Médicos -->
       <div class="section">
         <h3 class="section-title">Datos Médicos</h3>
@@ -43,12 +80,12 @@
           </div>
 
           <!-- ¿Está embarazada? (Solo visible si género es mujer) -->
-          <div class="input-box" *ngIf="pacienteForm.get('genero')?.value === 'mujer'">
+          <div class="input-box" *ngIf="pacienteForm.get('genero')?.value === 'Femenino'">
             <label>¿Está embarazada?</label>
             <select formControlName="embarazada">
               <option value="">Seleccione</option>
-              <option value="si">Sí</option>
-              <option value="no">No</option>
+              <option value="true">Sí</option>
+              <option value="false">No</option>
             </select>
           </div>
 

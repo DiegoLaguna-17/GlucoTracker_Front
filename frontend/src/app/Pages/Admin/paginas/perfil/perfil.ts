@@ -29,8 +29,8 @@ export class Perfil implements OnInit{
         fechaNac: data.fechanac,       // mapear fechanac → fechaNac
         telefono: data.telefono,
         cargo: data.cargo,
-        fechaIn: data.fechain,         // mapear fechain → fechaIn
-        admitidoPor: data.admitidopor  // mapear admitidopor → admitidoPor
+        fechain: data.fechain,         // mapear fechain → fechaIn
+        admitidopor: data.admitidopor  // mapear admitidopor → admitidoPor
       };
       console.log('Administrador:', this.administrador);
     },

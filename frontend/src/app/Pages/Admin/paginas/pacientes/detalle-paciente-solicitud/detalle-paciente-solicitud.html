@@ -1,6 +1,16 @@
 <div class="detalle-paciente">
   <header class="encabezado">
-    <h1>{{ paciente.nombre }}</h1>
+    <div class="perfil-header">
+  <div class="foto-wrapper">
+    <img 
+      [src]="paciente.foto_perfil || 'assets/img/default-user.png'" 
+      alt="Foto de perfil" 
+      class="foto-perfil"
+    />
+  </div>
+
+  <h1 class="nombre">{{ paciente.nombre }}</h1>
+</div>
 
     <div class="acciones">
       <button class="btn aceptar" (click)="activarPaciente()">Aceptar</button>
@@ -20,6 +30,11 @@
         <p><b>Altura:</b> {{ paciente.altura }}</p>
         <p><b>Teléfono:</b> {{ paciente.telefono }}</p>
         <p><b>Correo:</b> {{ paciente.ci }}</p>
+      </div>
+      <h2>Contacto de emergencia</h2>
+      <div class="grid-datos">
+        <p><b>Nombre:</b> {{paciente.nombre_emergencia}}</p>
+        <p><b>Número:</b> {{paciente.numero_emergencia}}</p>
       </div>
     </div>
 

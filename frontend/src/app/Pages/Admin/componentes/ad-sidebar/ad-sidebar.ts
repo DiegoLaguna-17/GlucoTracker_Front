@@ -24,8 +24,8 @@ export class AdSidebar {
   fechaNac:'12/12/12',
   telefono:'123456',
   cargo:'adminnistrador',
-  fechaIn:'10/10/2025',
-  admitidoPor:'admin 2'
+  fechain:'10/10/2025',
+  admitidopor:'admin 2'
   }
 }
 

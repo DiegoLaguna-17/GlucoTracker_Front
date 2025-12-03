@@ -1,8 +1,8 @@
 import { Component, HostListener,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 // Tipos mínimos para que el TS no se queje
-type Registro  = { fecha: string; hora: string; momento: string; glucosa: string; alerta:{nivel:string,observacion:string} };
+type Registro  = { fecha: string; hora: string; momento: string; glucosa: string; alerta:{nivel:string,observacion:string,mensaje:string;} };
 type DiaHist   = { fecha: string; registros: Registro[] };
 
 interface PacienteDetalle {
@@ -19,13 +19,16 @@ interface PacienteDetalle {
   afecciones: { afeccion: string }[];
   tratamientos: { titulo: string; desc: string; dosis: string }[];
   historial: DiaHist[];
+  numero_emergencia:string,
+  nombre_emergencia:string,
+  foto_perfil:string;
  
 }
 
 @Component({
   selector: 'app-detalle-paciente',
   standalone: true,
-  imports:[CommonModule],
+  imports:[CommonModule,HttpClientModule],
   templateUrl: './detalle-paciente.html',
   styleUrls: ['./detalle-paciente.scss']
 })
@@ -38,11 +41,13 @@ export class DetallePaciente implements OnInit {
   readonly CHART = { w: 360, h: 200, m: { top: 24, right: 12, bottom: 26, left: 36 } };
   readonly YMIN = 50;
   readonly YMAX = 180;
-
+  constructor(private http: HttpClient) {}
   ngOnInit() {
     // vienes navegando con: this.router.navigate(['...'], { state: { paciente }})
     this.paciente = history.state.paciente as PacienteDetalle;
     // console.log('Paciente completo:', this.paciente);
+    console.log(this.paciente)
+    
   }
 
   // ===== KPIs =====
@@ -157,5 +162,20 @@ export class DetallePaciente implements OnInit {
     if (n === 3) return '3er';
     return `${n}to`;
   }
-  
+
+  downloadPdf(paciente: any) {
+  const fechaActual = new Date();
+  const fecha = fechaActual.toISOString().split('T')[0];
+  this.http.post('http://localhost:3000/api/paciente/pdf', paciente, {
+    responseType: 'blob'
+  }).subscribe((pdfBlob: Blob) => {
+    const url = window.URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `paciente_${paciente.nombre}_${fecha}.pdf`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  });
+}
+
 }

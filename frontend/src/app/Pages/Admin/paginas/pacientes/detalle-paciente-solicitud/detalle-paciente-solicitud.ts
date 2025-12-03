@@ -27,7 +27,7 @@ export class DetallePacienteSolicitud {
 
     }
     activarEndpoint(){
-      const activarUrl=`${environment.apiUrl}/administradores/pacientes/activar/${this.paciente.id}`;
+      const activarUrl=`${environment.apiUrl}/administradores/paciente/activar/${this.paciente.id}`;
        this.http.put(activarUrl, {}).subscribe({
       next: (res) => {
         console.log('Usuario activado:', res);

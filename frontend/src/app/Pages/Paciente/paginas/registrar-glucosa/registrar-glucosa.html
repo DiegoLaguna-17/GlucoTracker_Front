@@ -2,7 +2,7 @@
   <div class="form-container">
     <h2>Registra tu glucosa del momento</h2>
 
-    <form [formGroup]="glucosaForm" (ngSubmit)="registrarGlucosa()">
+    <form [formGroup]="glucosaForm" (ngSubmit)="confirmar()">
       
       <!-- Quien toma la muestra -->
       <div class="input-box full-width">
@@ -60,7 +60,35 @@
   </div>
 </div>
 
+<!-- =============== MODAL DE CONFIRMACION 1 ================= -->
+<div class="modal-overlay conf" *ngIf="modalConfirmacion1">
+  <div class="modal">
+    <p>¿Esta seguro de registrar el valor?:</p>
+    <h2 style="font-size: 24px;">{{glucosaForm.value.nivel_glucosa}}</h2>
+    
 
+    <div class="actions">
+      <button class="btn-cancel" (click)="cancelar1()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmacion1()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- =============== MODAL DE CONFIRMACION 2 ================= -->
+<div class="modal-overlay conf" *ngIf="modalConfirmacion2">
+  <div class="modal">
+    <p>No se podra cambiar el registro una vez registrado</p>
+    <p>¿Esta seguro de registrar el valor?:</p>
+    <h2 style="font-size: 24px;">{{glucosaForm.value.nivel_glucosa}}</h2>
+    
+
+    <div class="actions">
+      <button class="btn-cancel" (click)="cancelar2()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmacion2()">Confirmar</button>
+    </div>
+  </div>
+</div>
 <!-- =============== MODAL DE ÉXITO ================= -->
 <div class="modal-overlay" *ngIf="modalExito">
   <div class="modal">
@@ -71,6 +99,14 @@
   </div>
 </div>
 
+<div class="modal-overlay" *ngIf="modalError">
+  <div class="modal">
+    <h3>Error al registrar toma</h3>
+
+    <button class="btn-confirm" (click)="modalError= false">Aceptar</button>
+  </div>
+</div>
+
 
 <!-- =============== MODAL DE ALERTA ================= -->
 <div class="modal-overlay" *ngIf="modalAlerta">
@@ -78,7 +114,7 @@
     <h3>{{respuesta}}</h3>
     <p>{{ mensajeAlerta }}</p>
 
-    <button class="btn btn-alerta" (click)="modalAlerta = false">
+    <button class="btn-confirm" (click)="modalAlerta = false">
       Entendido
     </button>
   </div>

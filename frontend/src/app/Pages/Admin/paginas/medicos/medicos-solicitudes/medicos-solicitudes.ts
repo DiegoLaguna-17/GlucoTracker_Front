@@ -45,7 +45,7 @@ export class MedicosSolicitudes {
   }
   
   cargarMedicos() {
-    const medicosUrl = `${environment.apiUrl}/administradores/solicitantes`; // <-- corregido typo
+    const medicosUrl = `${environment.apiUrl}/administradores/medicos/solicitantes`; // <-- corregido typo
     this.loading = true;
     this.http.get<PerfilModelo[]>(medicosUrl).subscribe({
       next: (data) => {

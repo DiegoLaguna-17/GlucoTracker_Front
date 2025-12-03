@@ -157,40 +157,123 @@
 .ng-valid.ng-touched {
   border-color: #28a745 !important;
 }
-
-
+/* ================== MODAL OVERLAY ================== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  animation: fadeIn 0.3s ease-out;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ================== MODAL BASE ================== */
 .modal {
-  background: #fff;
-  padding: 25px;
+  background: #a8e6cf;
+  border-radius: 30px;
+  padding: 2rem;
   width: 90%;
-  max-width: 380px;
-  border-radius: 10px;
+  max-width: 420px;
   text-align: center;
+  border: solid 2px #0a3d62;
+  box-shadow: 0 4px 15px rgba(10, 61, 98, 0.35);
+  animation: fadeInUp 0.4s ease-out;
 }
 
+.modal h2,
 .modal h3 {
-  margin-bottom: 10px;
-  font-size: 20px;
+  color: #0a3d62;
+  font-weight: 800;
+  margin-bottom: 1rem;
 }
 
-.modal-alerta {
-  border-left: 6px solid #ff5050;
+/* Texto dentro del modal */
+.modal p {
+  font-size: 1.1rem;
+  color: #0a3d62;
+  margin-bottom: 1.5rem;
 }
 
-.btn-alerta {
-  background: #ff5050;
+/* ================== BOTONES DENTRO DEL MODAL ================== */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Botón cancelar */
+.btn-cancel {
+  padding: 0.8rem 1.8rem;
+  background: #d9534f;
   color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  border: solid 2px #0a3d62;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #c9302c;
+  transform: scale(1.05);
+}
+
+/* Botón confirmar */
+.btn-confirm {
+  padding: 0.8rem 1.8rem;
+  background: #7fffd4;
+  color: #0a3d62;
+  border: solid 2px #0a3d62;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm:hover {
+  background: #0a3d62;
+  color: #7fffd4;
+  border-color: #7fffd4;
+  transform: scale(1.05);
+}
+
+/* ================== MODAL ALERTA ================== */
+.modal-alerta {
+  border-left: 8px solid #ff5050;
+}
+
+/* Botón alerta */
+.btn-alerta {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  background: #ff5050;
+  border-radius: 50px;
+  border: solid 2px #0a3d62;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-alerta:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}
+
+/* ================== MODAL CONFIRMACION ESPECIFICO ================== */
+.conf .modal {
+  background: #7fffd4 !important;
+}
+
+.conf h2 {
+  font-size: 32px;
+  color: #0a3d62;
+  font-weight: bold;
 }

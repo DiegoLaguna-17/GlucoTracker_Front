@@ -92,8 +92,25 @@
           <span class="detalle-valor">{{ getQuienTomoMuestraTexto(registroSeleccionado.quienTomoMuestra) }}</span>
         </div>
         <div class="detalle-item full-width">
-          <span class="detalle-label">Observaciones:</span>
+          <span class="detalle-label">Observacion durante la toma:</span>
           <span class="detalle-valor">{{ registroSeleccionado.observaciones || 'Sin observaciones' }}</span>
+        </div>
+        <div *ngIf="registroSeleccionado.idalerta" class="detalle-item full-width">
+          <span class="detalle-label">
+              Alerta: 
+          </span>
+          <span class="detalle-valor">
+            {{registroSeleccionado.tipo_alerta}}
+          </span>
+          <span class="detalle-label">
+            Respuesta del médico:
+          </span>
+          <span class="detalle-valor" *ngIf="registroSeleccionado.respuesta!=null">
+            {{registroSeleccionado.respuesta}}
+          </span>
+          <span class="detalle-valor" *ngIf="registroSeleccionado.respuesta==null">
+            Todavía no se registro una respuesta
+          </span>
         </div>
       </div>
       <div class="modal-footer">

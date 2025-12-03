@@ -17,6 +17,7 @@ export class SolicitarPaciente implements OnInit{
   actividades:any[]=[];
   enfermedades:any[]=[];
   tratamientos:any[]=[];
+  imagenVistaPrevia:string |ArrayBuffer|null=null;
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -27,6 +28,9 @@ export class SolicitarPaciente implements OnInit{
       nombre_completo: ['', Validators.required],
       fecha_nac: ['', Validators.required],
       teléfono: ['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
+      foto_perfil:[null],
+      nombre_emergencia:['', Validators.required],
+      numero_emergencia:['', [Validators.required, Validators.pattern(/^[0-9]{7,8}$/)]],
       id_medico: ['', Validators.required],
       id_actividad:['', Validators.required],
       genero: ['', Validators.required],
@@ -41,6 +45,29 @@ export class SolicitarPaciente implements OnInit{
     });
   }
   descripcionTratamiento: string = '';
+  fotoPerfilFile: File | null = null;
+  onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.match(/image\/(jpg|jpeg|png)/)) {
+    alert('Seleccione una imagen JPG o PNG válida.');
+    return;
+  }
+
+  // GUARDA EL ARCHIVO CORRECTAMENTE
+  this.fotoPerfilFile = file;
+
+  // También guardarlo en el FormGroup
+  this.pacienteForm.patchValue({ foto_perfil: file });
+  this.pacienteForm.get("foto_perfil")?.updateValueAndValidity();
+
+  // Vista previa
+  const reader = new FileReader();
+  reader.onload = () => this.imagenVistaPrevia = reader.result;
+  reader.readAsDataURL(file);
+}
+
 
 onTratamientoChange(event: any) {
   const idSeleccionado = event.target.value;
@@ -70,13 +97,17 @@ onTratamientoChange(event: any) {
     if (this.pacienteForm.valid) {
       // Preparar datos para enviar
       const form = this.pacienteForm.value;
-
+      let embarazada=false;
+      if(form.embarazada=="true"){
+        embarazada=true;
+      }
       const datosParaBackend = {
       nombre_completo: form.nombre_completo,
       correo: form.correo,
       contrasena: form.contrasena,
       rol: 'paciente', // valor fijo
       fecha_nac: form.fecha_nac,
+      foto_perfil:this.fotoPerfilFile,
       teléfono: form.teléfono,
       id_medico: Number(form.id_medico),
       id_actividad: Number(form.id_actividad),
@@ -86,11 +117,47 @@ onTratamientoChange(event: any) {
       enfermedad_id: Number(form.enfermedad_id),
       tratamiento_id: Number(form.tratamiento_id),
       dosis_: form.dosis_,
-        administrador_id_admin: 1,
+      administrador_id_admin: 1,
+      nombre_emergencia:form.nombre_emergencia,
+      numero_emergencia:form.numero_emergencia,
+      embarazada:embarazada
+
       };
+      const formData = new FormData();
+
+      Object.entries(datosParaBackend).forEach(([key, value]) => {
+
+        // archivo
+        if (key === "foto_perfil" && value instanceof File) {
+          formData.append("foto_perfil", value);
+          return;
+        }
+
+        // null / undefined → string vacía
+        if (value === null || value === undefined) {
+          formData.append(key, "");
+          return;
+        }
+
+        // boolean → convertir a string
+        if (typeof value === "boolean") {
+          formData.append(key, value ? "true" : "false");
+          return;
+        }
+
+        // números → string
+        if (typeof value === "number") {
+          formData.append(key, value.toString());
+          return;
+        }
+
+        // strings → 그대로
+        formData.append(key, value);
+      });
+
 
       console.log('Datos a enviar al backend:', datosParaBackend);
-      this.enviarAlBackend(datosParaBackend);
+      this.enviarAlBackend(formData);
       // Enviar al backend
       
     } else {
@@ -98,8 +165,11 @@ onTratamientoChange(event: any) {
     }
   }
 
-  enviarAlBackend(datos: any) {
+  enviarAlBackend(datos: FormData) {
     // URL de tu endpoint - CAMBIA ESTA URL
+    for (const pair of datos.entries()) {
+  console.log(pair[0], pair[1]);
+}
     const url = `${environment.apiUrl}/pacientes/registrarPaciente`;
     
     this.http.post(url, datos).subscribe({
