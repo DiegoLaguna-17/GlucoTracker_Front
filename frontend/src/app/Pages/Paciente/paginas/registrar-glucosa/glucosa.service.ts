@@ -18,19 +18,19 @@ type RangosPorMomento = Record<Momento, RangoGlucosa>;
 export class GlucosaService {
 
   private readonly RANGOS_NORMALES: Record<GrupoEdad, RangosPorMomento> = {
-    infante: { ayunas: { min: 90, max: 180 }, despues: { min: 0, max: 200 }, dormir: { min: 100, max: 180 } },
-    adolescente: { ayunas: { min: 90, max: 130 }, despues: { min: 0, max: 180 }, dormir: { min: 90, max: 150 } },
-    joven: { ayunas: { min: 90, max: 130 }, despues: { min: 0, max: 140 }, dormir: { min: 90, max: 150 } },
-    adulto: { ayunas: { min: 90, max: 100 }, despues: { min: 0, max: 150 }, dormir: { min: 100, max: 140 } },
-    mayor: { ayunas: { min: 80, max: 110 }, despues: { min: 0, max: 160 }, dormir: { min: 100, max: 140 } },
+    infante: { ayunas: { min: 90, max: 180 }, despues: { min: 90, max: 200 }, dormir: { min: 100, max: 180 } },
+    adolescente: { ayunas: { min: 90, max: 130 }, despues: { min: 90, max: 180 }, dormir: { min: 90, max: 150 } },
+    joven: { ayunas: { min: 90, max: 130 }, despues: { min: 90, max: 140 }, dormir: { min: 90, max: 150 } },
+    adulto: { ayunas: { min: 90, max: 100 }, despues: { min: 90, max: 150 }, dormir: { min: 100, max: 140 } },
+    mayor: { ayunas: { min: 80, max: 110 }, despues: { min: 80, max: 160 }, dormir: { min: 100, max: 140 } },
   };
 
   private readonly RANGOS_DIABETICOS: Record<GrupoEdad, RangosPorMomento> = {
-    infante: { ayunas: { min: 90, max: 130 }, despues: { min: 0, max: 180 }, dormir: { min: 90, max: 150 } },
-    adolescente: { ayunas: { min: 90, max: 130 }, despues: { min: 0, max: 180 }, dormir: { min: 90, max: 150 } },
-    joven: { ayunas: { min: 80, max: 130 }, despues: { min: 0, max: 180 }, dormir: { min: 90, max: 150 } },
-    adulto: { ayunas: { min: 80, max: 130 }, despues: { min: 0, max: 180 }, dormir: { min: 90, max: 150 } },
-    mayor: { ayunas: { min: 80, max: 110 }, despues: { min: 0, max: 160 }, dormir: { min: 100, max: 180 } },
+    infante: { ayunas: { min: 90, max: 130 }, despues: { min: 90, max: 180 }, dormir: { min: 90, max: 150 } },
+    adolescente: { ayunas: { min: 90, max: 130 }, despues: { min: 90, max: 180 }, dormir: { min: 90, max: 150 } },
+    joven: { ayunas: { min: 80, max: 130 }, despues: { min: 80, max: 180 }, dormir: { min: 90, max: 150 } },
+    adulto: { ayunas: { min: 80, max: 130 }, despues: { min: 80, max: 180 }, dormir: { min: 90, max: 150 } },
+    mayor: { ayunas: { min: 80, max: 110 }, despues: { min: 80, max: 160 }, dormir: { min: 100, max: 180 } },
   };
 
   private readonly RANGOS_EMBARAZADAS: Record<Momento, RangoGlucosa> = {
@@ -40,9 +40,9 @@ export class GlucosaService {
   };
 
   private readonly RANGOS_EMBARAZADAS_DG: Record<Momento, RangoGlucosa> = {
-    ayunas: { min: 0, max: 95 },
-    despues: { min: 0, max: 140 },
-    dormir: { min: 0, max: 120 },
+    ayunas: { min: 40, max: 95 },
+    despues: { min: 40, max: 140 },
+    dormir: { min: 40, max: 120 },
   };
 
   // ------------------ LÓGICA BASE ------------------
