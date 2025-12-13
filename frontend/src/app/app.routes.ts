@@ -82,6 +82,10 @@ export const routes: Routes = [
 
             {path: 'perfil', loadComponent:()=>
                 import('./Pages/Medico/paginas/perfil/perfil').then(m=>m.Perfil),
+            },
+            {
+                path: 'registrarGlucosa',loadComponent:()=>
+                    import ('./Pages/Medico/paginas/registrar-glucosa/registrar-glucosa').then(m=>m.RegistrarGlucosa)
             }
             
         ]

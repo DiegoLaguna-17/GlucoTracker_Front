@@ -1,6 +1,7 @@
-import { Component, HostListener,OnInit } from '@angular/core';
+import { Component, HostListener,OnInit,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 // Tipos mínimos para que el TS no se queje
 type Registro  = { fecha: string; hora: string; momento: string; glucosa: string; alerta:{nivel:string,observacion:string,mensaje:string;} };
 type DiaHist   = { fecha: string; registros: Registro[] };
@@ -33,6 +34,7 @@ interface PacienteDetalle {
   styleUrls: ['./detalle-paciente.scss']
 })
 export class DetallePaciente implements OnInit {
+  private router = inject(Router); 
   paciente!: PacienteDetalle;
      isModalOpen = false;
   modalDia: DiaHist | null = null;
@@ -42,6 +44,7 @@ export class DetallePaciente implements OnInit {
   readonly YMIN = 50;
   readonly YMAX = 180;
   constructor(private http: HttpClient) {}
+
   ngOnInit() {
     // vienes navegando con: this.router.navigate(['...'], { state: { paciente }})
     this.paciente = history.state.paciente as PacienteDetalle;
@@ -69,7 +72,7 @@ export class DetallePaciente implements OnInit {
     }
     return alertas;
   }
-
+  
   promedioDia(d: DiaHist): number {
     if (!d?.registros?.length) return 0;
     const vals = d.registros.map(r => Number(r.glucosa));
@@ -162,6 +165,11 @@ export class DetallePaciente implements OnInit {
     if (n === 3) return '3er';
     return `${n}to`;
   }
+
+  registrarToma(){
+    this.router.navigate(['/medico/registrarGlucosa'], { state: { paciente: this.paciente } })
+  }
+
 
   downloadPdf(paciente: any) {
   const fechaActual = new Date();
