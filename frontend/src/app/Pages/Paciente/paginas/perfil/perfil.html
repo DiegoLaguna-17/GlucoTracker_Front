@@ -1,118 +1,117 @@
-<div class="perfil" *ngIf="data">
+<div class="perfil-simple" *ngIf="data">
+  <!-- Header del Perfil -->
   <div class="perfil-header">
-  <div class="foto-wrapper">
-    <img 
-      [src]="data.foto_perfil || 'assets/img/default-user.png'" 
-      alt="Foto de perfil" 
-      class="foto-perfil"
-    />
+    <div class="foto-perfil">
+      <img 
+        [src]="data.foto_perfil || 'assets/img/default-user.png'" 
+        alt="Foto de perfil" 
+        class="foto-img"
+      />
+    </div>
+    <div class="info-basica">
+      <h1 class="nombre">{{ data.nombre }}</h1>
+      <div class="detalles-header">
+        <span class="dato-header">{{ data.genero }}</span>
+      </div>
+    </div>
   </div>
 
-  <h1 class="nombre">{{ data.nombre }}</h1>
-</div>
-
-  <section class="grid">
-    <!-- Datos personales -->
-    <article class="card card--block">
-      <h2>Datos Personales</h2>
-      <div class="datos">
-        <div class="dato">
-          <span class="label">ID:</span>
-          <span class="value">{{ data.id }}</span>
+  <!-- Grid Principal -->
+  <div class="grid-principal">
+    <!-- Datos Personales -->
+    <div class="seccion datos-personales">
+      <h2 class="titulo-seccion">Datos Personales</h2>
+      <div class="lista-datos">
+        <div class="fila-dato">
+          <span class="etiqueta">Fecha de nacimiento:</span>
+          <span class="valor">{{ data.fechaNac }}</span>
         </div>
-        <div class="dato">
-          <span class="label">Fecha de nacimiento:</span>
-          <span class="value">{{ data.fechaNac }}</span>
+        <div class="fila-dato">
+          <span class="etiqueta">Peso:</span>
+          <span class="valor">{{ data.peso }}</span>
         </div>
-        <div class="dato">
-          <span class="label">Género:</span>
-          <span class="value">{{ data.genero }}</span>
+        <div class="fila-dato">
+          <span class="etiqueta">Altura:</span>
+          <span class="valor">{{ data.altura }}</span>
         </div>
-        <div class="dato">
-          <span class="label">Peso:</span>
-          <span class="value">{{ data.peso }}</span>
+        <div class="fila-dato">
+          <span class="etiqueta">Correo:</span>
+          <span class="valor">{{ data.correo }}</span>
         </div>
-        <div class="dato">
-          <span class="label">Altura:</span>
-          <span class="value">{{ data.altura }}</span>
+        <div class="fila-dato">
+          <span class="etiqueta">Teléfono:</span>
+          <span class="valor">{{ data.telefono }}</span>
         </div>
-        <div class="dato">
-          <span class="label">Correo:</span>
-          <span class="value">{{ data.correo }}</span>
-        </div>
-        <div class="dato">
-          <span class="label">Teléfono:</span>
-          <span class="value">{{ data.telefono }}</span>
-        </div>
-        <div class="dato" *ngIf="data.genero=='Femenino'">
-          <span class="label">Embarazo:</span>
-          <span class="value" *ngIf="data.embarazo">Si</span>
-          <span class="value" *ngIf="!data.embarazo">No</span>
-
+        <div class="fila-dato" *ngIf="data.genero == 'Femenino'">
+          <span class="etiqueta">Embarazo:</span>
+          <span class="valor">{{ data.embarazo ? 'Sí' : 'No' }}</span>
         </div>
       </div>
-      <br>
-      <button>Editar Perfil</button>
-    </article>
+    </div>
 
-    <article class="card card--block">
-       <h2>
-        Contacto de emergencia:
-       </h2>
-       <div class="datos">
-        <div class="dato">
-          <span><b>Nombre: </b></span>
-          <span>{{data.nombre_emergencia}}</span>
+    <!-- Contacto de Emergencia -->
+    <div class="seccion contacto-emergencia">
+      <h2 class="titulo-seccion">Contacto de Emergencia</h2>
+      <div class="info-emergencia">
+        <div class="emergencia-item">
+          <strong>Nombre:</strong> {{ data.nombre_emergencia }}
         </div>
-        <div class="dato">
-          <span><b>Número: </b></span>
-          <span>{{data.numero_emergencia}}</span>
+        <div class="emergencia-item">
+          <strong>Número:</strong> {{ data.numero_emergencia }}
         </div>
-       </div>
-    </article>
+      </div>
+    </div>
+
     <!-- Actividad Física -->
-    <article class="card">
-      <h2>Actividad Física</h2>
-      <p class="actividad">
-        <strong>{{ data.actividadFisica.nivel }}:</strong>
-        {{ data.actividadFisica.descripcion }}
-      </p>
-    </article>
+    <div class="seccion actividad-fisica">
+      <h2 class="titulo-seccion">Actividad Física</h2>
+      <div class="info-actividad">
+        <div class="nivel-actividad">{{ data.actividadFisica.nivel }}</div>
+        <p class="descripcion-actividad">{{ data.actividadFisica.descripcion }}</p>
+      </div>
+    </div>
 
     <!-- Afecciones -->
-    <article class="card">
-      <h2>Afecciones</h2>
-      <div class="chips">
-        <span class="chip" *ngFor="let a of data.afecciones">{{ a }}</span>
+    <div class="seccion afecciones">
+      <h2 class="titulo-seccion">Afecciones</h2>
+      <div class="lista-afecciones">
+        <span class="afeccion-item" *ngFor="let a of data.afecciones">
+          {{ a }}
+        </span>
       </div>
-    </article>
-  </section>
+    </div>
+  </div>
 
   <!-- Tratamientos -->
-  <section class="card card--full">
-    <h2>Tratamientos</h2>
-
-    <div class="treatments">
-      <article class="t-card" *ngFor="let t of data.tratamientos">
-        <h3>{{ t.titulo }}</h3>
-
-        <div class="t-grid">
-          <div class="t-col">
-            <span class="t-label">Descripción:</span>
-            <p class="t-text">{{ t.descripcion }}</p>
+  <div class="seccion tratamientos">
+    <div class="header-tratamientos">
+      <h2 class="titulo-seccion">Tratamientos</h2>
+    </div>
+    <div class="lista-tratamientos">
+      <div class="tratamiento-item" *ngFor="let t of data.tratamientos">
+        <h3 class="titulo-tratamiento">{{ t.titulo }}</h3>
+        <div class="info-tratamiento">
+          <div class="detalle-tratamiento">
+            <span class="etiqueta-tratamiento">Descripción:</span>
+            <p>{{ t.descripcion }}</p>
           </div>
-          <div class="t-col">
-            <span class="t-label">Dosis:</span>
-            <p class="t-text">{{ t.dosis }}</p>
+          <div class="detalle-tratamiento">
+            <span class="etiqueta-tratamiento">Dosis:</span>
+            <p>{{ t.dosis }}</p>
           </div>
         </div>
-      </article>
+      </div>
     </div>
-  </section>
+  </div>
 
   <!-- Admitido por -->
-  <section class="card card--full admitido">
-    <h2>Admitido por</h2>
-    <p class="admin">{{ data.admitidoPor }}</p>
-  </section>
+  <div class="seccion admitido-por">
+    <h2 class="titulo-seccion">Admitido por</h2>
+    <p class="nombre-admitido">{{ data.admitidoPor }}</p>
+  </div>
+
+  <!-- Botón de acción -->
+  <div class="acciones">
+    <button class="btn-editar" (click)="editarPerfil()">Editar Perfil</button>
+  </div>
 </div>

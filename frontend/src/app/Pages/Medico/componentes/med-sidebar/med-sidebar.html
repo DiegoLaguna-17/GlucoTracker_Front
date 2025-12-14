@@ -8,17 +8,15 @@
 
     <button
         class="btn pill"
-        [routerLink]="['/medico/perfil']"
+        [routerLink]="['./perfil']"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">
-        Mi perfil
+        Mi perfil Médico
         </button>
   </div>
   <nav class="menu">
       <a class="item" routerLink="./pacientes" routerLinkActive="active">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
-        </span>
+
         <span>Pacientes</span>
       </a>
 
@@ -28,9 +26,7 @@
               (click)="toggleAlertas()"
               [attr.aria-expanded]="openAlertas()"
               aria-controls="submenu-alertas">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M7 11V9a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v6H4v-6a2 2 0 0 1 2-2Zm3-9h4v2h-4Zm8.07 2.93 1.41 1.41-1.41 1.41-1.41-1.41ZM3.93 4.93 5.34 6.34 3.93 7.76 2.51 6.34ZM11 22h2v-2h-2Z"/></svg>
-        </span>
+
         <span class="grow">Alertas</span>
         <span class="chev" [class.open]="openAlertas()">▾</span>
       </button>
@@ -42,7 +38,6 @@
     </nav>
 
   <button class="logout" type="button" (click)="logout.emit()">
-    <span class="logout-icon">...</span>
     Cerrar Sesión
   </button>
 </div>
