@@ -49,17 +49,19 @@ export const routes: Routes = [
                 path:'medicos/solicitud/detalle',loadComponent:()=>import('./Pages/Admin/paginas/medicos/detalle-medico-solicitud/detalle-medico-solicitud').then(m=>m.DetalleMedicoSolicitud),
             },
             {
-                            path:'administradores/activos', loadComponent:()=>import('./Pages/Admin/paginas/admins/admins-activos/admins-activos').then(m=>m.AdminsActivos)
-
+                path:'administradores/activos', loadComponent:()=>import('./Pages/Admin/paginas/admins/admins-activos/admins-activos').then(m=>m.AdminsActivos)
             },
             {
                 path:'administrador/agregar', loadComponent:()=>import('./Pages/Admin/paginas/admins/agregar/agregar').then(m=>m.Agregar),
             },
             {
-                            path:'perfil',loadComponent:()=>import('./Pages/Admin/paginas/perfil/perfil').then(m=>m.Perfil)
+                path:'perfil',loadComponent:()=>import('./Pages/Admin/paginas/perfil/perfil').then(m=>m.Perfil)
             },
             {
                 path:'administradores/activos/detalle', loadComponent:()=>import('./Pages/Admin/paginas/admins/admin-detalle/admin-detalle').then(m=>m.AdminDetalle)
+            },
+            {
+                path:'administradores/auditoria', loadComponent:()=>import('./Pages/Admin/paginas/auditoria/auditoria').then(m=>m.Auditoria)
             }
         ]
     },
@@ -78,14 +80,16 @@ export const routes: Routes = [
                 import('./Pages/Medico/paginas/alertas-activas/alertas-activas').then(m => m.AlertasActivas)},
 
              { path: 'resueltas', loadComponent: () =>
-                import('./Pages/Medico/paginas/alertas-resueltas/alertas-resueltas').then(m => m.AlertasResueltas)},
-
-            {path: 'perfil', loadComponent:()=>
-                import('./Pages/Medico/paginas/perfil/perfil').then(m=>m.Perfil),
+                import('./Pages/Medico/paginas/alertas-resueltas/alertas-resueltas').then(m => m.AlertasResueltas)
             },
             {
-                path: 'registrarGlucosa',loadComponent:()=>
-                    import ('./Pages/Medico/paginas/registrar-glucosa/registrar-glucosa').then(m=>m.RegistrarGlucosa)
+                path: 'perfil', loadComponent: ()=>import ('./Pages/Medico/paginas/perfil/perfil').then(m=>m.Perfil)
+            },
+            {
+                path: 'registrarGlucosa',loadComponent:()=>import ('./Pages/Medico/paginas/registrar-glucosa/registrar-glucosa').then(m=>m.RegistrarGlucosa)
+            },
+            {
+                path:'editar-medico', loadComponent:()=>import('./Pages/Medico/paginas/editar-medico/editar-medico').then(m=>m.EditarMedico)
             }
             
         ]
@@ -105,6 +109,9 @@ export const routes: Routes = [
             },
             {
                 path:'perfil',loadComponent:()=>import('./Pages/Paciente/paginas/perfil/perfil').then(m=>m.Perfil)
+            },
+            {
+                path:'editar-paciente', loadComponent:()=>import('./Pages/Paciente/paginas/editar-paciente/editar-paciente').then(m=>m.EditarPaciente)
             }
         ]
     }

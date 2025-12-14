@@ -11,7 +11,7 @@
       [routerLink]="['/administrador/perfil']"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }">
-      Mi perfil
+      Mi perfil Administrador
     </button>
   </div>
 
@@ -21,7 +21,7 @@
             (click)="togglePacientes()"
             [attr.aria-expanded]="openPacientes()"
             aria-controls="submenu-pacientes">
-      <span class="icon">...</span>
+
       <span class="grow">Pacientes</span>
       <span class="chev" [class.open]="openPacientes()">▾</span>
     </button>
@@ -35,7 +35,7 @@
             (click)="toggleMedicos()"
             [attr.aria-expanded]="openMedicos()"
             aria-controls="submenu-medicos">
-      <span class="icon">...</span>
+
       <span class="grow">Medicos</span>
       <span class="chev" [class.open]="openMedicos()">▾</span>
     </button>
@@ -49,7 +49,7 @@
             (click)="toggleAdmin()"
             [attr.aria-expanded]="openAdmin()"
             aria-controls="submenu-admin">
-      <span class="icon">...</span>
+
       <span class="grow">Administradores</span>
       <span class="chev" [class.open]="openAdmin()">▾</span>
     </button>
@@ -57,10 +57,15 @@
       <a class="subitem" routerLink="./administradores/activos" routerLinkActive="active">Activos</a>
       <a class="subitem" routerLink="./administrador/agregar" routerLinkActive="active">Agregar</a>
     </div>
+
+    <!-- Para la AUDITORIA -->
+    <div id="submenu-admin" class="submenu">
+      <a class="subitem" routerLink="./administradores/auditoria" routerLinkActive="active">Auditoría</a>
+    </div>
   </nav>
 
   <button class="logout" type="button" (click)="logout.emit()">
-    <span class="logout-icon">...</span>
+    
     Cerrar Sesión
   </button>
 </div>

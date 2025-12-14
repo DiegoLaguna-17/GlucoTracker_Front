@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgFor, NgIf } from '@angular/common';  
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
+import { Router } from '@angular/router';
 export interface Treatment {
   titulo: string;
   descripcion: string;
@@ -41,6 +42,7 @@ export interface Patient {
 export class Perfil implements OnInit{
   @Input() patient: Patient | null = null;
   private http = inject(HttpClient);
+  private router = inject(Router);
   demo!: Patient ;
   get data(): Patient {
     return this.patient ?? this.demo;
@@ -65,4 +67,8 @@ export class Perfil implements OnInit{
     }
   }
 
+  editarPerfil() {
+    // Navegar al componente de edición
+    this.router.navigate(['/paciente/editar-paciente']);
+  }
 }

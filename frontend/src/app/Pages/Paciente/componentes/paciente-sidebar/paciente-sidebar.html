@@ -11,22 +11,18 @@
          [routerLink]="['/paciente/perfil']"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">
-        Mi perfil
+        Mi perfil Paciente
         </button>
   </div>
   <nav class="menu">
       <a class="item" routerLink="./registrar" routerLinkActive="active">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
-        </span>
+        
         <span>Registrar Glucosa</span>
       </a>
 
       <!-- ALERTAS con submenu -->
       <a class="item" routerLink="./registros" routerLinkActive="active">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
-        </span>
+
         <span>Mis registros</span>
       </a>
 
@@ -34,7 +30,6 @@
     </nav>
 
   <button class="logout" type="button" (click)="logout.emit()">
-    <span class="logout-icon">...</span>
     Cerrar Sesión
   </button>
 </div>
