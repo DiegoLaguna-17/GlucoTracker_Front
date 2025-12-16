@@ -74,18 +74,18 @@
           #codeInput />
       </div>
       
-      <div class="modal-actions">
+       <div class="modal-actions"><!--
         <button 
           type="button" 
           class="btn-modal btn-modal--secondary"
           (click)="cancelVerification()">
           Cancelar
-        </button>
+        </button> -->
         
         <button 
           type="button" 
           class="btn-modal btn-modal--primary"
-          (click)="verifyAndLogin()"
+          (click)="verifyAndLogin(codeInput)"
           [disabled]="loading()">
           {{ loading() ? 'Verificando…' : 'Verificar' }}
         </button>

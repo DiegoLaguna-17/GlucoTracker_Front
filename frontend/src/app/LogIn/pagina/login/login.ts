@@ -25,7 +25,7 @@ export class Login implements OnInit {
   errorMessage = signal('');
 
   // Variable para guardar las credenciales temporalmente
-  private loginCredentials: { correo: string, contrasena: string } | null = null;
+  private loginCredentials: { id_usuario?:number, correo: string, contrasena: string } | null = null;
 
   constructor(private router: Router, private http: HttpClient) {}
 
@@ -41,80 +41,101 @@ export class Login implements OnInit {
   }
 
   submit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.loading.set(true);
-
-    // Guardar las credenciales temporalmente
-    this.loginCredentials = {
-      correo: this.form.value.usuario || '',
-      contrasena: this.form.value.contrasena || ''
-    };
-
-    // Mostrar modal de verificación
-    this.showVerificationModal.set(true);
-    this.loading.set(false);
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    return;
   }
+
+  this.loading.set(true);
+
+  const credentials = {
+    correo: this.form.value.usuario || '',
+    contrasena: this.form.value.contrasena || ''
+  };
+
+  // Llamada al endpoint que envía OTP
+  this.http.post<any>(environment.apiUrl + '/login', credentials)
+    .subscribe({
+      next: (res) => {
+        console.log('OTP enviado:', res);
+
+        // Guardamos id_usuario para el siguiente paso
+        this.loginCredentials = { correo: credentials.correo, contrasena: credentials.contrasena };
+        this.loginCredentials.id_usuario = res.id_usuario;
+
+        // Abrir modal de verificación
+        this.showVerificationModal.set(true);
+
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error de login:', err);
+
+        this.showErrorModal.set(true);
+        this.errorMessage.set(err.error?.error || 'Error al iniciar sesión');
+        this.loading.set(false);
+      }
+    });
+}
+
 
   // Método para verificar el código y hacer el login real
-  verifyAndLogin() {
-    // Cerrar modal de verificación
-    this.showVerificationModal.set(false);
-    
-    if (!this.loginCredentials) {
-      console.error('No hay credenciales guardadas');
-      this.showErrorModal.set(true);
-      this.errorMessage.set('Error interno: credenciales no encontradas');
-      return;
-    }
+  verifyAndLogin(codeInput: HTMLInputElement) {
+  const codigo = codeInput.value.trim();
 
-    // Mostrar que estamos procesando (opcional)
-    this.loading.set(true);
-
-    // Hacer la llamada HTTP real con las credenciales guardadas
-    this.http.post<any>(environment.apiUrl + '/login', this.loginCredentials)
-      .subscribe({
-        next: (res) => {
-          console.log('Login exitoso:', res);
-
-          // Guardar datos en localStorage
-          localStorage.setItem('id_usuario', res.id_usuario);
-          localStorage.setItem('id_rol', res.id_rol);
-          localStorage.setItem('rol', res.rol);
-
-          // Mostrar modal de éxito
-          this.showSuccessModal.set(true);
-          
-          // Esperar 2 segundos y luego redirigir
-          setTimeout(() => {
-            this.showSuccessModal.set(false);
-            
-            // Redirigir según rol
-            if (res.rol === 'administrador') {
-              this.router.navigate(['/administrador']);
-            } else if (res.rol === 'medico') {
-              this.router.navigate(['/medico']);
-            } else {
-              this.router.navigate(['/paciente']);
-            }
-          }, 5000);
-          
-          this.loading.set(false);
-        },
-        error: (err) => {
-          console.error('Error de login:', err);
-          
-          // Mostrar modal de error en lugar de alert
-          this.showErrorModal.set(true);
-          this.errorMessage.set(err.error?.error || 'Error al iniciar sesión');
-          
-          this.loading.set(false);
-        }
-      });
+  if (!this.loginCredentials || !this.loginCredentials.id_usuario) {
+    console.error('No hay credenciales guardadas');
+    this.showErrorModal.set(true);
+    this.errorMessage.set('Error interno: credenciales no encontradas');
+    return;
   }
+
+  if (!codigo || codigo.length !== 6) {
+    this.showErrorModal.set(true);
+    this.errorMessage.set('Ingresa un código de 6 dígitos');
+    return;
+  }
+
+  this.loading.set(true);
+
+  this.http.post<any>(environment.apiUrl + '/verify-otp', {
+    id_usuario: this.loginCredentials.id_usuario,
+    codigo
+  }).subscribe({
+    next: (res) => {
+      console.log('Login completado con OTP:', res);
+
+      // Guardar datos en localStorage
+      localStorage.setItem('id_usuario', res.id_usuario);
+      localStorage.setItem('id_rol', res.id_rol);
+      localStorage.setItem('rol', res.rol);
+
+      // Mostrar modal de éxito
+      this.showVerificationModal.set(false);
+      this.showSuccessModal.set(true);
+
+      setTimeout(() => {
+        this.showSuccessModal.set(false);
+        // Redirigir según rol
+        if (res.rol === 'administrador') {
+          this.router.navigate(['/administrador']);
+        } else if (res.rol === 'medico') {
+          this.router.navigate(['/medico']);
+        } else {
+          this.router.navigate(['/paciente']);
+        }
+      }, 2000);
+
+      this.loading.set(false);
+    },
+    error: (err) => {
+      console.error('Error de verificación OTP:', err);
+      this.showErrorModal.set(true);
+      this.errorMessage.set(err.error?.error || 'Código incorrecto o expirado');
+      this.loading.set(false);
+    }
+  });
+}
 
   // Método para cancelar y limpiar credenciales
   cancelVerification() {

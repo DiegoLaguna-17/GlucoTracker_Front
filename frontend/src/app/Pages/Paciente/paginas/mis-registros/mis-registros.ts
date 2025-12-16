@@ -137,6 +137,9 @@ export class MisRegistros  implements OnInit {
   }
 
   getQuienTomoMuestraTexto(quien: string): string {
+    if(quien==null){
+      quien="El paciente"
+    }
     return quien;
   }
 

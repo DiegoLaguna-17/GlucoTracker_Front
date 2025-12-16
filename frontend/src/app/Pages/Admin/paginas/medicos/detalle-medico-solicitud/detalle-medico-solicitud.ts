@@ -20,6 +20,7 @@ export class DetalleMedicoSolicitud {
      constructor(private sanitizer: DomSanitizer) {}
 
      ngOnInit() {
+      console.log("id_admin ",localStorage.getItem("id_rol"))
       // vienes navegando con: this.router.navigate(['...'], { state: { paciente }})
       this.medico = history.state.medico as PerfilModelo;
       console.log('Paciente completo:', this.medico);
@@ -37,7 +38,15 @@ export class DetalleMedicoSolicitud {
     }
     activarEndpoint(){
       const activarUrl=`${environment.apiUrl}/administradores/medico/activar/${this.medico.id}`;
-       this.http.put(activarUrl, {}).subscribe({
+      const idAdmin = Number(localStorage.getItem('id_rol'));
+
+      if (!idAdmin) {
+        alert('No hay id de administrador');
+        return;
+      }
+
+      const payload = { idAdmin };
+       this.http.put(activarUrl, payload).subscribe({
       next: (res) => {
         console.log('Usuario activado:', res);
         alert('Usuario activado correctamente');

@@ -28,7 +28,15 @@ export class DetallePacienteSolicitud {
     }
     activarEndpoint(){
       const activarUrl=`${environment.apiUrl}/administradores/paciente/activar/${this.paciente.id}`;
-       this.http.put(activarUrl, {}).subscribe({
+      const idAdmin = Number(localStorage.getItem('id_rol'));
+
+      if (!idAdmin) {
+        alert('No hay id de administrador');
+        return;
+      }
+
+      const payload = { idAdmin };
+       this.http.put(activarUrl, payload).subscribe({
       next: (res) => {
         console.log('Usuario activado:', res);
         alert('Usuario activado correctamente');

@@ -35,7 +35,7 @@ export class Agregar {
       const datosParaBackend = {
         ...this.adminForm.value,
         fecha_registro: fechaHoy,
-        administrador_id_admin: 1
+        administrador_id_admin: localStorage.getItem("id_rol")
       };
 
       console.log('Datos a enviar al backend:', datosParaBackend);

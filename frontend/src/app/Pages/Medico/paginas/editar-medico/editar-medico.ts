@@ -9,7 +9,7 @@ import { environment } from '../../../../../environments/environment';
 export interface MedicoData {
   id: string;
   nombre: string;
-  fechaNac: string;
+  fechanac: string;
   telefono: string;
   correo: string;
   matricula: string;
@@ -81,6 +81,7 @@ export class EditarMedico implements OnInit {
     
     this.http.get<MedicoData>(url).subscribe({
       next: (data) => {
+        console.log(data)
         this.medicoData = data;
         this.cargarDatosEnFormulario();
         this.loading = false;
@@ -138,6 +139,7 @@ export class EditarMedico implements OnInit {
   
   prepararDatosParaEnvio(): FormData {
     const formValues = this.formMedico.value;
+    console.log(formValues)
     const formData = new FormData();
     
     // Agregar datos del formulario
@@ -146,16 +148,16 @@ export class EditarMedico implements OnInit {
     formData.append('departamento', formValues.departamento);
     
     // Agregar archivo del carnet si existe
-    if (this.carnetFile) {
+    if (this.carnetFile!=null) {
       formData.append('carnet', this.carnetFile);
     }
     
     // Mantener campos que no se editan
     formData.append('nombre', this.medicoData.nombre);
-    formData.append('fechaNac', this.medicoData.fechaNac);
+    formData.append('fechaNac', this.medicoData.fechanac);
     formData.append('admin', this.medicoData.admin);
-    formData.append('matricula', this.medicoData.matricula);
-    
+    //formData.append('matricula', this.medicoData.matricula);
+    console.log(formData.values)
     return formData;
   }
   
@@ -168,6 +170,11 @@ export class EditarMedico implements OnInit {
     this.guardando = true;
     
     const formData = this.prepararDatosParaEnvio();
+    const payload={
+      ...formData.entries()
+    }
+    console.log([...formData.entries()])
+    /*
     const url = `${environment.apiUrl}/medicos/actualizar/${this.medicoId}`;
     
     this.http.put(url, formData).subscribe({
@@ -187,7 +194,7 @@ export class EditarMedico implements OnInit {
         this.guardando = false;
         this.showError('Error al guardar cambios: ' + (err.error?.message || 'Error desconocido'));
       }
-    });
+    });*/
   }
   
   confirmarCancelar() {

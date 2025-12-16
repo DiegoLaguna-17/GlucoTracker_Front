@@ -30,7 +30,7 @@ export class RegistrarGlucosa implements OnInit {
   modalError:boolean=false;
   constructor(private fb: FormBuilder, private http: HttpClient,private glucosaService:GlucosaService) {
     this.glucosaForm = this.fb.group({
-      id_medico: ['', Validators.required],
+      //id_medico: ['', Validators.required],
       nivel_glucosa: ['', [Validators.required, Validators.min(0)]],
       id_momento: ['', Validators.required],
       observaciones: ['']
@@ -38,11 +38,11 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   ngOnInit(): void {
-    this.obtenerMedicos();
+    //this.obtenerMedicos();
     this.obtenerMomentos();
     this.obtenerDatosPaciente();
   }
-
+/*
   obtenerMedicos() {
     this.http.get<any[]>(`${environment.apiUrl}/medicos/ver`).subscribe({
        next: (data) => {
@@ -55,7 +55,7 @@ export class RegistrarGlucosa implements OnInit {
       },
       error: (err) => console.error('Error al obtener médicos:', err)
     });
-  }
+  }*/
 
   obtenerMomentos() {
     this.http.get<any[]>(`${environment.apiUrl}/general/momentos`).subscribe({
