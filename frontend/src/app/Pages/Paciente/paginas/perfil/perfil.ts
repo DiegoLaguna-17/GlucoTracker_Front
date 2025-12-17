@@ -27,9 +27,13 @@ export interface Patient {
   tratamientos: Treatment[];
   admitidoPor: string;
   embarazo:boolean,
+  semanas_embarazo:number,
+  registro_embarazo:Date;
   nombre_emergencia:string,
   numero_emergencia:string
   foto_perfil:string;
+  nombre_medico:string;
+  fecha_registro:Date;
 }
 
 @Component({
@@ -47,6 +51,7 @@ export class Perfil implements OnInit{
   get data(): Patient {
     return this.patient ?? this.demo;
   }
+  semanasEmbarazoN:number=0;
   cargarPaciente() {
     const idPaciente=localStorage.getItem('id_rol')
     const url = `${environment.apiUrl}/pacientes/perfil/${idPaciente}`;
@@ -54,12 +59,34 @@ export class Perfil implements OnInit{
       next: (data) => {
         this.patient = data;
         console.log('Paciente cargado:', this.patient);
+        this.semanasEmbarazoN=this.calcularSemanasDeEmbarazo(this.patient.registro_embarazo,this.patient.semanas_embarazo)
+        console.log(this.semanasEmbarazoN)
       },
       error: (err) => {
         console.error('Error al cargar paciente:', err);
       }
     });
   }
+  calcularSemanasDeEmbarazo(fecha_registro: string | Date, semanas_embarazo: number): number {
+  // Convertimos la fecha de registro a objeto Date si viene como string
+  const fechaRegistroObj = typeof fecha_registro === 'string' ? new Date(fecha_registro) : fecha_registro;
+  const hoy = new Date();
+
+  // Calculamos la diferencia en milisegundos
+  const diffMs = hoy.getTime() - fechaRegistroObj.getTime();
+
+  // Convertimos a días
+  const diffDias = diffMs / (1000 * 60 * 60 * 24);
+
+  // Convertimos a semanas
+  const semanasTranscurridas = diffDias / 7;
+
+  // Calculamos semanas actuales
+  const semanasActuales = semanas_embarazo + semanasTranscurridas;
+
+  // Redondeamos hacia abajo a semanas completas
+  return Math.floor(semanasActuales);
+}
   ngOnInit() {
     if (!this.patient) {
       // Si no llega patient por Input, cargamos desde el backend

@@ -113,6 +113,39 @@
             </label>
           </div>
         </div>
+
+        <div class="campo" *ngIf="pacienteData.embarazo==true">
+          <label for="semanas_embarazo">Semanas de embarazo</label>
+          <input 
+            type="number" 
+            placeholder="{{semanasDeEmbarazo}}" 
+            formControlName="correo"
+            readonly            
+          />
+          <div class="mensaje-error" *ngIf="f['correo'].touched && f['correo'].invalid">
+            <span *ngIf="f['correo'].hasError('required')">El correo es requerido</span>
+            <span *ngIf="f['correo'].hasError('email')">Correo electrónico inválido</span>
+          </div>
+        </div>
+
+        <div class="campo" *ngIf="mostrarFechaTerminacion">
+          <label for="fecha_terminacion">Fecha de Terminación de embarazo</label>
+          <input 
+            type="date" 
+            id="fecha_terminacion"
+            formControlName="fecha_terminacion"
+          />
+        </div>
+
+        <div class="campo" *ngIf="mostrarFechaInicio">
+          <label for="fecha_inico">Ingrese sus semanas de embarazo</label>
+          <input 
+            type="number" 
+            id="semanas_embarazoN"
+            formControlName="semanas_embarazoN"
+          />
+        </div>
+
       </div>
     </div>
 
@@ -153,7 +186,7 @@
     </div>
 
     <!-- Actividad Física -->
-    <div class="seccion-editar">
+    <!-- <div class="seccion-editar">
       <h2 class="titulo-seccion">Actividad Física</h2>
       
       <div class="campos-grid">
@@ -190,7 +223,7 @@
       </div>
     </div>
 
-    <!-- Afecciones -->
+    <!-- 
     <div class="seccion-editar">
       <h2 class="titulo-seccion">Afecciones</h2>
       
@@ -224,7 +257,7 @@
       <div class="sin-afecciones" *ngIf="afeccionesEditando.length === 0">
         <p>No hay afecciones agregadas</p>
       </div>
-    </div>
+    </div> -->
 
     <!-- Información NO editable -->
     <div class="seccion-editar info-no-editable">
@@ -241,7 +274,7 @@
         </div>
         <div class="info-item">
           <span class="info-label">Médico responsable:</span>
-          <span class="info-valor">{{ pacienteData?.admitidoPor }}</span>
+          <span class="info-valor">{{ pacienteData?.nombre_medico}}</span>
         </div>
       </div>
     </div>
@@ -261,7 +294,7 @@
         <button 
           type="submit" 
           class="btn btn-guardar"
-          [disabled]="formPaciente.invalid || guardando"
+          [disabled]=" guardando"
         >
           <span *ngIf="!guardando">Guardar Cambios</span>
           <span *ngIf="guardando">Guardando...</span>

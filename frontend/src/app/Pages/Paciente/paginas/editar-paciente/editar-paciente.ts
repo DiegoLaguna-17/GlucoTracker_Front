@@ -23,9 +23,13 @@ export interface PacienteData {
   tratamientos: Treatment[];
   admitidoPor: string;
   embarazo: boolean;
+  semanas_embarazo:number;
   nombre_emergencia: string;
   numero_emergencia: string;
   foto_perfil: string;
+  nombre_medico:string;
+  fecha_registro:Date;
+  registro_embarazo:Date;
 }
 
 export interface Treatment {
@@ -69,7 +73,7 @@ export class EditarPaciente implements OnInit {
   // Variables para manejar afecciones
   nuevaAfeccion = '';
   afeccionesEditando: string[] = [];
-  
+  semanasDeEmbarazo:number=0;
   constructor() {
     this.formPaciente = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -78,6 +82,9 @@ export class EditarPaciente implements OnInit {
       telefono: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s()]{10,}$/)]],
       correo: ['', [Validators.required, Validators.email]],
       embarazo: [false],
+      fecha_terminacion: [null],
+      semanas_embarazoN:[null],
+      semanas_embarazo:[Number],
       nombre_emergencia: ['', [Validators.required]],
       numero_emergencia: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s()]{10,}$/)]],
       actividadFisica_nivel: ['Baja', [Validators.required]],
@@ -99,7 +106,35 @@ export class EditarPaciente implements OnInit {
     
     this.cargarPaciente();
   }
-  
+  calcularSemanasDeEmbarazo(fecha_registro: string | Date, semanas_embarazo: number): number {
+  // Convertimos la fecha de registro a objeto Date si viene como string
+  const fechaRegistroObj = typeof fecha_registro === 'string' ? new Date(fecha_registro) : fecha_registro;
+  const hoy = new Date();
+
+  // Calculamos la diferencia en milisegundos
+  const diffMs = hoy.getTime() - fechaRegistroObj.getTime();
+
+  // Convertimos a días
+  const diffDias = diffMs / (1000 * 60 * 60 * 24);
+
+  // Convertimos a semanas
+  const semanasTranscurridas = diffDias / 7;
+
+  // Calculamos semanas actuales
+  const semanasActuales = semanas_embarazo + semanasTranscurridas;
+
+  // Redondeamos hacia abajo a semanas completas
+  return Math.floor(semanasActuales);
+}
+get mostrarFechaTerminacion(): boolean {
+  // El campo aparece solo si el paciente era embarazada y ahora desmarcó el checkbox
+  return this.pacienteData?.embarazo && !this.formPaciente.get('embarazo')?.value;
+}
+
+get mostrarFechaInicio(): boolean {
+  // El campo aparece solo si el paciente era embarazada y ahora desmarcó el checkbox
+  return !this.pacienteData?.embarazo && this.formPaciente.get('embarazo')?.value;
+}
   cargarPaciente() {
     this.loading = true;
     const url = `${environment.apiUrl}/pacientes/perfil/${this.pacienteId}`;
@@ -107,9 +142,12 @@ export class EditarPaciente implements OnInit {
     this.http.get<PacienteData>(url).subscribe({
       next: (data) => {
         this.pacienteData = data;
+        console.log(this.pacienteData)
         this.cargarDatosEnFormulario();
         this.afeccionesEditando = [...data.afecciones];
         this.loading = false;
+        this.semanasDeEmbarazo=this.calcularSemanasDeEmbarazo(this.pacienteData.registro_embarazo,this.pacienteData.semanas_embarazo)
+    console.log(this.semanasDeEmbarazo)
       },
       error: (err) => {
         console.error('Error al cargar paciente:', err);
@@ -117,23 +155,26 @@ export class EditarPaciente implements OnInit {
         this.showError('Error al cargar datos del paciente: ' + (err.error?.message || 'Error desconocido'));
       }
     });
+        
+    
   }
   
   cargarDatosEnFormulario() {
     // Convertir altura de cm a metros si es necesario
-    let alturaEnMetros = this.pacienteData.altura;
-    if (alturaEnMetros.includes('cm')) {
-      const alturaCm = parseFloat(alturaEnMetros.replace(' cm', '').replace(' centímetros', ''));
-      alturaEnMetros = (alturaCm / 100).toString().replace('.', ',');
-    }
-    
+    // let alturaEnMetros = this.pacienteData.altura;
+    // if (alturaEnMetros.includes('cm')) {
+    //   const alturaCm = parseFloat(alturaEnMetros.replace(' cm', '').replace(' centímetros', ''));
+    //   alturaEnMetros = (alturaCm / 100).toString().replace('.', ',');
+    // }
+   
     this.formPaciente.patchValue({
       nombre: this.pacienteData.nombre,
-      altura: alturaEnMetros,
-      peso: this.pacienteData.peso.replace(' kg', '').replace(' Kilogramos', ''),
+      altura: this.pacienteData.altura,
+      peso: this.pacienteData.peso,
       telefono: this.pacienteData.telefono,
       correo: this.pacienteData.correo,
       embarazo: this.pacienteData.embarazo,
+      semanas_embarazo:this.pacienteData.semanas_embarazo,
       nombre_emergencia: this.pacienteData.nombre_emergencia,
       numero_emergencia: this.pacienteData.numero_emergencia,
       actividadFisica_nivel: this.pacienteData.actividadFisica.nivel,
@@ -157,61 +198,47 @@ export class EditarPaciente implements OnInit {
     const formValues = this.formPaciente.value;
     
     // Convertir altura de metros a cm para el backend
-    const alturaEnCm = Math.round(parseFloat(formValues.altura.replace(',', '.')) * 100);
+    //const alturaEnCm = Math.round(parseFloat(formValues.altura.replace(',', '.')) * 100);
     
     return {
       nombre: formValues.nombre,
-      altura: `${alturaEnCm} cm`,
-      peso: `${formValues.peso} kg`,
+      altura: formValues.altura,
+      peso: `${formValues.peso}`,
       telefono: formValues.telefono,
       correo: formValues.correo,
       embarazo: formValues.embarazo,
       nombre_emergencia: formValues.nombre_emergencia,
       numero_emergencia: formValues.numero_emergencia,
-      actividadFisica: {
-        nivel: formValues.actividadFisica_nivel,
-        descripcion: formValues.actividadFisica_descripcion
-      },
-      afecciones: this.afeccionesEditando,
+      semanas_embarazo:formValues.semanas_embarazoN,
+      fecha_terminacion:formValues.fecha_terminacion,
+      fecha_inicio:formValues.fecha_inicio
+      // actividadFisica: {
+      //   nivel: formValues.actividadFisica_nivel,
+      //   descripcion: formValues.actividadFisica_descripcion
+      // },
+      //afecciones: this.afeccionesEditando,
       // Mantener campos que no se editan
-      fechaNac: this.pacienteData.fechaNac,
-      genero: this.pacienteData.genero,
-      admitidoPor: this.pacienteData.admitidoPor, // No cambia
-      tratamientos: this.pacienteData.tratamientos,
-      foto_perfil: this.pacienteData.foto_perfil
+      //fechaNac: this.pacienteData.fechaNac,
+      //genero: this.pacienteData.genero,
+      //admitidoPor: this.pacienteData.admitidoPor, // No cambia
+      //tratamientos: this.pacienteData.tratamientos,
+      //foto_perfil: this.pacienteData.foto_perfil
     };
   }
   
   guardarCambios() {
-    if (this.formPaciente.invalid) {
-      this.marcarCamposComoTocados();
-      return;
-    }
-    
-    this.guardando = true;
-    const datosActualizados = this.prepararDatosParaEnvio();
-    const url = `${environment.apiUrl}/pacientes/actualizar/${this.pacienteId}`;
-    
-    this.http.put(url, datosActualizados).subscribe({
-      next: (response) => {
-        console.log('Paciente actualizado:', response);
-        this.guardando = false;
-        this.showSuccessModal.set(true);
-        
-        // Redirigir después de 2 segundos
-        setTimeout(() => {
-          this.showSuccessModal.set(false);
-          this.router.navigate(['/paciente/perfil']);
-        }, 2000);
-      },
-      error: (err) => {
-        console.error('Error al actualizar paciente:', err);
-        this.guardando = false;
-        this.showError('Error al guardar cambios: ' + (err.error?.message || 'Error desconocido'));
-      }
-    });
-  }
-  
+  const datosActualizados = this.prepararDatosParaEnvio();
+  const id_usuario = localStorage.getItem("id_usuario");
+  console.log("ID usuario:", id_usuario);
+  console.log("Datos a enviar:", datosActualizados);
+
+  const url = `${environment.apiUrl}/pacientes/actualizarPaciente/${id_usuario}`;
+  this.http.put(url, datosActualizados).subscribe({
+    next: (res) => console.log("Respuesta del servidor:", res),
+    error: (err) => console.error("Error en PUT:", err)
+  });
+}
+
   confirmarCancelar() {
     this.showConfirmModal.set(true);
   }

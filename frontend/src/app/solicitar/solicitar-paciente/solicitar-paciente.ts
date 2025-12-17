@@ -35,6 +35,7 @@ export class SolicitarPaciente implements OnInit{
       id_actividad:['', Validators.required],
       genero: ['', Validators.required],
       embarazada: [''],
+      semanas:[0],
       peso: ['', [Validators.required, Validators.min(0)]],
       altura: ['', [Validators.required, Validators.min(0)]],
       enfermedad_id: [''],
@@ -97,10 +98,10 @@ onTratamientoChange(event: any) {
     if (this.pacienteForm.valid) {
       // Preparar datos para enviar
       const form = this.pacienteForm.value;
-      let embarazada=false;
-      if(form.embarazada=="true"){
-        embarazada=true;
-      }
+      const embarazada = this.pacienteForm.get('embarazada')?.value === true;
+      const semanas = this.pacienteForm.get('semanas')?.value 
+                  ? Number(this.pacienteForm.get('semanas')?.value) 
+                  : null;
       const datosParaBackend = {
       nombre_completo: form.nombre_completo,
       correo: form.correo,
@@ -120,8 +121,8 @@ onTratamientoChange(event: any) {
       administrador_id_admin: 1,
       nombre_emergencia:form.nombre_emergencia,
       numero_emergencia:form.numero_emergencia,
-      embarazada:embarazada
-
+      embarazada:embarazada,
+        semanas:semanas
       };
       const formData = new FormData();
 

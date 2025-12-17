@@ -81,13 +81,20 @@
 
           <!-- ¿Está embarazada? (Solo visible si género es mujer) -->
           <div class="input-box" *ngIf="pacienteForm.get('genero')?.value === 'Femenino'">
-            <label>¿Está embarazada?</label>
-            <select formControlName="embarazada">
-              <option value="">Seleccione</option>
-              <option value="true">Sí</option>
-              <option value="false">No</option>
-            </select>
-          </div>
+
+  <label>¿Está embarazada?</label>
+  <select formControlName="embarazada">
+    <option [ngValue]="null">Seleccione</option>
+    <option [ngValue]="true">Sí</option>
+    <option [ngValue]="false">No</option>
+  </select>
+
+  <div class="input-box" *ngIf="pacienteForm.get('embarazada')?.value === true">
+    <label>Ingrese sus semanas de embarazo</label>
+    <input type="number" formControlName="semanas" min="1" max="42">
+  </div>
+
+</div>
 
           <!-- Peso y Altura -->
           <div class="input-box">
