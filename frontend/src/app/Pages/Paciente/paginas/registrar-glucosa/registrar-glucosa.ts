@@ -33,7 +33,7 @@ export class RegistrarGlucosa implements OnInit {
       //id_medico: ['', Validators.required],
       nivel_glucosa: ['', [Validators.required, Validators.min(0)]],
       id_momento: ['', Validators.required],
-      observaciones: ['']
+      observaciones: ['',Validators.required]
     });
   }
 
@@ -68,10 +68,10 @@ export class RegistrarGlucosa implements OnInit {
   }
 
   obtenerDatosPaciente(){
-    this.http.get<any>(`${environment.apiUrl}/registro/datosGlucosa/`+localStorage.getItem('id_usuario')).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/registro/datosGlucosa/`+localStorage.getItem('id_rol')).subscribe({
       next:(data)=>{
         this.datosPaciente=data;
-        console.log(this.datosPaciente);
+        console.log("datos paciente ",this.datosPaciente);
         if(this.datosPaciente){
           this.datosEnviar.id_medico=this.datosPaciente.id_medico;
       this.datosEnviar.edad=this.datosPaciente.edad;
@@ -193,12 +193,11 @@ export class RegistrarGlucosa implements OnInit {
     if(this.datosAlert.id_tipo_alerta==1){
       this.tituloAlerta="Hipoglucemia";
       this.mensajeAlerta="Tu glucosa está baja. Toma una fuente de azúcar de acción rápida"+
-       "y vuelve a medir en unos minutos. El médico de turno ya está al tanto de la medición y se envió un "
+       "y vuelve a medir en unos minutos. Se envió un "
        +"correo a tu médico asignado para su seguimiento."
     }else{
       this.tituloAlerta="Hiperglucemia";
-      this.mensajeAlerta="Tu glucosa está elevada. Hidrátate y vuelve a medir más adelante. El médico de turno "
-      +"está acompañando la evaluación y se envió un correo a tu médico asignado para que pueda hacer el seguimiento"+
+      this.mensajeAlerta="Tu glucosa está elevada. Hidrátate y vuelve a medir más adelante. Se envió un correo a tu médico asignado para que pueda hacer el seguimiento"+
       " correspondiente."
 
     }

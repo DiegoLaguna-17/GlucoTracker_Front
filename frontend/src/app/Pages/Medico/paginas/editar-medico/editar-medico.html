@@ -157,10 +157,12 @@
         <button 
           type="submit" 
           class="btn btn-guardar"
-          [disabled]="formMedico.invalid || guardando"
+          [disabled]="(!formMedico.dirty && !carnetCambiado)|| guardando"
         >
-          <span *ngIf="!guardando">Guardar Cambios</span>
-          <span *ngIf="guardando">Guardando...</span>
+        <span *ngIf="!guardando">
+          {{ formMedico.dirty || carnetCambiado ? "Guardar cambios" : "No hay cambios detectados" }}
+        </span>          
+        <span *ngIf="guardando">Guardando...</span>
         </button>
       </div>
     </div>

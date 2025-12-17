@@ -8,12 +8,13 @@ export interface Auditoria{
   id_usuario:number,
   rol:string,
   id_rol:number,
-  enpoint:string,
+  endpoint:string,
   operacion:string,
   exito:boolean,
   codigo_http:number,
   ip_origen:string,
-  fecha:Date
+  fecha:Date,
+  nombre_completo:string,
 }
 @Component({
   selector: 'app-auditoria',
@@ -27,20 +28,49 @@ export class Auditoria {
     private http: HttpClient
   ){}
   registros:Auditoria[]=[];
+  paginaActual = 1;
+  registrosPorPagina = 20;
   ngOnInit(){
-    //this.obtenerAuditoria();
+    this.obtenerAuditoria();
   }
   
   obtenerAuditoria(){
-    const url=``;
+    const url=`${environment.apiUrl}/general/auditoria`;
     this.http.get<Auditoria[]>(url).subscribe({
       next:(response)=>{
-        this.registros=(response);
+        this.registros = response.sort((a, b) => 
+  new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+);
         console.log(this.registros)
       },
       error:(err)=>{
         console.log("Error al obtener auditoria ",err)
       }
     })
+  }
+
+
+   // 👉 Registros que se muestran en la tabla
+  get registrosPaginados(): Auditoria[] {
+    const inicio = (this.paginaActual - 1) * this.registrosPorPagina;
+    const fin = inicio + this.registrosPorPagina;
+    return this.registros.slice(inicio, fin);
+  }
+
+  // 👉 Total de páginas
+  get totalPaginas(): number {
+    return Math.ceil(this.registros.length / this.registrosPorPagina);
+  }
+
+  siguiente() {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+    }
+  }
+
+  anterior() {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+    }
   }
 }

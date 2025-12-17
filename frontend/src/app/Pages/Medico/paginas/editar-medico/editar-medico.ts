@@ -52,7 +52,7 @@ export class EditarMedico implements OnInit {
   // Variable para archivo del carnet
   carnetFile: File | null = null;
   carnetPreview: string | null = null;
-  
+  carnetCambiado = false;
   constructor() {
     this.formMedico = this.fb.group({
       telefono: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s()]{8,}$/)]],
@@ -100,6 +100,8 @@ export class EditarMedico implements OnInit {
       correo: this.medicoData.correo,
       departamento: this.medicoData.departamento || 'La Paz'
     });
+    this.formMedico.markAsPristine();
+    this.carnetCambiado = false;
   }
   
   onCarnetSeleccionado(event: any) {
@@ -120,7 +122,9 @@ export class EditarMedico implements OnInit {
       }
       
       this.carnetFile = file;
-      
+        this.carnetCambiado = true; // 🔥 CLAVE
+        console.log('Carnet cambiado:', this.carnetCambiado);
+
       // Crear preview de la imagen
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -133,60 +137,56 @@ export class EditarMedico implements OnInit {
   eliminarCarnet() {
     this.carnetFile = null;
     this.carnetPreview = null;
+      this.carnetCambiado = false;
+
     const input = document.getElementById('carnet') as HTMLInputElement;
     if (input) input.value = '';
   }
   
   prepararDatosParaEnvio(): FormData {
-    const formValues = this.formMedico.value;
-    console.log(formValues)
-    const formData = new FormData();
-    
-    // Agregar datos del formulario
-    formData.append('telefono', formValues.telefono);
-    formData.append('correo', formValues.correo);
-    formData.append('departamento', formValues.departamento);
-    
-    // Agregar archivo del carnet si existe
-    if (this.carnetFile!=null) {
-      formData.append('carnet', this.carnetFile);
-    }
-    
-    // Mantener campos que no se editan
-    formData.append('nombre', this.medicoData.nombre);
-    formData.append('fechaNac', this.medicoData.fechanac);
-    formData.append('admin', this.medicoData.admin);
-    //formData.append('matricula', this.medicoData.matricula);
-    console.log(formData.values)
-    return formData;
+  const formData = new FormData();
+
+  // Agregar solo campos modificados
+  if (this.formMedico.get('telefono')?.dirty) {
+    formData.append('telefono', this.formMedico.get('telefono')?.value);
   }
+  if (this.formMedico.get('correo')?.dirty) {
+    formData.append('correo', this.formMedico.get('correo')?.value);
+  }
+  if (this.formMedico.get('departamento')?.dirty) {
+    formData.append('departamento', this.formMedico.get('departamento')?.value);
+  }
+
+  // Agregar archivo del carnet si se cambió
+  if (this.carnetCambiado && this.carnetFile) {
+    formData.append('carnet', this.carnetFile);
+  }
+
+  return formData;
+}
+
   
   guardarCambios() {
-    if (this.formMedico.invalid) {
-      this.marcarCamposComoTocados();
-      return;
-    }
-    
+  // Solo enviar si hubo cambios
+  if (this.formMedico.dirty || this.carnetCambiado) {
     this.guardando = true;
-    
+
     const formData = this.prepararDatosParaEnvio();
-    const payload={
-      ...formData.entries()
-    }
-    console.log([...formData.entries()])
-    /*
-    const url = `${environment.apiUrl}/medicos/actualizar/${this.medicoId}`;
-    
+    for (let [key, value] of formData.entries()) {
+  console.log(key, value);
+}
+    const url = `${environment.apiUrl}/medicos/actualizar/${localStorage.getItem("id_rol")}`;
+
     this.http.put(url, formData).subscribe({
       next: (response) => {
         console.log('Médico actualizado:', response);
         this.guardando = false;
         this.showSuccessModal.set(true);
-        
+
         // Redirigir después de 2 segundos
         setTimeout(() => {
           this.showSuccessModal.set(false);
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/medico/perfil']);
         }, 2000);
       },
       error: (err) => {
@@ -194,8 +194,10 @@ export class EditarMedico implements OnInit {
         this.guardando = false;
         this.showError('Error al guardar cambios: ' + (err.error?.message || 'Error desconocido'));
       }
-    });*/
+    });
   }
+}
+
   
   confirmarCancelar() {
     this.showConfirmModal.set(true);

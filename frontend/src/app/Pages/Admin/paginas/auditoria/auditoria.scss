@@ -86,3 +86,139 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ===========================
+   TABLA DE AUDITORÍA
+=========================== */
+
+.auditoria-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+.auditoria-table thead {
+  background: linear-gradient(135deg, #0a3d62, #3c6382);
+  color: white;
+}
+
+.auditoria-table th {
+  padding: 0.9rem;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
+.auditoria-table td {
+  padding: 0.85rem;
+  color: #333;
+  border-bottom: 1px solid #e1f2f2;
+  vertical-align: middle;
+}
+
+/* Hover fila */
+.auditoria-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.auditoria-table tbody tr:hover {
+  background-color: #e8f6f8;
+}
+
+/* Estado éxito / error */
+.ok {
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.fail {
+  color: #c0392b;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Endpoint */
+.auditoria-table td:nth-child(4) {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #0a3d62;
+}
+
+/* Paginación */
+.paginacion {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.paginacion button {
+  background-color: #0a3d62;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.3rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.paginacion button:hover:not(:disabled) {
+  background-color: #3c6382;
+  transform: translateY(-2px);
+}
+
+.paginacion button:disabled {
+  background-color: #a5bfcf;
+  cursor: not-allowed;
+}
+
+.paginacion span {
+  font-weight: 600;
+  color: #0a3d62;
+}
+
+/* ===========================
+   RESPONSIVE TABLA
+=========================== */
+
+@media (max-width: 768px) {
+  .auditoria-table {
+    font-size: 0.85rem;
+  }
+
+  .auditoria-table thead {
+    display: none;
+  }
+
+  .auditoria-table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    background: #f7fbfc;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .auditoria-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: none;
+  }
+
+  .auditoria-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #0a3d62;
+  }
+}

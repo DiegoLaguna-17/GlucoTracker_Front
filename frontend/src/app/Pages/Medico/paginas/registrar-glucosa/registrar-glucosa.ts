@@ -55,7 +55,7 @@ export class RegistrarGlucosa implements OnInit {
     
       nivel_glucosa: ['', [Validators.required, Validators.min(0)]],
       id_momento: ['', Validators.required],
-      observaciones: ['']
+      observaciones: ['',Validators.required]
     });
   }
 
@@ -221,13 +221,12 @@ export class RegistrarGlucosa implements OnInit {
     if(this.datosAlert.id_tipo_alerta==1){
       this.tituloAlerta="Hipoglucemia";
       this.mensajeAlerta="Tu glucosa está baja. Toma una fuente de azúcar de acción rápida"+
-       "y vuelve a medir en unos minutos. El médico de turno ya está al tanto de la medición y se envió un "
-       +"correo a tu médico asignado para su seguimiento."
+       "y vuelve a medir en unos minutos. Se envió un "
+       +"reporte a su correo para el seguimiento.";
     }else{
       this.tituloAlerta="Hiperglucemia";
-      this.mensajeAlerta="Tu glucosa está elevada. Hidrátate y vuelve a medir más adelante. El médico de turno "
-      +"está acompañando la evaluación y se envió un correo a tu médico asignado para que pueda hacer el seguimiento"+
-      " correspondiente."
+      this.mensajeAlerta="Tu glucosa está elevada. Hidrátate y vuelve a medir más adelante. SSe envió un "
+       +"reporte a su correo para el seguimiento.";
 
     }
     console.log('datos de la alerta', this.datosAlert);
