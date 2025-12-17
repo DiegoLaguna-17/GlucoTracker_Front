@@ -5,14 +5,15 @@ import { CardPromedio } from '../../componentes/card-promedio/card-promedio';
 import { CardGlucosa } from '../../componentes/card-glucosa/card-glucosa';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
+
 @Component({
   selector: 'app-mis-registros',
   imports: [CommonModule, FormsModule, CardPromedio, CardGlucosa,HttpClientModule],
   templateUrl: './mis-registros.html',
   styleUrl: './mis-registros.scss',
 })
-export class MisRegistros  implements OnInit {
-      private http = inject(HttpClient);
+export class MisRegistros implements OnInit {
+  private http = inject(HttpClient);
 
   filtroSeleccionado: string = 'dia';
   fechaSeleccionada: string = '';
@@ -39,20 +40,48 @@ export class MisRegistros  implements OnInit {
     { value: '12', nombre: 'Diciembre' }
   ];
 
-  // Datos simulados de registros de glucosa
-  registros!:any[];
-
+  registros: any[] = [];
   registrosFiltrados: any[] = [];
 
   ngOnInit() {
-    this.cargarRegistros();
-    this.fechaHoy = this.getFechaHoy();
-    this.filtrarRegistros();
     
+    this.fechaHoy = this.getFechaHoy();
+    this.cargarRegistros();
   }
 
   getFechaHoy(): string {
-    return new Date().toISOString().split('T')[0];
+    const hoy = new Date();
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    return `${año}-${mes}-${dia}`;
+  }
+
+  cargarRegistros() {
+    const idPaciente = localStorage.getItem('id_rol');
+    this.http.get<any[]>(`${environment.apiUrl}/pacientes/registros/${idPaciente}`).subscribe({
+      next: (data) => {
+        this.registros = data;
+        console.log('Registros cargados:', this.registros);
+        // Una vez cargados los registros, aplicar el filtro del día automáticamente
+        this.aplicarFiltroDelDia();
+      },
+      error: (err) => console.error('Error al obtener registros:', err)
+    });
+  }
+
+  aplicarFiltroDelDia() {
+    // Filtrar registros del día actual
+    this.registrosFiltrados = this.registros.filter(reg => reg.fecha === this.fechaHoy);
+    this.mostrarRegistros = true;
+    
+    // Calcular promedio
+    this.calcularPromedio();
+    
+    // Si no hay registros del día, mostrar mensaje
+    if (this.registrosFiltrados.length === 0) {
+      console.log('No hay registros para el día de hoy');
+    }
   }
 
   cambiarFiltro() {
@@ -64,7 +93,7 @@ export class MisRegistros  implements OnInit {
     
     // Si es "del día", filtrar automáticamente
     if (this.filtroSeleccionado === 'dia') {
-      this.filtrarRegistros();
+      this.aplicarFiltroDelDia();
     }
   }
 
@@ -137,22 +166,9 @@ export class MisRegistros  implements OnInit {
   }
 
   getQuienTomoMuestraTexto(quien: string): string {
-    if(quien==null){
-      quien="El paciente"
+    if (quien == null) {
+      quien = "El paciente";
     }
     return quien;
   }
-
-  cargarRegistros(){
-    const idPaciente=localStorage.getItem('id_rol')
-      this.http.get<any[]>(`${environment.apiUrl}/pacientes/registros/${idPaciente}`).subscribe({
-      next: (data) => {
-        this.registros = data;
-        console.log('Momentos cargados:', this.registros);
-      },
-      error: (err) => console.error('Error al obtener momentos:', err)
-    });
-  }
 }
-
-

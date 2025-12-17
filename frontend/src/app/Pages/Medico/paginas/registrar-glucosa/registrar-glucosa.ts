@@ -152,7 +152,7 @@ export class RegistrarGlucosa implements OnInit {
         id_medico:localStorage.getItem("id_rol"),
         fecha,
         hora,
-        id_paciente: localStorage.getItem('id_rol') // ⚠️ reemplaza por el ID real
+        id_paciente: this.datosPaciente.id_paciente
       };
 
       console.log('Datos a enviar al backend:', datosParaBackend);
@@ -238,7 +238,7 @@ export class RegistrarGlucosa implements OnInit {
 
         setTimeout(() => {
           this.modalAlerta = false;
-        }, 7000);
+        }, 10000);
       },
       error: (err) => console.error('Error al registrar alerta', err)
     });

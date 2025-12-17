@@ -50,3 +50,57 @@
   </div>
 </div>
 
+<!-- Modal de éxito -->
+<div class="modal-overlay" *ngIf="mostrarModalExito" (click)="cerrarModalExito()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-body">
+      <div class="modal-icon grande" style="color: #28a745; font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;">✓</div>
+      <h3>¡Registro Exitoso!</h3>
+      <p>Administrador registrado correctamente</p>
+      <div class="modal-footer">
+        <button class="btn btn-modal-aceptar" (click)="cerrarModalExito()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de error -->
+<div class="modal-overlay" *ngIf="mostrarModalError" (click)="cerrarModalError()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Error en el Registro</h3>
+      <button class="btn-cerrar" (click)="cerrarModalError()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-icon">❌</div>
+      <p><strong>No se pudo completar el registro</strong></p>
+      <p>{{mensajeError}}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-modal-cancelar" (click)="cerrarModalError()">Cerrar</button>
+      <button class="btn btn-modal-aceptar" (click)="reintentarRegistro()" *ngIf="datosPendientes">
+        Reintentar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de validación (cuando el formulario no es válido) -->
+<div class="modal-overlay" *ngIf="mostrarModalValidacion" (click)="cerrarModalValidacion()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Datos Incorrectos</h3>
+      <button class="btn-cerrar" (click)="cerrarModalValidacion()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-icon">⚠️</div>
+      <p><strong>Complete todos los campos correctamente</strong></p>
+      <p>Revise los campos marcados en rojo</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-modal-aceptar" (click)="cerrarModalValidacion()">Entendido</button>
+    </div>
+  </div>
+</div>
