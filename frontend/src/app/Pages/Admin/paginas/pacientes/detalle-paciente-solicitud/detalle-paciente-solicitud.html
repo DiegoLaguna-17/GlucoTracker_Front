@@ -43,7 +43,7 @@
       <h2>Actividad Física</h2>
       <p><b>Moderado:</b> {{ paciente.actividadFisica }}</p>
     </div>
-
+   
     <!-- Afecciones -->
     <div class="afecciones">
       <h2>Afecciones</h2>
@@ -52,7 +52,12 @@
       </div>
     </div>
   </section>
-
+   <div class="tratamientos" *ngIf="paciente.embarazo">
+      <h2>Embarazo</h2>
+      <div class="contenido">
+        <p><b>Semanas:</b> {{paciente.semanas_embarazo}}</p>
+      </div>
+    </div>
   <!-- Tratamientos -->
   <section class="tratamientos">
     <h2>Tratamientos</h2>

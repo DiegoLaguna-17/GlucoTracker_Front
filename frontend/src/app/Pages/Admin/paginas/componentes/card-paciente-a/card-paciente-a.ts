@@ -19,6 +19,8 @@ export interface PacienteResumen {
   nombre_emergencia:string;
   numero_emergencia:string;
   foto_perfil:string;
+  embarazo:boolean;
+  semanas_embarazo:number;
 }
 export interface Afecciones{
   afeccion:string;
