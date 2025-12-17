@@ -41,6 +41,11 @@ export class RegistrarGlucosa implements OnInit {
     //this.obtenerMedicos();
     this.obtenerMomentos();
     this.obtenerDatosPaciente();
+    console.log(localStorage.getItem("semanasActual"))
+    if(localStorage.getItem("semanasActual")==null){
+      this.obtenerSemanas();
+    }
+    
   }
 /*
   obtenerMedicos() {
@@ -214,6 +219,40 @@ export class RegistrarGlucosa implements OnInit {
       error: (err) => console.error('Error al registrar alerta', err)
     });
   }
+}
+semanasEmbarazo:any;
+mostrarEmbarazo=false;
+obtenerSemanas() {
+  this.http
+    .get<any>(
+      `${environment.apiUrl}/pacientes/obtenerDatosEmbarazo/${localStorage.getItem("id_rol")}`
+    )
+    .subscribe({
+      next: (response) => {
+        console.log('Semanas recibidas:', response);
+
+        this.semanasEmbarazo = response.semanas_actuales;
+
+        // Guardar SIEMPRE
+        localStorage.setItem(
+          "semanasActual",
+          this.semanasEmbarazo.toString()
+        );
+
+        // Mostrar modal solo si corresponde
+        if (this.semanasEmbarazo > 35) {
+          this.mostrarEmbarazo = true;
+        }
+      },
+      error: (err) => {
+        console.error("Error obteniendo semanas", err);
+      }
+    });
+}
+
+
+cerrarSemanas(){
+  this.mostrarEmbarazo=false;
 }
 
 }
