@@ -40,7 +40,7 @@
       <tbody>
         <tr *ngFor="let a of registrosPaginados">
           <td data-label="ID">{{ a.id }}</td>
-          <td data-label="Usuario">{{ a.nombre_completo }}</td>
+          <td data-label="Usuario">{{ a.usuario?.nombre_completo }}</td>
           <td data-label="Rol">{{ a.rol }}</td>
           <td data-label="Endpoint">{{ a.endpoint }}</td>
           <td data-label="Operación">{{ a.operacion }}</td>

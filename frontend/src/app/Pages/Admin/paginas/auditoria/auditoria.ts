@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
+export interface Usuario{
+  nombre_completo:string
+}
 export interface Auditoria{
   id:number,
   id_usuario:number,
@@ -14,7 +17,7 @@ export interface Auditoria{
   codigo_http:number,
   ip_origen:string,
   fecha:Date,
-  nombre_completo:string,
+  usuario?:Usuario
 }
 @Component({
   selector: 'app-auditoria',
