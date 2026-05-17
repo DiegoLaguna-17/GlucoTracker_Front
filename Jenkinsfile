@@ -33,7 +33,9 @@ pipeline {
                 dir('frontend') {
                     bat '''
                     npm install -g serve
-                    serve -s dist -l 4200
+                    pm2 delete frontend
+                    pm2 start "serve -s dist/frontend -l 4200" --name frontend
+                    pm2 save
                     '''
                 }
             }
