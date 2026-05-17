@@ -42,16 +42,7 @@ pipeline {
             steps {
                 echo 'Levantando frontend con PM2...'
                 dir('frontend') {
-                    bat '''
-                    set PM2_HOME=C:\\Users\\diego\\.pm2
-
-                    npm install -g serve
-                    npm install -g pm2
-
-                    pm2 restart frontend || pm2 start "serve -s dist/frontend -l 4200" --name frontend
-
-                    pm2 save
-                    '''
+                    bat 'set PM2_HOME=C:\\Users\\diego\\.pm2 && npm install -g serve && npm install -g pm2 && pm2 restart frontend || pm2 start "serve -s dist/frontend -l 4200" --name frontend && pm2 save'
                 }
             }
         }
