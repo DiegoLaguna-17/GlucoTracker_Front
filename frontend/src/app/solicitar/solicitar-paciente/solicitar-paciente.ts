@@ -47,6 +47,9 @@ export class SolicitarPaciente implements OnInit{
   }
   descripcionTratamiento: string = '';
   fotoPerfilFile: File | null = null;
+
+  modalExito:boolean=false;
+
   onFileSelected(event: any) {
   const file = event.target.files[0];
   if (!file) return;
@@ -59,6 +62,7 @@ export class SolicitarPaciente implements OnInit{
   // GUARDA EL ARCHIVO CORRECTAMENTE
   this.fotoPerfilFile = file;
 
+  
   // También guardarlo en el FormGroup
   this.pacienteForm.patchValue({ foto_perfil: file });
   this.pacienteForm.get("foto_perfil")?.updateValueAndValidity();
@@ -248,6 +252,9 @@ onTratamientoChange(event: any) {
     });
   }
 
+  cerrarModal(){
+    this.modalExito=false;
+  }
 
   ngOnInit(){
     this.obtenerMedicos();

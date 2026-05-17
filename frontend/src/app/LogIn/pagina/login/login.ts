@@ -57,6 +57,7 @@ export class Login implements OnInit {
   this.http.post<any>(environment.apiUrl + '/login', credentials)
     .subscribe({
       next: (res) => {
+        
         console.log('OTP enviado:', res);
 
         // Guardamos id_usuario para el siguiente paso
@@ -70,7 +71,7 @@ export class Login implements OnInit {
       },
       error: (err) => {
         console.error('Error de login:', err);
-
+        console.log(environment.apiUrl)
         this.showErrorModal.set(true);
         this.errorMessage.set(err.error?.error || 'Error al iniciar sesión');
         this.loading.set(false);
