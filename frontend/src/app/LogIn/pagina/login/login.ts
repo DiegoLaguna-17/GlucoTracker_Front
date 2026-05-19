@@ -52,12 +52,11 @@ export class Login implements OnInit {
     correo: this.form.value.usuario || '',
     contrasena: this.form.value.contrasena || ''
   };
-  
+  console.log('🚨 URL configurada en environment:', environment.apiUrl);
   // Llamada al endpoint que envía OTP
   this.http.post<any>(environment.apiUrl + '/login', credentials)
     .subscribe({
       next: (res) => {
-        console.log(`usando ${environment.apiUrl}`),
         console.log('OTP enviado:', res);
 
         // Guardamos id_usuario para el siguiente paso
