@@ -43,26 +43,22 @@ pipeline {
                 echo 'Preparando el directorio de producción...'
                 
                 bat '''
-                :: 1. Crear una carpeta fuera de Jenkins (sin puntos en el nombre)
+                :: Creamos la carpeta limpia y copiamos los archivos compilados
                 if not exist "C:\\Deploy\\frontend" mkdir "C:\\Deploy\\frontend"
-                
-                :: 2. Copiar los archivos compilados allí 
-                :: /E (copia subcarpetas), /Y (sobreescribe sin preguntar)
                 xcopy "frontend\\dist\\frontend\\browser\\*" "C:\\Deploy\\frontend\\" /E /Y
                 '''
                 
                 echo 'Levantando frontend con PM2...'
+                bat '''
+                set PM2_HOME=C:\\Users\\diego\\.pm2
                 
-                // 3. Cambiamos el contexto a la nueva carpeta limpia
-                dir('C:\\Deploy\\frontend') {
-                    bat '''
-                    set PM2_HOME=C:\\Users\\diego\\.pm2
-                    
-                    call pm2 delete frontend || echo "Proceso limpio"
-                    call pm2 serve . 4200 --name "frontend" --spa
-                    call pm2 save
-                    '''
-                }
+                call pm2 delete frontend || echo "Proceso limpio"
+                
+                :: Aquí está el truco: le pasamos la RUTA ABSOLUTA directamente
+                call pm2 serve "C:\\Deploy\\frontend" 4200 --name "frontend" --spa
+                
+                call pm2 save
+                '''
             }
         }
     }
