@@ -46,7 +46,10 @@ pipeline {
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
                 :: 1. Detener frontend (LIBERA LA CARPETA)
-                pm2 delete frontend || echo "No existía proceso"
+                pm2 delete frontend
+                if %errorlevel% neq 0 (
+                    echo "No existía proceso, continuando..."
+                )
 
                 :: 2. Esperar un poco (importante en Windows)
                 timeout /t 2
