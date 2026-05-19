@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Recuerda verificar que el nombre coincida en Global Tool Configuration
-        nodejs 'NodeJS 20' 
+        nodejs 'NodeJS 22.21' 
     }
 
     stages {
