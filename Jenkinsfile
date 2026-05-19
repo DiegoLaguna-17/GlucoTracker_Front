@@ -41,13 +41,18 @@ pipeline {
         stage('Deploy Frontend') {
             steps {
                 echo 'Levantando frontend con PM2...'
-                dir('frontend') {
+                
+                // 1. Entramos EXACTAMENTE a la carpeta donde están los archivos compilados
+                dir('frontend/dist/frontend/browser') {
                     bat '''
                     set PM2_HOME=C:\\Users\\diego\\.pm2
                     
-                    :: Usamos "pm2 serve" en lugar del paquete "serve" externo
-                    :: --spa asegura que el enrutamiento interno de Angular funcione
-                    pm2 restart frontend || pm2 serve dist/frontend/browser 4200 --name "frontend" --spa
+                    :: 2. Borramos la instancia anterior para limpiar la memoria de PM2.
+                    :: (El "|| echo" evita que el pipeline falle si el proceso no existe)
+                    pm2 delete frontend || echo "Proceso limpio"
+                    
+                    :: 3. Servimos el directorio actual (.) para eliminar problemas de rutas
+                    pm2 serve . 4200 --name "frontend" --spa
                     
                     pm2 save
                     '''
