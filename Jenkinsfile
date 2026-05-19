@@ -75,8 +75,7 @@ pipeline {
                 cd /d "C:\\Deploy\\frontend"
 
                 :: 2. Levantamos PM2 usando el directorio actual (.)
-                call pm2 start npx --name frontend -- serve -s "C:\\Deploy\\frontend" -l 4200
-
+                call pm2 start cmd --name frontend -- /c "npx serve -s C:\\Deploy\\frontend -l 4200"
                 call pm2 save
                 '''
             }
