@@ -57,7 +57,7 @@ export class Login implements OnInit {
   this.http.post<any>(environment.apiUrl + '/login', credentials)
     .subscribe({
       next: (res) => {
-        console.log(`usando ${environment.apiUrl}`)
+        console.log(`usando ${environment.apiUrl}`),
         console.log('OTP enviado:', res);
 
         // Guardamos id_usuario para el siguiente paso
