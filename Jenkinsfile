@@ -9,8 +9,6 @@ pipeline {
 
         stage('Clonar código') {
             steps {
-                // Borra todo el código viejo antes de descargar el nuevo
-                deleteDir() 
                 checkout scm
             }
         }
