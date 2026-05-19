@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Clonar código') {
             steps {
                 checkout scm
@@ -24,7 +23,6 @@ pipeline {
         stage('Build Angular') {
             steps {
                 dir('frontend') {
-                    // Build producción
                     bat 'call npm run build'
                 }
             }
@@ -46,7 +44,8 @@ pipeline {
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
                 echo Deteniendo frontend...
-                pm2 delete frontend || exit /b 0
+                :: ¡CRÍTICO! Usar call para que no se muera el script
+                call pm2 delete frontend || exit /b 0
 
                 timeout /t 2 >nul
 
@@ -54,7 +53,7 @@ pipeline {
                 if exist "C:\\Deploy\\frontend" (
                     rmdir /S /Q "C:\\Deploy\\frontend"
                 ) else (
-                    echo Carpeta no existía
+                    echo Carpeta no existia
                 )
 
                 echo Creando carpeta...
@@ -62,7 +61,7 @@ pipeline {
 
                 echo Copiando build...
                 xcopy "frontend\\dist\\frontend\\browser\\*" "C:\\Deploy\\frontend\\" /E /Y /I
-
+                
                 echo Permisos...
                 icacls "C:\\Deploy\\frontend" /grant Todos:(OI)(CI)F /T
                 '''
@@ -72,9 +71,10 @@ pipeline {
                 bat '''
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
-                pm2 start cmd --name frontend -- /c serve -s "C:\\Deploy\\frontend" -l 4200
+                :: Usamos pm2 serve con el flag --spa para evitar el error 403 y arreglar el ruteo de Angular
+                call pm2 serve "C:\\Deploy\\frontend" 4200 --name "frontend" --spa
 
-                pm2 save
+                call pm2 save
                 '''
             }
         }
