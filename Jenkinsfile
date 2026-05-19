@@ -71,8 +71,11 @@ pipeline {
                 bat '''
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
-                :: Usamos pm2 serve con el flag --spa para evitar el error 403 y arreglar el ruteo de Angular
-                call pm2 serve "C:\\Deploy\\frontend" 4200 --name "frontend" --spa
+                :: 1. Entramos físicamente a la unidad y carpeta de despliegue
+                cd /d "C:\\Deploy\\frontend"
+
+                :: 2. Levantamos PM2 usando el directorio actual (.)
+                call pm2 serve . 4200 --name "frontend" --spa
 
                 call pm2 save
                 '''
