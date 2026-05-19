@@ -42,19 +42,14 @@ pipeline {
             steps {
                 echo 'Levantando frontend con PM2...'
                 
-                // 1. Entramos EXACTAMENTE a la carpeta donde están los archivos compilados
                 dir('frontend/dist/frontend/browser') {
                     bat '''
                     set PM2_HOME=C:\\Users\\diego\\.pm2
                     
-                    :: 2. Borramos la instancia anterior para limpiar la memoria de PM2.
-                    :: (El "|| echo" evita que el pipeline falle si el proceso no existe)
-                    pm2 delete frontend || echo "Proceso limpio"
-                    
-                    :: 3. Servimos el directorio actual (.) para eliminar problemas de rutas
-                    pm2 serve . 4200 --name "frontend" --spa
-                    
-                    pm2 save
+                    :: Siempre usar "call" antes de pm2 (o npm) en scripts multilinea de Windows
+                    call pm2 delete frontend || echo "Proceso limpio"
+                    call pm2 serve . 4200 --name "frontend" --spa
+                    call pm2 save
                     '''
                 }
             }
