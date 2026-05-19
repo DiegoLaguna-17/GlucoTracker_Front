@@ -45,25 +45,25 @@ pipeline {
                 bat '''
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
-                :: 1. Detener frontend (LIBERA LA CARPETA)
-                pm2 delete frontend
-                if %errorlevel% neq 0 (
-                    echo "No existía proceso, continuando..."
+                echo Deteniendo frontend...
+                pm2 delete frontend || exit /b 0
+
+                timeout /t 2 >nul
+
+                echo Eliminando carpeta...
+                if exist "C:\\Deploy\\frontend" (
+                    rmdir /S /Q "C:\\Deploy\\frontend"
+                ) else (
+                    echo Carpeta no existía
                 )
 
-                :: 2. Esperar un poco (importante en Windows)
-                timeout /t 2
-
-                :: 3. Eliminar carpeta
-                rmdir /S /Q "C:\\Deploy\\frontend" || echo "No se pudo borrar (ya estaba vacía)"
-
-                :: 4. Crear carpeta limpia
+                echo Creando carpeta...
                 mkdir "C:\\Deploy\\frontend"
 
-                :: 5. Copiar build
-                xcopy "frontend\\dist\\frontend\\browser\\*" "C:\\Deploy\\frontend\\" /E /Y
+                echo Copiando build...
+                xcopy "frontend\\dist\\frontend\\browser\\*" "C:\\Deploy\\frontend\\" /E /Y /I
 
-                :: 6. Permisos (FIX español)
+                echo Permisos...
                 icacls "C:\\Deploy\\frontend" /grant Todos:(OI)(CI)F /T
                 '''
 
