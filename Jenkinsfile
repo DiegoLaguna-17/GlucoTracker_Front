@@ -44,10 +44,11 @@ pipeline {
                 dir('frontend') {
                     bat '''
                     set PM2_HOME=C:\\Users\\diego\\.pm2
-                    call npm install -g serve
                     
-                    :: Ruta actualizada apuntando a la carpeta browser
-                    pm2 restart frontend || pm2 start serve --name "frontend" -- -s dist/frontend/browser -l 4200
+                    :: Usamos "pm2 serve" en lugar del paquete "serve" externo
+                    :: --spa asegura que el enrutamiento interno de Angular funcione
+                    pm2 restart frontend || pm2 serve dist/frontend/browser 4200 --name "frontend" --spa
+                    
                     pm2 save
                     '''
                 }
