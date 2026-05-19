@@ -43,18 +43,25 @@ pipeline {
                 echo 'Preparando directorio de producción...'
 
                 bat '''
-                :: Crear carpeta si no existe
-                if not exist "C:\\Deploy\\frontend" mkdir "C:\\Deploy\\frontend"
+                set PM2_HOME=C:\\Users\\diego\\.pm2
 
-                :: Limpiar contenido anterior
-                rmdir /S /Q "C:\\Deploy\\frontend"
+                :: 1. Detener frontend (LIBERA LA CARPETA)
+                pm2 delete frontend || echo "No existía proceso"
+
+                :: 2. Esperar un poco (importante en Windows)
+                timeout /t 2
+
+                :: 3. Eliminar carpeta
+                rmdir /S /Q "C:\\Deploy\\frontend" || echo "No se pudo borrar (ya estaba vacía)"
+
+                :: 4. Crear carpeta limpia
                 mkdir "C:\\Deploy\\frontend"
 
-                :: Copiar archivos build
+                :: 5. Copiar build
                 xcopy "frontend\\dist\\frontend\\browser\\*" "C:\\Deploy\\frontend\\" /E /Y
 
-                :: Dar permisos (SOLUCION 403)
-                icacls "C:\\Deploy\\frontend" /grant Everyone:(OI)(CI)F /T
+                :: 6. Permisos (FIX español)
+                icacls "C:\\Deploy\\frontend" /grant Todos:(OI)(CI)F /T
                 '''
 
                 echo 'Levantando frontend con PM2...'
@@ -62,13 +69,8 @@ pipeline {
                 bat '''
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
-                :: Eliminar proceso si existe
-                pm2 delete frontend || echo "No existía proceso"
-
-                :: Usar servidor más estable que pm2 serve
                 pm2 start serve --name frontend -- -s "C:\\Deploy\\frontend" -l 4200
 
-                :: Guardar estado
                 pm2 save
                 '''
             }
