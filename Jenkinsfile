@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 22.21'
+        // Recuerda verificar que el nombre coincida en Global Tool Configuration
+        nodejs 'NodeJS 20' 
     }
 
     stages {
-
         stage('Clonar código') {
             steps {
                 checkout scm
@@ -16,7 +16,7 @@ pipeline {
         stage('Instalar dependencias') {
             steps {
                 dir('frontend') {
-                    bat 'npm install'
+                    bat 'call npm install'
                 }
             }
         }
@@ -24,16 +24,16 @@ pipeline {
         stage('Build Angular') {
             steps {
                 dir('frontend') {
-                    bat 'npm run build'
+                    bat 'call npm run build'
                 }
             }
         }
 
-        // 🔍 DEBUG (puedes borrarlo luego)
+        // 🔍 DEBUG actualizado a la ruta de Angular 17+
         stage('Verificar dist') {
             steps {
                 dir('frontend') {
-                    bat 'dir dist'
+                    bat 'dir dist\\frontend\\browser'
                 }
             }
         }
@@ -42,7 +42,14 @@ pipeline {
             steps {
                 echo 'Levantando frontend con PM2...'
                 dir('frontend') {
-                    bat 'set PM2_HOME=C:\\Users\\diego\\.pm2 && npm install -g serve && npm install -g pm2 && pm2 restart frontend || pm2 start "serve -s dist/frontend -l 4200" --name frontend && pm2 save'
+                    bat '''
+                    set PM2_HOME=C:\\Users\\diego\\.pm2
+                    call npm install -g serve
+                    
+                    :: Ruta actualizada apuntando a la carpeta browser
+                    pm2 restart frontend || pm2 start serve --name "frontend" -- -s dist/frontend/browser -l 4200
+                    pm2 save
+                    '''
                 }
             }
         }
