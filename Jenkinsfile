@@ -69,7 +69,7 @@ pipeline {
                 bat '''
                 set PM2_HOME=C:\\Users\\diego\\.pm2
 
-                pm2 start serve --name frontend -- -s "C:\\Deploy\\frontend" -l 4200
+                pm2 start cmd --name frontend -- /c serve -s "C:\\Deploy\\frontend" -l 4200
 
                 pm2 save
                 '''
