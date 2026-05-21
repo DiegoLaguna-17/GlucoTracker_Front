@@ -57,17 +57,30 @@ export class Login implements OnInit {
   this.http.post<any>(environment.apiUrl + '/login', credentials)
     .subscribe({
       next: (res) => {
-        console.log('OTP enviado:', res);
+  console.log('Login exitoso:', res);
 
-        // Guardamos id_usuario para el siguiente paso
-        this.loginCredentials = { correo: credentials.correo, contrasena: credentials.contrasena };
-        this.loginCredentials.id_usuario = res.id_usuario;
+  // Guardar datos
+  localStorage.setItem('id_usuario', res.id_usuario);
+  localStorage.setItem('id_rol', res.id_rol);
+  localStorage.setItem('rol', res.rol);
 
-        // Abrir modal de verificación
-        this.showVerificationModal.set(true);
+  // Mostrar éxito
+  this.showSuccessModal.set(true);
 
-        this.loading.set(false);
-      },
+  setTimeout(() => {
+    this.showSuccessModal.set(false);
+
+    if (res.rol === 'administrador') {
+      this.router.navigate(['/administrador']);
+    } else if (res.rol === 'medico') {
+      this.router.navigate(['/medico']);
+    } else {
+      this.router.navigate(['/paciente']);
+    }
+  }, 1000);
+
+  this.loading.set(false);
+},
       error: (err) => {
         console.error('Error de login:', err);
         console.log(environment.apiUrl)
